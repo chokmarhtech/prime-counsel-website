@@ -9,9 +9,9 @@ import { CTASection } from '@/components/frontend/home/CTASection'
 import { Footer } from '@/components/frontend/layout/Footer'
 
 export const metadata = {
-  title: 'Isaac Tomz Services Ltd | Construction & Engineering',
+  title: 'Prime Counsel | Raising Leaders, Redifining Futures',
   description:
-    'Isaac Tomz Services is a construction company that provides construction services to customers',
+    'Prime Counsel is a UK-registered leadership and personal development organisation committed to helping emerging leaders move from potential to structured impact.',
 }
 
 export default function Page() {
