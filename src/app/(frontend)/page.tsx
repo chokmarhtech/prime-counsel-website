@@ -1,12 +1,4 @@
 import React from 'react'
-import {Header} from '@/components/frontend/layout/Header'
-import { HeroSection } from '@/components/frontend/home/HeroSection'
-import { IntroSection } from '@/components/frontend/home/IntroSection'
-import { ServicesSection } from '@/components/frontend/home/ServicesSection'
-import { WhyChooseUsSection } from '@/components/frontend/home/WhyChooseUsSection'
-// import { TestimonialsSection } from '@/components/frontend/home/TestimonialsSection'
-import { CTASection } from '@/components/frontend/home/CTASection'
-import { Footer } from '@/components/frontend/layout/Footer'
 
 export const metadata = {
   title: 'Prime Counsel | Raising Leaders, Redifining Futures',
@@ -15,20 +7,11 @@ export const metadata = {
 }
 
 export default function Page() {
-return (
+  return (
     <div className="min-h-screen">
-      <Header />
-      <main>
-        <HeroSection />
-        <IntroSection />
-        <ServicesSection />
-        <WhyChooseUsSection />
-        {/* <TestimonialsSection testimonials={testimonials} /> */}
-        <CTASection />
+      <main className="flex items-center justify-center h-screen">
+        <h1 className="text-4xl font-bold">Welcome to Prime Counsel!</h1>
       </main>
-      <Footer />
     </div>
-  );
+  )
 }
-
-

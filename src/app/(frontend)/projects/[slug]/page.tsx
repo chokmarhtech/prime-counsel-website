@@ -1,47 +1,38 @@
-import React from "react";
-import { getPayload } from "@/lib/getPayload";
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import { Header } from "@/components/frontend/layout/Header";
-import { Footer } from "@/components/frontend/layout/Footer"
-import { RichText } from "@payloadcms/richtext-lexical/react";
-import { ArrowLeft, MapPin, Calendar, Building2 } from "lucide-react";
-import type { Media } from "@/payload-types";
+import React from 'react'
+import { getPayload } from '@/lib/getPayload'
+import { notFound } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
+import { RichText } from '@payloadcms/richtext-lexical/react'
+import { ArrowLeft, MapPin, Calendar, Building2 } from 'lucide-react'
+import type { Media } from '@/payload-types'
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic'
 
-export default async function ProjectPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const payload = await getPayload();
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const payload = await getPayload()
 
   const { docs: projects } = await payload.find({
-    collection: "projects",
+    collection: 'projects',
     where: {
       slug: {
         equals: slug,
       },
     },
-  });
+  })
 
-  const project = projects[0];
+  const project = projects[0]
 
   if (!project) {
-    notFound();
+    notFound()
   }
 
-  const heroImage = project.heroImage as Media | undefined;
-  const gallery =
-    project.gallery?.map((item) => item.image as Media).filter(Boolean) || [];
+  const heroImage = project.heroImage as Media | undefined
+  const gallery = project.gallery?.map((item) => item.image as Media).filter(Boolean) || []
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
-
       <main className="grow pt-32 pb-20">
         {/* Back Link */}
         <div className="container-luxury mb-8">
@@ -73,21 +64,19 @@ export default async function ProjectPage({
                   <h3 className="text-xs uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1">
                     <Building2 className="w-3 h-3" /> Client
                   </h3>
-                  <p className="font-medium">
-                    {project.client || "Private Client"}
-                  </p>
+                  <p className="font-medium">{project.client || 'Private Client'}</p>
                 </div>
                 <div>
                   <h3 className="text-xs uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1">
                     <MapPin className="w-3 h-3" /> Location
                   </h3>
-                  <p className="font-medium">{project.location || "Nigeria"}</p>
+                  <p className="font-medium">{project.location || 'Nigeria'}</p>
                 </div>
                 <div>
                   <h3 className="text-xs uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1">
                     <Calendar className="w-3 h-3" /> Year
                   </h3>
-                  <p className="font-medium">{project.year || "Released"}</p>
+                  <p className="font-medium">{project.year || 'Released'}</p>
                 </div>
                 <div>
                   <h3 className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
@@ -113,12 +102,8 @@ export default async function ProjectPage({
             {/* Description & Rich Text */}
             <div className="grid md:grid-cols-3 gap-12 mb-20">
               <div className="md:col-span-1">
-                <h3 className="font-heading text-xl font-bold mb-4">
-                  Project Overview
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {project.description}
-                </p>
+                <h3 className="font-heading text-xl font-bold mb-4">Project Overview</h3>
+                <p className="text-muted-foreground leading-relaxed">{project.description}</p>
               </div>
               <div className="md:col-span-2 prose prose-lg dark:prose-invert max-w-none">
                 {project.content && <RichText data={project.content} />}
@@ -154,8 +139,6 @@ export default async function ProjectPage({
           </div>
         </article>
       </main>
-
-      <Footer />
     </div>
-  );
+  )
 }

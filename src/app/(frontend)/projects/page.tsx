@@ -1,5 +1,4 @@
-import { Header } from "@/components/frontend/layout/Header";
-import { Footer } from "@/components/frontend/layout/Footer";
+
 import { getPayload } from "@/lib/getPayload";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,7 @@ export default async function ProjectsPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      
       <main>
         {/* Hero Section */}
         <section className="pt-32 pb-20 bg-charcoal">
@@ -65,7 +64,7 @@ export default async function ProjectsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      
     </div>
   );
 }
