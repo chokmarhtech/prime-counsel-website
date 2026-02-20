@@ -55,17 +55,30 @@ const HeroSection = () => {
               transition={{ duration: 0.7, delay: 0.7 }}
               className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-6xl text-white leading-[0.9] mb-6"
             >
-              Masterclass
+              Masterclass - <span className="text-secondary">Luton</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.1 }}
-              className="font-body text-white/80 max-w-xl font-medium text-sm md:text-base mb-6 leading-relaxed"
+              className="font-body text-white/80 max-w-xl font-medium text-sm md:text-base mb-6 leading-relaxed md:text-justify "
             >
-              A full-day strategic masterclass designed to help ambitious professionals move from
-              constant effort to intentional advantage.
+              I know why you are here. You are tired of the rat race of waking
+              up every month knowing the paycheck is already allocated before it
+              arrives. You have ambition,
+              ideas & potential. But somewhere in between you are managing life instead of designing it. 
+              <br />
+              <br />
+              {/* I know because I lived it. For three years, I operated inside the same
+              cycle of effort without leverage. I was disciplined and ambitious,
+              yet aware that the structure quietly limited expansion. The
+              breakthrough came when I understood a powerful truth. The problem
+              was not effort or motivation. It was <span className="text-secondary font-bold">Positioning.</span> Once I learned
+              the rules that govern value, leverage, and visibility, everything
+              changed. <span className="text-secondary font-bold">SPM 2.0</span> was designed to help you do the same. If you are
+              tired of surviving and ready to thrive strategically, this is for
+              you. */}
             </motion.p>
 
             {/* CTA */}
