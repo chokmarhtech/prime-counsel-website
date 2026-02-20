@@ -44,7 +44,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
-              className="font-heading text-5xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[0.9] mb-3"
+              className="font-heading text-5xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.2] sm:mb-3"
             >
               Strategic <span className="text-secondary">Positioning</span>
             </motion.h1>
@@ -53,7 +53,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.7 }}
-              className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-6xl text-white leading-[0.9] mb-6"
+              className="font-heading text-5xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.2] mb-6"
             >
               Masterclass - <span className="text-secondary">Luton</span>
             </motion.h1>
@@ -80,6 +80,15 @@ const HeroSection = () => {
               tired of surviving and ready to thrive strategically, this is for
               you. */}
             </motion.p>
+            {/* <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.1 }}
+              className="font-body text-white/80 max-w-xl font-medium text-sm md:text-base mb-6 leading-relaxed"
+            >
+              A full-day strategic masterclass designed to help ambitious
+              professionals move from constant effort to intentional advantage.
+            </motion.p> */}
 
             {/* CTA */}
             <motion.div
