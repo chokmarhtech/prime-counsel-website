@@ -4,6 +4,7 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 import { cloudStoragePlugin } from '@payloadcms/plugin-cloud-storage'
+import { resendAdapter } from '@payloadcms/email-resend'
 import { cloudinaryAdapter } from './utilities/cloudinaryAdapter'
 
 import { Categories } from './collections/Categories'
@@ -60,7 +61,7 @@ export default buildConfig({
       },
     },
     meta: {
-      titleSuffix: '- Isaac Tomz Services',
+      titleSuffix: '- Prime Counsel Limited',
       icons: [
         {
           rel: 'icon',
@@ -78,6 +79,11 @@ export default buildConfig({
     },
   }),
   collections: [Blog, Media, Categories, Users, Testimonials, Projects],
+  email: resendAdapter({
+    defaultFromAddress: 'info@primecounsel.co.uk',
+    defaultFromName: 'Prime Counsel Limited',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   cors: [getServerSideURL()].filter(Boolean),
   plugins: [
     ...plugins,
