@@ -17,15 +17,21 @@ const ProblemSection = () => {
         </AnimatedSection>
 
         <AnimatedSection delay={0.15}>
-          <p className="font-body text-lg md:text-xl text-muted-foreground leading-relaxed text-center max-w-3xl mx-auto mb-16">
-            Across the UK, thousands wake up early, commute long hours, move from one shift to the next,
+          <p className="font-body text-lg md:text-xl text-muted-foreground leading-relaxed max-w-5xl mx-auto mb-12 text-center">
+            I know because I lived it. For three years, I operated inside the same
+              cycle of effort without leverage. I was disciplined and ambitious,
+              yet aware that the structure quietly limited expansion. The
+              breakthrough came when I understood a powerful truth. The problem
+              was not effort or motivation, it was <span className="text-secondary font-bold">Positioning.</span><br/> <span className="text-secondary font-bold">SPM 2.0</span> is designed to help you learn the rules that govern the <span className="text-secondary font-bold">3 key factors of Positioning</span>
+            
+            {/* Across the UK, thousands wake up early, commute long hours, move from one shift to the next,
             and return home exhausted — not because they lack ambition, but because they lack{" "}
-            <span className="text-secondary font-semibold">positioning</span>.
+            <span className="text-secondary font-semibold">positioning</span>. */}
           </p>
         </AnimatedSection>
 
         <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-16">
-          {["They are capable.", "They are hardworking.", "They are responsible."].map((text, i) => (
+          {["VALUE", "LEVERAGE", "VISIBILITY"].map((text, i) => (
             <AnimatedSection key={i} delay={0.2 + i * 0.1}>
               <div className="border border-border rounded-sm p-8 text-center bg-card hover:border-secondary/40 transition-colors duration-300">
                 <p className="font-heading text-xl text-foreground">{text}</p>
@@ -34,13 +40,13 @@ const ProblemSection = () => {
           ))}
         </div>
 
-        <AnimatedSection delay={0.4}>
+        {/* <AnimatedSection delay={0.4}>
           <p className="font-body text-muted-foreground text-center text-lg leading-relaxed max-w-3xl mx-auto mb-12">
             Yet month after month, they are managing bills, managing expectations, managing pressure —
             but not building leverage. Survival has become normal. Working hard has become routine.
             Yet <span className="font-semibold text-foreground">thriving feels distant</span>.
           </p>
-        </AnimatedSection>
+        </AnimatedSection> */}
 
         <AnimatedSection delay={0.5}>
           <div className="bg-primary rounded-sm p-10 md:p-14 text-center relative overflow-hidden">
@@ -50,8 +56,8 @@ const ProblemSection = () => {
                 This Is Not a Motivational Event
               </p>
               <p className="font-body text-primary-foreground/70 text-lg max-w-lg mx-auto">
-                It&apos;s a strategic reset. Because thriving is not luck —{" "}
-                <span className="text-gold font-semibold">it is positioning</span>.
+                It&apos;s a Strategic Reset, because thriving is not luck —{" "}
+                <span className="text-secondary font-semibold">it is Positioning</span>.
               </p>
             </div>
           </div>

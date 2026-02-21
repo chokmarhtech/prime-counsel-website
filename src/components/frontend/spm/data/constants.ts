@@ -28,6 +28,7 @@ export interface FAQItem {
 
 export interface TestimonialItem {
   quote: string;
+  name: string;
 }
 
 export const WHY_ITEMS: WhyItem[] = [
@@ -129,9 +130,9 @@ export const FAQ_ITEMS: FAQItem[] = [
 ];
 
 export const TESTIMONIALS: TestimonialItem[] = [
-  { quote: "SPM gave me clarity I had been lacking for years." },
-  { quote: "I left with structure, not just motivation." },
-  { quote: "This was strategy, not inspiration." },
+  { quote: "SPM gave me clarity I had been lacking for years.", name: "Great" },
+  { quote: "I left with structure, not just motivation.", name: "Precious" },
+  { quote: "This was strategy, not inspiration.", name: "Samuel" },
 ];
 
 export const EVENT_DETAILS = {

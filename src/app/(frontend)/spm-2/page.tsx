@@ -5,13 +5,13 @@ export default function SPM2() {
     <main>
       <HeroSection />
       <ProblemSection />
+      <HighlightsSection />
       <WhySPMSection />
       <WhatYouLearnSection />
       <BonusSection />
       <WhoIsThisForSection />
       <EventDetailsSection />
       <CoachSection />
-      <HighlightsSection />
       <FAQSection />
       <ContactSection />
     </main>

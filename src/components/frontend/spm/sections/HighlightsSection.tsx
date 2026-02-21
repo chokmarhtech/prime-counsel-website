@@ -21,10 +21,12 @@ const HighlightsSection = () => {
 
         <AnimatedSection delay={0.1}>
           <p className="font-body text-primary-foreground/70 max-w-3xl mx-auto mb-14 leading-relaxed text-base md:text-lg">
-            At SPM 1.0, professionals and emerging leaders gathered for a day of clarity, structure,
-            and strategic thinking. Participants engaged in practical value-mapping exercises,
-            career positioning frameworks, and meaningful conversations around leverage and
-            advancement.
+            Last year in Birmingham, over 40 ambitious individuals gathered for
+            SPM 1.0. Many of them have since begun applying the principles of
+            leadership, ownership, and control in their careers and businesses.
+            {/* At SPM 1.0, professionals and emerging leaders gathered for a day of clarity, structure,
+            and strategic thinking. Participants engaged in practical value-mapping exercises, career
+            positioning frameworks, and meaningful conversations around leverage and advancement. */}
           </p>
         </AnimatedSection>
 
@@ -36,13 +38,22 @@ const HighlightsSection = () => {
                 <p className="font-body text-primary-foreground/90 italic text-lg leading-relaxed">
                   &ldquo;{item.quote}&rdquo;
                 </p>
+                <p className="font-body italic text-lg leading-relaxed font-bold mt-2 text-secondary">
+                  {item.name}
+                </p>
               </div>
             </AnimatedSection>
           ))}
         </div>
+        
+        <div className="my-14">
+          <AnimatedSection delay={0.5}>
+            SWIPABLE IMAGES HERE
+          </AnimatedSection>
+        </div>
 
         <AnimatedSection delay={0.5}>
-          <p className="font-heading text-xl md:text-2xl text-gold mt-14">
+          <p className="font-heading text-xl md:text-2xl text-gold ">
             SPM 2.0 Builds on That Foundation and Goes Deeper.
           </p>
         </AnimatedSection>
