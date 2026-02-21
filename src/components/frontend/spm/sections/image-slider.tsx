@@ -29,7 +29,7 @@ const ImageSlider = () => {
 
   return (
     <div
-      className="slider-container max-w-6xl mx-auto px-4 pb-10
+      className="slider-container max-w-5xl mx-auto pb-10 px-0 md:px-4
       [&_.slick-dots_li_button:before]:text-secondary!
       [&_.slick-dots_li_button:before]:opacity-30!
       [&_.slick-dots_li.slick-active_button:before]:text-secondary!
@@ -39,7 +39,7 @@ const ImageSlider = () => {
       <Slider {...settings}>
         {images.map((img, index) => (
           <div key={index} className="outline-none">
-            <div className="relative aspect-video rounded-lg overflow-hidden">
+            <div className="relative aspect-4/3 md:aspect-video rounded-lg overflow-hidden">
               <Image
                 src={img.src}
                 alt={img.alt}
