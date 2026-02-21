@@ -1,6 +1,7 @@
 import { TESTIMONIALS } from '@/components/frontend/spm/data/constants'
 import { FiMessageCircle } from 'react-icons/fi'
 import AnimatedSection from './AnimatedSection'
+import ImageSlider from './image-slider'
 
 const HighlightsSection = () => {
   return (
@@ -48,7 +49,7 @@ const HighlightsSection = () => {
         
         <div className="my-14">
           <AnimatedSection delay={0.5}>
-            SWIPABLE IMAGES HERE
+            <ImageSlider />
           </AnimatedSection>
         </div>
 

@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 @config '../../../tailwind.config.mjs';
 
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
 /* Isaac Tomz Services Ltd - Premium Construction Design System
    All colors in HSL format for consistency */
 
