@@ -7,13 +7,16 @@ import { useTheme } from '@/components/frontend/spm/hooks/use-theme'
 import { REGISTER_URL } from '@/components/frontend/spm/data/constants'
 import { Button } from '@/components/ui/button'
 import { Menu } from 'lucide-react'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import logoLight from '@/assets/logos/logo-light.svg'
 import logoDark from '@/assets/logos/logo-dark.svg'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const NAV_LINKS = [
-  { label: 'Why SPM', href: '#why-spm' },
+  { label: 'The Problem', href: '#the-problem' },
+  { label: 'Highlights', href: '#highlight' },
+  { label: 'Why SPM 2.0', href: '#why-spm' },
   { label: 'Curriculum', href: '#curriculum' },
   { label: 'Event', href: '#event-details' },
   { label: 'Coach', href: '#coach' },
@@ -60,8 +63,8 @@ const Navbar = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <a
-              href="#"
+            <Link
+              href="/spm-2"
               onClick={(e) => {
                 e.preventDefault()
                 window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -76,7 +79,7 @@ const Navbar = () => {
                 height={40} // Adjust height as needed
                 priority
               />
-            </a>
+            </Link>
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center gap-1">
@@ -84,7 +87,7 @@ const Navbar = () => {
                 <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
-                  className={`font-body uppercase text-sm font-medium px-4 py-2 rounded-sm transition-colors ${
+                  className={`font-body uppercase text-[12px] font-medium px-2 py-2 rounded-sm transition-colors ${
                     scrolled && theme === 'light'
                       ? 'text-foreground/70 hover:text-foreground hover:bg-muted'
                       : 'text-white/70 hover:text-white hover:bg-white/10'
@@ -147,6 +150,7 @@ const Navbar = () => {
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right">
+                  <SheetTitle className="sr-only">Menu</SheetTitle>
                   <div className="flex flex-col gap-6 mt-6">
                     <div className="flex flex-col gap-4">
                       {NAV_LINKS.map((link) => (

@@ -2,7 +2,7 @@ import AnimatedSection from "./AnimatedSection";
 
 const ProblemSection = () => {
   return (
-    <section className="section-padding section-light overflow-hidden">
+    <section id="the-problem" className="section-padding section-light overflow-hidden">
       <div className="container mx-auto max-w-5xl">
         <AnimatedSection>
           {/* <p className="font-body text-secondary text-sm font-semibold uppercase tracking-[0.2em] text-center mb-4">

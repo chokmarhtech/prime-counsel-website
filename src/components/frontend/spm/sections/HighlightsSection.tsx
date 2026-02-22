@@ -5,7 +5,7 @@ import ImageSlider from './image-slider'
 
 const HighlightsSection = () => {
   return (
-    <section className="section-padding section-dark overflow-hidden">
+    <section id="highlight" className="section-padding section-dark overflow-hidden">
       <div className="container mx-auto max-w-5xl text-center">
         <AnimatedSection>
           {/* <p className="font-body text-secondary text-sm font-semibold uppercase tracking-[0.2em] mb-4">
