@@ -2,6 +2,7 @@ import { CONTACT_INFO } from "@/components/frontend/spm/data/constants";
 import { FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
 import logoLight from "@/assets/logos/logo-light.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 const FooterSection = () => {
   return (
@@ -9,7 +10,7 @@ const FooterSection = () => {
       <div className="container mx-auto max-w-6xl">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
-            <a href="#" className="inline-block mb-3">
+            < Link href="/spm-2" className="inline-block mb-3">
               <Image
                 src={logoLight}
                 alt="Prime Counsel"
@@ -18,7 +19,7 @@ const FooterSection = () => {
                 height={40}
                 priority
               />
-            </a>
+            </ Link>
             <p className="font-body text-white/50 text-sm leading-relaxed max-w-md">
               Prime Counsel is a UK-registered leadership and personal
               development organisation committed to helping emerging leaders
