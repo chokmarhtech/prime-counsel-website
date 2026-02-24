@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ProgressBar, Nav, Hero, Contact, Footer } from '../comingsoon'
+import { ProgressBar, Nav, Hero, Contact, Footer, RegisterSPM } from '../comingsoon'
 
 export const ComingSoon = () => {
   return (
@@ -9,7 +9,7 @@ export const ComingSoon = () => {
       <ProgressBar />
       <Nav />
       <Hero />
-      {/* <Notify /> */}
+      <RegisterSPM />
       <Contact />
       <Footer />
     </div>

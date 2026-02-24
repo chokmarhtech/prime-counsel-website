@@ -11,6 +11,7 @@ import logoDark from '@/assets/logos/logo-dark.svg'
 
 const NAV_LINKS = [
   { label: 'Home', id: 'home' },
+  { label: 'Register', id: 'register' },
   { label: 'Contact', id: 'contact' },
 ]
 
