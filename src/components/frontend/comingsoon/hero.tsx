@@ -74,7 +74,12 @@ const Hero = () => {
 
         {/* Right Content */}
         <div className="lg:col-span-5 relative flex flex-col items-center lg:items-end">
-          <Link href="#contact" className="relative w-40 h-40 md:w-56 md:h-56 group cursor-pointer">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative w-40 h-40 md:w-56 md:h-56 group cursor-pointer"
+          >
             <motion.svg
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
@@ -90,8 +95,8 @@ const Hero = () => {
               <text className="text-[28px] font-black uppercase fill-current text-primary tracking-[0.2em]">
                 <textPath xlinkHref="#circlePath">
                   Coming <tspan className="fill-secondary">✦</tspan> Soon{' '}
-                  <tspan className="fill-secondary">✦</tspan> {' '}
-                  <tspan className="fill-secondary">✦</tspan> Coming {' '}
+                  <tspan className="fill-secondary">✦</tspan>{' '}
+                  <tspan className="fill-secondary">✦</tspan> Coming{' '}
                   <tspan className="fill-secondary">✦</tspan> Soon{' '}
                   <tspan className="fill-secondary">✦</tspan> Coming{' '}
                   <tspan className="fill-secondary">✦</tspan> Soon{' '}
@@ -103,14 +108,19 @@ const Hero = () => {
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-transform group-hover:scale-110">
               <ArrowDown className="w-8 h-8 md:w-12 md:h-12 text-zinc-900" />
             </div>
-          </Link>
+          </motion.div>
 
-          <div className="mt-12 text-center lg:text-right max-w-sm">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-12 text-center lg:text-right max-w-sm"
+          >
             <p className="text-zinc-500 font-medium leading-relaxed">
               Prime Counsel is a UK-registered leadership and personal development organisation
               committed to helping emerging leaders move from potential to structured impact.
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
 
