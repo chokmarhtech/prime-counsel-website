@@ -144,7 +144,7 @@ export const EVENT_DETAILS = {
 
 export const CONTACT_INFO = {
   email: "info@primecounsel.co.uk",
-  phone: "07774483791",
+  phone: "+44 777 448 3791",
   instagram: "https://instagram.com/primecounsel_",
   youtube: "https://youtube.com/@primecounsel",
   tiktok: "https://tiktok.com/@primecounsel",
