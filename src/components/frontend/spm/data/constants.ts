@@ -110,7 +110,7 @@ export const AUDIENCE_ITEMS: AudienceItem[] = [
 ];
 export const NOTAUDIENCE_ITEMS: NotAudienceItem[] = [
   { text: "You're looking for a magic pill or a get-rich-quick scheme (this is real work, just done smarter)" },
-  { text: "You're not willing to actually put yourself out there and talk to potential clients" },
+  { text: "You're not willing to actually put yourself out there and build a personal brand" },
   { text: "You just want to 'take notes' without taking action" },
   { text: "You're not ready to bet on yourself yet" },
 ];

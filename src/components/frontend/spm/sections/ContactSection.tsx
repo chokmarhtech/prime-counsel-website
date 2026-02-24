@@ -11,27 +11,26 @@ const ContactSection = () => {
           {/* <p className="font-body text-secondary text-sm font-semibold uppercase tracking-[0.2em] mb-4">
             Take Action
           </p> */}
-          <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl text-foreground mb-4">
+          <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl text-foreground mb-12">
             Get Your Ticket
           </h2>
-          <p className="font-body text-muted-foreground text-lg mb-4">
-            For enquiries or group bookings, reach out to us.
-          </p>
+          <AnimatedSection delay={0.1}>
+            <a
+              href={REGISTER_URL}
+              className="group relative inline-flex items-center gap-3 bg-secondary text-secondary-foreground font-body font-bold text-lg px-14 py-5 rounded-sm tracking-wider uppercase overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_hsl(212,100%,46%,0.3)] mb-12"
+              target="_blank"
+            >
+              <span className="relative z-10">Register Now</span>
+              <div className="absolute inset-0 bg-linear-to-r from-secondary to-[hsl(195,100%,50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </a>
+          </AnimatedSection>
           <div className="w-16 h-1 bg-secondary mx-auto mb-10" />
         </AnimatedSection>
 
-        <AnimatedSection delay={0.1}>
-          <a
-            href={REGISTER_URL}
-            className="group relative inline-flex items-center gap-3 bg-secondary text-secondary-foreground font-body font-bold text-lg px-14 py-5 rounded-sm tracking-wider uppercase overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_hsl(212,100%,46%,0.3)] mb-12"
-            target="_blank"
-          >
-            <span className="relative z-10">Register Now - Get Your Ticket</span>
-            <div className="absolute inset-0 bg-linear-to-r from-secondary to-[hsl(195,100%,50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </a>
-        </AnimatedSection>
-
         <AnimatedSection delay={0.2}>
+          <p className="font-body text-muted-foreground text-lg mb-4">
+            For enquiries or group bookings, reach out to us.
+          </p>
           <div className="flex flex-col sm:flex-row justify-center gap-8 mb-10">
             <a
               href={`mailto:${CONTACT_INFO.email}`}
