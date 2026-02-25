@@ -4,7 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight, MapPin, Calendar, Clock } from 'lucide-react'
-import { REGISTER_URL, EVENT_DETAILS } from '@/components/frontend/spm/data/constants'
+import { EVENT_DETAILS } from '@/components/frontend/spm/data/constants'
 
 const EVENT_META = [
   { icon: Calendar, label: EVENT_DETAILS.date },
