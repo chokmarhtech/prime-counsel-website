@@ -103,9 +103,7 @@ const RegisterSPM = () => {
         >
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
             <Link
-              href={REGISTER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/spm-2"
               className="group relative inline-flex items-center gap-3 bg-secondary text-white font-black text-sm uppercase tracking-widest px-10 py-5 rounded-sm overflow-hidden shadow-[0_0_40px_hsl(var(--secondary)/0.4)] transition-shadow hover:shadow-[0_0_60px_hsl(var(--secondary)/0.6)]"
             >
               {/* Shimmer sweep on hover */}
