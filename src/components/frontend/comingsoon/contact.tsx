@@ -19,7 +19,7 @@ const Contact = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-20">
               <p className="text-2xl md:text-3xl font-bold leading-tight tracking-tight text-primary">
                 <span className="text-secondary">
-                  We launch our new website as soon as possible.
+                  We will launch our new website as soon as possible.
                 </span>{' '}
                 For customer support and query, feel free to get in touch with us.
               </p>
