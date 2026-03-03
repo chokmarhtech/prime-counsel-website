@@ -1,4 +1,5 @@
-import { EVENT_DETAILS, REGISTER_URL } from '@/components/frontend/spm/data/constants'
+import { EVENT_DETAILS } from '@/components/frontend/spm/data/constants'
+import { RegistrationModal } from '@/components/frontend/spm/components/RegistrationModal'
 import { FiCalendar, FiClock, FiMapPin } from 'react-icons/fi'
 import AnimatedSection from './AnimatedSection'
 
@@ -53,13 +54,11 @@ const EventDetailsSection = () => {
               ))}
             </div>
             <div className="px-8 pb-8 md:px-10 md:pb-10 text-center">
-              <a
-                href={REGISTER_URL}
-                className="inline-block bg-secondary text-secondary-foreground font-body font-bold px-10 py-4 rounded-sm tracking-wider uppercase hover:brightness-110 transition-all duration-300 w-full sm:w-auto"
-                target="_blank"
-              >
-                Register Now
-              </a>
+              <RegistrationModal>
+                <button className="inline-block bg-secondary text-secondary-foreground font-body font-bold px-10 py-4 rounded-sm tracking-wider uppercase hover:brightness-110 transition-all duration-300 w-full sm:w-auto">
+                  Register Now
+                </button>
+              </RegistrationModal>
             </div>
           </div>
         </AnimatedSection>

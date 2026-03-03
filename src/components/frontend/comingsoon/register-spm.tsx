@@ -1,10 +1,11 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
+
 import { motion } from 'framer-motion'
 import { ArrowRight, MapPin, Calendar, Clock } from 'lucide-react'
 import { EVENT_DETAILS } from '@/components/frontend/spm/data/constants'
+import { RegistrationModal } from '@/components/frontend/spm/components/RegistrationModal'
 
 const EVENT_META = [
   { icon: Calendar, label: EVENT_DETAILS.date },
@@ -53,7 +54,7 @@ const RegisterSPM = () => {
           <h2 className="text-4xl md:text-6xl font-black uppercase text-white">
             Strategic <span className="text-secondary">Positioning</span>
             <br />
-            Masterclass 2.0 -  <span className='text-secondary'>Luton</span>
+            Masterclass 2.0 - <span className="text-secondary">Luton</span>
           </h2>
           <p className="text-white/60 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
             A full-day live experience designed to help emerging leaders move from effort to
@@ -102,15 +103,14 @@ const RegisterSPM = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-            <Link
-              href="/spm-2"
-              className="group relative inline-flex items-center gap-3 bg-secondary text-white font-black text-sm uppercase tracking-widest px-10 py-5 rounded-sm overflow-hidden shadow-[0_0_40px_hsl(var(--secondary)/0.4)] transition-shadow hover:shadow-[0_0_60px_hsl(var(--secondary)/0.6)]"
-            >
-              {/* Shimmer sweep on hover */}
-              <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-              <span className="relative z-10">Secure Your Seat</span>
-              <ArrowRight className="relative z-10 w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
+            <RegistrationModal>
+              <button className="group relative inline-flex items-center gap-3 bg-secondary text-white font-black text-sm uppercase tracking-widest px-10 py-5 rounded-sm overflow-hidden shadow-[0_0_40px_hsl(var(--secondary)/0.4)] transition-shadow hover:shadow-[0_0_60px_hsl(var(--secondary)/0.6)]">
+                {/* Shimmer sweep on hover */}
+                <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                <span className="relative z-10">Secure Your Seat</span>
+                <ArrowRight className="relative z-10 w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </button>
+            </RegistrationModal>
           </motion.div>
 
           {/* <p className="text-white/30 text-xs font-medium uppercase tracking-widest">

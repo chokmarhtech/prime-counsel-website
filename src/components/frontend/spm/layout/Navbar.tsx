@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiSun, FiMoon } from 'react-icons/fi'
 import { useTheme } from '@/components/frontend/spm/hooks/use-theme'
-import { REGISTER_URL } from '@/components/frontend/spm/data/constants'
+import { RegistrationModal } from '@/components/frontend/spm/components/RegistrationModal'
 import { Button } from '@/components/ui/button'
 import { Menu } from 'lucide-react'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
@@ -111,13 +111,11 @@ const Navbar = () => {
               </button>
 
               {/* CTA */}
-              <a
-                href={REGISTER_URL}
-                className="ml-3 font-body text-sm font-bold px-5 py-2 bg-secondary text-secondary-foreground rounded-sm tracking-wider uppercase transition-all hover:shadow-[0_0_20px_hsl(212,100%,46%,0.3)]"
-                target="_blank"
-              >
-                Register
-              </a>
+              <RegistrationModal>
+                <button className="ml-3 font-body text-sm font-bold px-5 py-2 bg-secondary text-secondary-foreground rounded-sm tracking-wider uppercase transition-all hover:shadow-[0_0_20px_hsl(212,100%,46%,0.3)]">
+                  Register
+                </button>
+              </RegistrationModal>
             </div>
 
             {/* Mobile controls */}
@@ -164,14 +162,14 @@ const Navbar = () => {
                       ))}
                     </div>
                     <div className="flex flex-col gap-4 mt-4">
-                      <a
-                        href={REGISTER_URL}
-                        target="_blank"
-                        onClick={closeMenu}
-                        className="font-body text-sm text-center font-bold px-5 py-2 bg-secondary text-secondary-foreground rounded-sm tracking-wider uppercase transition-all hover:shadow-[0_0_20px_hsl(212,100%,46%,0.3)]"
-                      >
-                        Register
-                      </a>
+                      <RegistrationModal>
+                        <button
+                          onClick={closeMenu}
+                          className="font-body text-sm text-center font-bold px-5 py-2 bg-secondary text-secondary-foreground rounded-sm tracking-wider uppercase transition-all hover:shadow-[0_0_20px_hsl(212,100%,46%,0.3)]"
+                        >
+                          Register
+                        </button>
+                      </RegistrationModal>
                     </div>
                   </div>
                 </SheetContent>

@@ -1,4 +1,5 @@
-import { BONUS_ITEMS, REGISTER_URL } from '@/components/frontend/spm/data/constants'
+import { BONUS_ITEMS } from '@/components/frontend/spm/data/constants'
+import { RegistrationModal } from '@/components/frontend/spm/components/RegistrationModal'
 import { FiGift, FiStar } from 'react-icons/fi'
 import AnimatedSection from './AnimatedSection'
 
@@ -42,14 +43,12 @@ const BonusSection = () => {
         </div>
 
         <AnimatedSection delay={0.4}>
-          <a
-            href={REGISTER_URL}
-            className="group relative inline-flex items-center gap-3 bg-secondary text-secondary-foreground font-body font-bold px-10 py-4 rounded-sm tracking-wider uppercase overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_hsl(212,100%,46%,0.3)]"
-            target="_blank"
-          >
-            <span className="relative z-10">Register Now - Get Your Ticket</span>
-            <div className="absolute inset-0 bg-linear-to-r from-secondary to-[hsl(195,100%,50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </a>
+          <RegistrationModal>
+            <button className="group relative inline-flex items-center gap-3 bg-secondary text-secondary-foreground font-body font-bold px-10 py-4 rounded-sm tracking-wider uppercase overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_hsl(212,100%,46%,0.3)]">
+              <span className="relative z-10">Register Now - Get Your Ticket</span>
+              <div className="absolute inset-0 bg-linear-to-r from-secondary to-[hsl(195,100%,50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </button>
+          </RegistrationModal>
         </AnimatedSection>
       </div>
     </section>

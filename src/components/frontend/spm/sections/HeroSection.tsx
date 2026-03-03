@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
 import { motion } from 'framer-motion'
-import { REGISTER_URL } from '@/components/frontend/spm/data/constants'
+import { RegistrationModal } from '@/components/frontend/spm/components/RegistrationModal'
 import { FiCalendar, FiMapPin, FiClock } from 'react-icons/fi'
 import heroBg from '@/assets/images/spm/hero-bg.jpg'
 import flyer from '@/assets/images/spm/flyer.png'
@@ -64,10 +64,9 @@ const HeroSection = () => {
               transition={{ duration: 0.6, delay: 1.1 }}
               className="font-body text-white/80 max-w-xl font-medium text-sm md:text-base mb-6 leading-relaxed md:text-justify "
             >
-              I know why you are here. You are tired of the rat race of waking
-              up every month knowing the paycheck is already allocated before it
-              arrives. You have ambition,
-              ideas & potential. But somewhere in between you are managing life instead of designing it. 
+              I know why you are here. You are tired of the rat race of waking up every month
+              knowing the paycheck is already allocated before it arrives. You have ambition, ideas
+              & potential. But somewhere in between you are managing life instead of designing it.
               <br />
               <br />
               {/* I know because I lived it. For three years, I operated inside the same
@@ -97,14 +96,12 @@ const HeroSection = () => {
               transition={{ duration: 0.5, delay: 1.2 }}
               className="mb-6"
             >
-              <a
-                href={REGISTER_URL}
-                className="group relative inline-flex items-center gap-3 bg-secondary text-secondary-foreground font-body font-bold text-sm md:text-base px-10 py-4 rounded-sm tracking-wider uppercase overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_hsl(212,100%,46%,0.35)]"
-                target="_blank"
-              >
-                <span className="relative z-10">Register Now</span>
-                <div className="absolute inset-0 bg-linear-to-r from-secondary to-[hsl(195,100%,50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </a>
+              <RegistrationModal>
+                <button className="group relative inline-flex items-center gap-3 bg-secondary text-secondary-foreground font-body font-bold text-sm md:text-base px-10 py-4 rounded-sm tracking-wider uppercase overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_hsl(212,100%,46%,0.35)]">
+                  <span className="relative z-10">Register Now</span>
+                  <div className="absolute inset-0 bg-linear-to-r from-secondary to-[hsl(195,100%,50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </button>
+              </RegistrationModal>
             </motion.div>
 
             <motion.div
