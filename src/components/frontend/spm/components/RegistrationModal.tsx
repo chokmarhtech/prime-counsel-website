@@ -113,52 +113,57 @@ export const RegistrationModal = ({
 
             <div className="bg-background border border-border rounded-xl p-4 space-y-3 mt-2 shadow-sm">
               {[
-                { label: 'Bank', value: BANK_DETAILS.bankName, id: 'bank' },
-                { label: 'Name', value: BANK_DETAILS.accountName, id: 'name' },
-                { label: 'Account', value: BANK_DETAILS.accountNumber, id: 'account' },
-                { label: 'Sort Code', value: BANK_DETAILS.sortCode, id: 'sort' },
+                { label: 'Bank', value: BANK_DETAILS.bankName, id: 'bank', copyable: false },
+                { label: 'Name', value: BANK_DETAILS.accountName, id: 'name', copyable: false },
+                {
+                  label: 'Account',
+                  value: BANK_DETAILS.accountNumber,
+                  id: 'account',
+                  copyable: true,
+                },
+                { label: 'Sort Code', value: BANK_DETAILS.sortCode, id: 'sort', copyable: true },
               ].map((detail) => (
-                <div
-                  key={detail.id}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between group gap-1 sm:gap-4"
-                >
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                <div key={detail.id} className="flex items-center justify-between py-2">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-muted-foreground">
                       {detail.label}
                     </p>
-                    <p className="font-body font-bold text-sm md:text-base text-foreground break-all sm:break-normal">
+                    <p className="font-body font-bold text-sm md:text-base text-foreground">
                       {detail.value}
                     </p>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-muted opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity self-end sm:self-auto shrink-0"
-                    onClick={() => handleCopy(detail.value, detail.id)}
-                    title="Copy"
-                  >
-                    <AnimatePresence mode="wait">
-                      {copied === detail.id ? (
-                        <motion.div
-                          key="check"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          exit={{ scale: 0 }}
-                        >
-                          <CheckCircle2 className="h-4 w-4 text-green-500" />
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          key="copy"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          exit={{ scale: 0 }}
-                        >
-                          <Copy className="h-4 w-4" />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </Button>
+
+                  {detail.copyable && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-muted-foreground hover:text-secondary hover:bg-secondary/10 transition-colors shrink-0"
+                      onClick={() => handleCopy(detail.value, detail.id)}
+                      title="Copy"
+                    >
+                      <AnimatePresence mode="wait">
+                        {copied === detail.id ? (
+                          <motion.div
+                            key="check"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            exit={{ scale: 0 }}
+                          >
+                            <CheckCircle2 className="h-4 w-4 text-green-500" />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="copy"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            exit={{ scale: 0 }}
+                          >
+                            <Copy className="h-4 w-4" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </Button>
+                  )}
                 </div>
               ))}
             </div>
