@@ -8,5 +8,9 @@ export const metadata = {
 }
 
 export default function Page() {
-  return <ComingSoon />
+  return (
+    <main>
+      <div>This is the Home Page!</div>
+    </main>
+  )
 }
