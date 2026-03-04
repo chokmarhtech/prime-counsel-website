@@ -1,3 +1,4 @@
+import { ComingSoon } from '@/components/frontend/layout/coming-soon'
 import React from 'react'
 
 export const metadata = {
@@ -7,9 +8,5 @@ export const metadata = {
 }
 
 export default function Page() {
-  return (
-    <main>
-      <div>This is the Home Page!</div>
-    </main>
-  )
+  return <ComingSoon />
 }
