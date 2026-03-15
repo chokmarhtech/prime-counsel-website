@@ -18,9 +18,13 @@ import { cn } from '@/utilities/ui'
 export const RegistrationModal = ({
   children,
   className,
+  open,
+  onOpenChange,
 }: {
-  children: React.ReactNode
+  children?: React.ReactNode
   className?: string
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }) => {
   const [copied, setCopied] = useState<string | null>(null)
 
@@ -31,10 +35,12 @@ export const RegistrationModal = ({
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <div className={cn('inline-block', className)}>{children}</div>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      {children && (
+        <DialogTrigger asChild>
+          <div className={cn('inline-block', className)}>{children}</div>
+        </DialogTrigger>
+      )}
       {/* 
         max-w-lg from default shadcn dialog is overridden by sm:max-w-4xl 
         Added max-h-[90vh] and overflow-y-auto for scrollability on smaller screens
