@@ -11,7 +11,6 @@ import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Blog } from './collections/Blog'
 import { Testimonials } from './collections/Testimonials/index'
-import { Projects } from './collections/Projects/index'
 
 import { Users } from './collections/Users'
 import { plugins } from './plugins'
@@ -78,7 +77,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Blog, Media, Categories, Users, Testimonials, Projects],
+  collections: [Blog, Media, Categories, Users, Testimonials],
   email: resendAdapter({
     defaultFromAddress: 'info@primecounsel.co.uk',
     defaultFromName: 'Prime Counsel Limited',

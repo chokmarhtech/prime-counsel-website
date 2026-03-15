@@ -1,5 +1,17 @@
-import { ComingSoon } from '@/components/frontend/layout/coming-soon'
 import React from 'react'
+import {
+  HeroSection,
+  InstitutionalIdentity,
+  PillarSection,
+  PhilosophyPreview,
+  ServicesOverview,
+  AskPrimeSection,
+  HomeBlogPreview,
+  TrustedOrganisations,
+  MeetCoach,
+  Testimonials,
+} from '@/components/frontend/pages/home'
+import Layout from '@/components/frontend/layout/Layout'
 
 export const metadata = {
   title: 'Prime Counsel | Raising Leaders, Redifining Futures',
@@ -8,5 +20,19 @@ export const metadata = {
 }
 
 export default function Page() {
-  return <ComingSoon />
+
+  return (
+    <Layout>
+      <HeroSection />
+      <InstitutionalIdentity />
+      <PillarSection />
+      <PhilosophyPreview />
+      <MeetCoach />
+      <ServicesOverview />  
+      <AskPrimeSection />
+      <TrustedOrganisations />
+      <Testimonials />
+      <HomeBlogPreview />
+    </Layout>
+  )
 }

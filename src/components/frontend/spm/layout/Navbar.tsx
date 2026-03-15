@@ -27,7 +27,12 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const closeMenu = () => setIsOpen(false)
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false)
+
+  const openMobileModal = () => {
+    setIsOpen(false)
+    setTimeout(() => setIsMobileModalOpen(true), 150)
+  }
   const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
@@ -162,18 +167,19 @@ const Navbar = () => {
                       ))}
                     </div>
                     <div className="flex flex-col gap-4 mt-4">
-                      <RegistrationModal>
-                        <button
-                          onClick={closeMenu}
-                          className="font-body text-sm text-center font-bold px-5 py-2 bg-secondary text-secondary-foreground rounded-sm tracking-wider uppercase transition-all hover:shadow-[0_0_20px_hsl(212,100%,46%,0.3)]"
-                        >
-                          Register
-                        </button>
-                      </RegistrationModal>
+                      <button
+                        onClick={openMobileModal}
+                        className="font-body text-sm text-center font-bold px-5 py-2 bg-secondary text-secondary-foreground rounded-sm tracking-wider uppercase transition-all hover:shadow-[0_0_20px_hsl(212,100%,46%,0.3)]"
+                      >
+                        Register
+                      </button>
                     </div>
                   </div>
                 </SheetContent>
               </Sheet>
+
+              {/* External Registration Modal for Mobile Drawer */}
+              <RegistrationModal open={isMobileModalOpen} onOpenChange={setIsMobileModalOpen} />
             </div>
           </div>
         </div>

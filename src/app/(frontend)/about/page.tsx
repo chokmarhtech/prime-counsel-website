@@ -1,11 +1,14 @@
+import Layout from '@/components/frontend/layout/Layout'
+import { AboutHero, AboutBody, AboutConviction, AboutMission, AboutVision } from '@/components/frontend/pages/about'
 
 export default function About() {
   return (
-    <div className="min-h-screen">
-      
-      <main className='flex items-center justify-center h-screen'>
-        <h1 className='text-4xl font-bold'>About Us!</h1>
-      </main>
-    </div>
+    <Layout>
+      <AboutHero />
+      <AboutBody />
+      <AboutVision />
+      <AboutMission />
+      <AboutConviction />
+    </Layout>
   )
 }
