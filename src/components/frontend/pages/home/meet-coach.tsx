@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import AnimatedSection from '@/components/frontend/AnimatedSection'
-import coachPortrait from '@/assets/images/coach-portrait.png'
+import coachPortrait from '@/assets/images/coach-ayoola.svg'
 import authorCardBg from '@/assets/images/author-card-bg.png'
 
 const MeetCoach = () => {
