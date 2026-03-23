@@ -10,6 +10,7 @@ import {
   TrustedOrganisations,
   MeetCoach,
   Testimonials,
+  Statistics,
 } from '@/components/frontend/pages/home'
 import Layout from '@/components/frontend/layout/Layout'
 
@@ -32,6 +33,7 @@ export default function Page() {
       <AskPrimeSection />
       <TrustedOrganisations />
       <Testimonials />
+      <Statistics />
       <HomeBlogPreview />
     </Layout>
   )

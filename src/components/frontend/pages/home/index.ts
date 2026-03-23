@@ -8,6 +8,7 @@ import MeetCoach from './meet-coach'
 import PillarSection from './pillar-section'
 import Testimonials from './testimonials' 
 import HomeBlogPreview from './home-blog-preview'
+import Statistics from './statistics'
 
 export {
   HeroSection,
@@ -20,4 +21,5 @@ export {
   MeetCoach,
   Testimonials,
   HomeBlogPreview,
+  Statistics,
 }

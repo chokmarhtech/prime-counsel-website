@@ -28,8 +28,7 @@ const HeroSection = () => {
           className="max-w-3xl"
         >
           <h1 className="heading-display text-4xl md:text-6xl lg:text-7xl text-primary-foreground leading-tight mb-6">
-            ENGINEERING <span className="text-secondary">LEADERSHIP</span> FOR{' '}
-            <span className="text-secondary">GLOBAL IMPACT</span>
+            Building Leaders Who <span className="text-secondary">Shape Nations</span>
           </h1>
           <p className="font-body text-lg md:text-xl text-primary-foreground/80 leading-relaxed mb-10 max-w-2xl">
             Prime Counsel is a global leadership and personal development institution building

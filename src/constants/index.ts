@@ -11,10 +11,22 @@ import {
 } from 'lucide-react'
 
 //navLinks
-export const navLinks = [
+export const navLinks: {
+  label: string
+  path: string
+  subItems?: { label: string; path: string }[]
+}[] = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
   { label: 'Services', path: '/services' },
+  {
+    label: 'Events',
+    path: '/events',
+    subItems: [
+      { label: 'SPM 1', path: '/events/spm-1' },
+      { label: 'SPM 2', path: '/events/spm-2' },
+    ],
+  },
   { label: 'Shop', path: '/shop' },
   { label: 'Blog', path: '/blog' },
   { label: 'Contact', path: '/contact' },
@@ -92,22 +104,56 @@ export const HomeServices = [
   },
 ]
 
-export const testimonials = [
+export const statistics = [
   {
-    name: 'Sarah M.',
-    role: 'Corporate Director',
-    text: "Prime Counsel didn't just motivate me — they restructured how I think about leadership. The frameworks are unmatched.",
+    num: '1000+',
+    label: 'Individuals Mentored and Coached',
   },
   {
-    name: 'Daniel K.',
-    role: 'Founder & CEO',
-    text: 'Working with Prime Counsel gave me the clarity and conviction I needed to lead my organisation through its most challenging season.',
+    num: '50+',
+    label: 'Workshops, Webinars, and Keynote talks delivered',
+  },
+  {
+    num: '10+',
+    label: 'Client Organisations Served',
+  },
+  {
+    num: '20',
+    label: 'Global Reach: UK, Nigeria, and beyond',
+  },
+]
+
+export const testimonials = [
+  {
+    name: 'Samuel',
+    location: 'United Kingdom',
+    programme: 'Vision Clarity Call',
+    text: '“My Vision Clarity Call with Coach Ayoola through Prime Counsel was far more than a coaching session. From the moment I completed the onboarding form, it was clear that the process was intentional and well structured. By the time the session began, Coach Ayoola already had a deep understanding of my challenges and aspirations. What followed was a powerful conversation that helped me bring clarity to areas of my life and career that had felt scattered for years. I left with a renewed sense of direction and a clear framework for the next phase of my journey.”',
+  },
+  {
+    name: 'Mercy',
+    location: 'USA',
+    programme: 'Vision Clarity Call',
+    text: '“The Vision Clarity Call was one of the most insightful leadership conversations I have had. The Prime Counsel onboarding process encouraged deep reflection even before the session began, which made the discussion with Coach Ayoola incredibly focused and productive. What impressed me most was his ability to translate complex ideas about purpose, growth, and positioning into practical steps I could immediately apply. It felt less like a consultation and more like a strategic reset.”',
+  },
+  {
+    name: 'Anthony',
+    location: 'United Kingdom',
+    programme: 'One-to-One Mentorship',
+    text: '“My 1-to-1 mentorship experience with Coach Ayoola through Prime Counsel was transformational. The structure of the programme and the depth of the conversations made the journey both intentional and impactful. Coach Ayoola has a unique ability to challenge your thinking while guiding you with wisdom and clarity. Over the course of the mentorship, I developed stronger discipline, clearer priorities, and a more strategic approach to my personal and professional growth.”',
     featured: true,
   },
   {
-    name: 'Grace O.',
-    role: 'Youth Leader',
-    text: 'The mentorship I received was structured, intentional, and deeply impactful. I now lead with purpose and precision.',
+    name: 'Collins',
+    location: 'Nigeria',
+    programme: 'Prime Emerging Leaders Cohort',
+    text: '“The Prime Emerging Leaders Cohort was one of the most enriching leadership development experiences I have been part of. From the onboarding stage to the final session, the programme was thoughtfully designed to help participants reflect deeply and grow intentionally. Each cohort session combined strategic insight with practical application, and the learning environment created by Prime Counsel encouraged open conversation, accountability, and genuine transformation. I finished the programme with greater clarity about my purpose and the discipline required to pursue it.”',
+  },
+  {
+    name: 'Anne Macaulay',
+    location: 'SPM 1.0 Participant',
+    programme: 'Strategic Positioning Masterclass (SPM 1.0)',
+    text: '“Attending the Strategic Positioning Masterclass (SPM 1.0) hosted by Prime Counsel in December 2025, was a defining moment in my professional journey. The level of insight shared during the session reshaped how I think about positioning, value, and long-term career strategy. Beyond the teaching itself, the audience experience and the quality of individuals in the room created an environment that encouraged deeper thinking and meaningful connections. The leverage I gained from the ideas and the network has genuinely expanded my horizon and shifted the trajectory of my career.”',
   },
 ]
 
@@ -210,7 +256,6 @@ export const serviceBlocks = [
     img: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&q=80',
   },
 ]
-
 
 //Shop Page
 export const products = [
@@ -323,7 +368,6 @@ export const products = [
       'Emerging leaders with global ambitions who want a structured pathway to international positioning.',
   },
 ]
-
 
 export const CONTACT_INFO = {
   email: 'info@primecounsel.co.uk',
