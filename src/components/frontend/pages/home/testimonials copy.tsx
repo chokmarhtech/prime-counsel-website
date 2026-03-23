@@ -19,7 +19,7 @@ const Testimonials = () => {
                 </div>
                 <div>
                   <p className={`font-body font-semibold text-sm ${t.featured ? "text-primary-foreground" : "text-navy"}`}>{t.name}</p>
-                  <p className={`font-body text-xs ${t.featured ? "text-primary-foreground/60" : "text-muted-foreground"}`}>{t.role}</p>
+                  <p className={`font-body text-xs ${t.featured ? "text-primary-foreground/60" : "text-muted-foreground"}`}>{t.location}</p>
                 </div>
               </div>
               <p className={`font-body text-sm leading-relaxed ${t.featured ? "text-primary-foreground/90" : "text-muted-foreground"}`}>
