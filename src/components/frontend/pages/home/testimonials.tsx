@@ -66,12 +66,13 @@ import { testimonials } from '@/constants'
 import React, { useState } from 'react'
 import Slider from 'react-slick'
 
-function TestimonialCard({ t }: { t: { name: string; location?: string; programme: string; text: string; featured?: boolean } }) {
+function TestimonialCard({ t, index }: { t: { name: string; location?: string; programme: string; text: string; featured?: boolean }; index: number }) {
   const [expanded, setExpanded] = useState(false)
+  const isOdd = index % 2 === 0 // 0, 2, 4 mapped to odd 1st, 3rd, 5th items
 
   return (
     <div
-      className={`rounded-2xl p-8 flex flex-col h-full ${t.featured ? 'bg-accent-blue text-primary-foreground' : 'bg-background border border-border'}`}
+      className={`rounded-2xl p-8 flex flex-col h-full ${t.featured ? 'bg-accent-blue text-primary-foreground' : isOdd ? 'bg-secondary/10 border border-transparent' : 'bg-background border border-border'}`}
     >
       <div className="mb-6">
         <span className={`inline-block font-heading text-xs tracking-wider uppercase px-3 py-1 rounded-full ${t.featured ? 'bg-gold/20 text-gold' : 'bg-surface text-navy'}`}>
@@ -123,7 +124,7 @@ function TestimonialsSlider() {
   const settings = {
     infinite: true,
     centerPadding: '60px',
-    slidesToShow: 3,
+    slidesToShow: 1,
     // slidesToScroll: 2,
     speed: 500,
     dots: true,
@@ -134,8 +135,8 @@ function TestimonialsSlider() {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToShow: 1,
+          slidesToScroll: 1,
           infinite: true,
           dots: true,
         },
@@ -143,9 +144,9 @@ function TestimonialsSlider() {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
         },
       },
       {
@@ -174,9 +175,9 @@ function TestimonialsSlider() {
       [&_.slick-dots]:bottom-2"
     >
       <Slider {...settings}>
-        {testimonials.map((t) => (
+        {testimonials.map((t, index) => (
           <div key={t.name} className="px-3 outline-none h-full">
-            <TestimonialCard t={t} />
+            <TestimonialCard t={t} index={index} />
           </div>
         ))}
       </Slider>
