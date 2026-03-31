@@ -97,6 +97,14 @@ export default buildConfig({
             api_key: process.env.CLOUDINARY_API_KEY || '',
             api_secret: process.env.CLOUDINARY_API_SECRET || '',
           }),
+          generateFileURL: ({ filename, prefix }) => {
+            if (!filename) return ''
+            const folder = prefix || ''
+            const nameWithoutExt = filename.includes('.') ? filename.substring(0, filename.lastIndexOf('.')) : filename
+            const publicId = folder ? `${folder}/${nameWithoutExt}` : nameWithoutExt
+            const cloudName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || ''
+            return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}`
+          },
         },
       },
     }),

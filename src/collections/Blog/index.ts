@@ -7,13 +7,21 @@ import {
   HorizontalRuleFeature,
   InlineToolbarFeature,
   lexicalEditor,
+  UploadFeature,
+  LinkFeature,
+  type LinkFields,
 } from '@payloadcms/richtext-lexical'
+import type { TextFieldSingleValidation } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { CallToAction } from '../../blocks/CallToAction/config'
+import { RichTextImage } from '../../blocks/RichTextImage/config'
+import { Alert } from '../../blocks/Alert/config'
+import { Embed } from '../../blocks/Embed/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
@@ -89,10 +97,80 @@ export const Blog: CollectionConfig<'blog'> = {
                   return [
                     ...rootFeatures,
                     HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+                    BlocksFeature({ blocks: [Banner, Code, MediaBlock, CallToAction, RichTextImage, Alert, Embed] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),
+                    UploadFeature({
+                      collections: {
+                        media: {
+                          fields: [
+                            {
+                              name: 'caption',
+                              type: 'text',
+                            },
+                            {
+                              name: 'alignment',
+                              type: 'select',
+                              defaultValue: 'center',
+                              options: [
+                                { label: 'Left', value: 'left' },
+                                { label: 'Center', value: 'center' },
+                                { label: 'Right', value: 'right' },
+                              ],
+                            },
+                          ],
+                        },
+                      },
+                    }),
+                    LinkFeature({
+                      enabledCollections: ['blog'],
+                      fields: ({ defaultFields }) => {
+                        const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
+                          if ('name' in field && field.name === 'url') return false
+                          return true
+                        })
+
+                        return [
+                          ...defaultFieldsWithoutUrl,
+                          {
+                            name: 'url',
+                            type: 'text',
+                            admin: {
+                              condition: (_data, siblingData) => siblingData?.linkType !== 'internal',
+                            },
+                            label: ({ t }) => t('fields:enterURL'),
+                            required: true,
+                            validate: ((value, options) => {
+                              if ((options?.siblingData as LinkFields)?.linkType === 'internal') {
+                                return true
+                              }
+                              return value ? true : 'URL is required'
+                            }) as TextFieldSingleValidation,
+                          },
+                          {
+                            name: 'rel',
+                            type: 'select',
+                            hasMany: true,
+                            options: [
+                              { label: 'No Opener', value: 'noopener' },
+                              { label: 'No Referrer', value: 'noreferrer' },
+                              { label: 'No Follow', value: 'nofollow' },
+                            ],
+                          },
+                          {
+                            name: 'appearance',
+                            type: 'select',
+                            defaultValue: 'default',
+                            options: [
+                              { label: 'Default', value: 'default' },
+                              { label: 'Outline', value: 'outline' },
+                              { label: 'Ghost', value: 'ghost' },
+                            ],
+                          },
+                        ]
+                      },
+                    }),
                   ]
                 },
               }),

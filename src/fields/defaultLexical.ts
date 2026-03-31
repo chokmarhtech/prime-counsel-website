@@ -6,15 +6,31 @@ import {
   ParagraphFeature,
   lexicalEditor,
   UnderlineFeature,
+  StrikethroughFeature,
+  HeadingFeature,
+  UploadFeature,
+  BlocksFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
   type LinkFields,
 } from '@payloadcms/richtext-lexical'
 
+import { CallToAction } from '../blocks/CallToAction/config'
+import { RichTextImage } from '../blocks/RichTextImage/config'
+import { Alert } from '../blocks/Alert/config'
+import { Embed } from '../blocks/Embed/config'
+import { Code } from '../blocks/Code/config'
+import { Banner } from '../blocks/Banner/config'
+import { MediaBlock } from '../blocks/MediaBlock/config'
+
 export const defaultLexical = lexicalEditor({
   features: [
-    ParagraphFeature(),
-    UnderlineFeature(),
     BoldFeature(),
     ItalicFeature(),
+    ParagraphFeature(),
+    UnderlineFeature(),
+    StrikethroughFeature(),
+    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3'] }),
     LinkFeature({
       enabledCollections: ['blog'],
       fields: ({ defaultFields }) => {
@@ -40,8 +56,55 @@ export const defaultLexical = lexicalEditor({
               return value ? true : 'URL is required'
             }) as TextFieldSingleValidation,
           },
+          {
+            name: 'rel',
+            type: 'select',
+            hasMany: true,
+            options: [
+              { label: 'No Opener', value: 'noopener' },
+              { label: 'No Referrer', value: 'noreferrer' },
+              { label: 'No Follow', value: 'nofollow' },
+            ],
+          },
+          {
+            name: 'appearance',
+            type: 'select',
+            defaultValue: 'default',
+            options: [
+              { label: 'Default', value: 'default' },
+              { label: 'Outline', value: 'outline' },
+              { label: 'Ghost', value: 'ghost' },
+            ],
+          },
         ]
       },
+    }),
+    UploadFeature({
+      collections: {
+        media: {
+          fields: [
+            {
+              name: 'caption',
+              type: 'text',
+            },
+            {
+              name: 'alignment',
+              type: 'select',
+              defaultValue: 'center',
+              options: [
+                { label: 'Left', value: 'left' },
+                { label: 'Center', value: 'center' },
+                { label: 'Right', value: 'right' },
+              ],
+            },
+          ],
+        },
+      },
+    }),
+    UnorderedListFeature(),
+    OrderedListFeature(),
+    BlocksFeature({
+      blocks: [CallToAction, RichTextImage, Alert, Embed, Code, Banner, MediaBlock],
     }),
   ],
 })

@@ -1255,7 +1255,7 @@ export interface BannerBlock {
  * via the `definition` "CodeBlock".
  */
 export interface CodeBlock {
-  language?: ('typescript' | 'javascript' | 'css') | null;
+  language?: ('js' | 'ts' | 'tsx' | 'bash' | 'json' | 'css') | null;
   code: string;
   id?: string | null;
   blockName?: string | null;
@@ -1270,6 +1270,67 @@ export interface MediaBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock".
+ */
+export interface CallToActionBlock {
+  heading: string;
+  body: string;
+  link: string;
+  appearance?: ('default' | 'outline' | 'ghost') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'callToAction';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichTextImageBlock".
+ */
+export interface RichTextImageBlock {
+  image: number | Media;
+  caption?: string | null;
+  alignment?: ('left' | 'center' | 'right') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'richTextImage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AlertBlock".
+ */
+export interface AlertBlock {
+  type?: ('info' | 'warning' | 'error') | null;
+  message: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'alert';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmbedBlock".
+ */
+export interface EmbedBlock {
+  url: string;
+  platform: 'youtube' | 'twitter' | 'vimeo';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'embed';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

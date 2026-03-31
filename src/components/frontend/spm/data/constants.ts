@@ -163,7 +163,7 @@ export const TESTIMONIALS: TestimonialItem[] = [
 ]
 
 export const EVENT_DETAILS = {
-  date: 'Saturday, 25th April 2026',
+  date: 'Saturday, 25th April, 2026',
   time: '10:00am – 4:00pm',
   venue: 'Hampton by Hilton London Luton Airport',
   address: '42–50 Kimpton Road, Luton, LU2 0NB',

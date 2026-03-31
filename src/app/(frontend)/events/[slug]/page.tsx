@@ -42,9 +42,9 @@ const events: Record<
     slug: 'spm-2',
     title: 'Strategic Positioning Masterclass',
     subtitle: 'SPM 2.0',
-    date: 'Coming Soon — 2025',
-    location: 'United Kingdom',
-    time: 'TBC',
+    date: '25th April, 2026',
+    location: 'Luton, United Kingdom',
+    time: '10am – 4pm',
     capacity: 'Limited Seats',
     description:
       'SPM 2.0 builds on the foundation of the inaugural masterclass — deeper, more structured, and designed for leaders ready to move from visibility to lasting impact. If SPM 1.0 was the ignition, SPM 2.0 is the engine.',

@@ -124,6 +124,7 @@ function TestimonialsSlider() {
     infinite: true,
     centerPadding: '60px',
     slidesToShow: 3,
+    // slidesToScroll: 2,
     speed: 500,
     dots: true,
     autoplay: true,
@@ -140,11 +141,18 @@ function TestimonialsSlider() {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
           initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
         },
       },
       {
