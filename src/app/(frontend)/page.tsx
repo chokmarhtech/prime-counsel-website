@@ -3,7 +3,7 @@ import {
   HeroSection,
   InstitutionalIdentity,
   PillarSection,
-  PhilosophyPreview,
+  // PhilosophyPreview,
   ServicesOverview,
   AskPrimeSection,
   HomeBlogPreview,
@@ -27,13 +27,13 @@ export default function Page() {
       <HeroSection />
       <InstitutionalIdentity />
       <PillarSection />
-      <PhilosophyPreview />
-      <MeetCoach />
+      {/* <PhilosophyPreview /> */}
       <ServicesOverview />  
       <AskPrimeSection />
       <TrustedOrganisations />
-      <Testimonials />
       <Statistics />
+      <MeetCoach />
+      <Testimonials />
       <HomeBlogPreview />
     </Layout>
   )

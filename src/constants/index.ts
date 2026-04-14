@@ -25,6 +25,7 @@ export const navLinks: {
     subItems: [
       { label: 'SPM 1', path: '/events/spm-1' },
       { label: 'SPM 2', path: '/events/spm-2' },
+      { label: 'SPM 3', path: '/events/spm-3' },
     ],
   },
   { label: 'Shop', path: '/shop' },
@@ -201,23 +202,27 @@ export const missions = [
 export const services = [
   {
     icon: Mic,
-    title: 'Executive Coaching',
-    desc: 'One-on-one coaching engagements designed to develop the mindset, strategy, and executive presence of senior leaders.',
+    tag: "High-Impact Strategic Speaking",
+    title: 'Talks & Keynotes',
+    desc: 'Insight-rich keynote presentations for conferences, universities, corporate institutions, and leadership summits. Not motivational performances strategic interventions.',
   },
   {
     icon: Users,
-    title: 'Leadership Programmes',
-    desc: 'Structured group programmes delivering leadership transformation through cohort-based learning and accountability.',
+    tag: "Structured Personal Leadership Development",
+    title: 'Coaching & Mentorship',
+    desc: 'From Vision Clarity Intensives to 10-Week Strategic Mentorship programmes. Identity work, strategic positioning, and execution planning for sustainable growth.',
   },
   {
     icon: BookOpen,
-    title: 'Strategic Advisory',
-    desc: 'Bespoke advisory services for organisations seeking to build leadership capacity at scale.',
+    tag: "Applied Leadership Development",
+    title: 'Workshops & Training',
+    desc: 'Practical, outcomes-driven workshops for organisations, campuses, and leadership teams. Structured around frameworks, measurable objectives, and actionable strategies.',
   },
   {
     icon: Building2,
-    title: 'Institutional Partnerships',
-    desc: 'Long-term strategic partnerships with universities, corporations, and government institutions.',
+    tag: "Leadership Architecture & Transformation",
+    title: 'Organisational Advisory',
+    desc: 'We partner with institutions to design sustainable leadership development pipelines and transformation frameworks for long-term cultural and strategic impact.',
   },
 ]
 

@@ -1,5 +1,5 @@
 import Layout from '@/components/frontend/layout/Layout'
-import { AboutHero, AboutBody, AboutConviction, AboutMission, AboutVision } from '@/components/frontend/pages/about'
+import { AboutHero, AboutBody, AboutConviction, AboutMission, AboutVision, OurTeam } from '@/components/frontend/pages/about'
 
 export default function About() {
   return (
@@ -8,6 +8,7 @@ export default function About() {
       <AboutBody />
       <AboutVision />
       <AboutMission />
+      <OurTeam />
       <AboutConviction />
     </Layout>
   )

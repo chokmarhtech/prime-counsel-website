@@ -27,19 +27,19 @@ const HeroSection = () => {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="max-w-3xl"
         >
+          <p className="section-label">Leadership Institute · Development Academy · Global Movement</p>
           <h1 className="heading-display text-4xl md:text-6xl lg:text-7xl text-primary-foreground leading-tight mb-6">
             Building Leaders Who <span className="text-secondary">Shape Nations</span>
           </h1>
           <p className="font-body text-lg md:text-xl text-primary-foreground/80 leading-relaxed mb-10 max-w-2xl">
-            Prime Counsel is a global leadership and personal development institution building
-            visionary, ethically grounded and strategically positioned leaders.
+            A global leadership and personal development institution committed to raising visionary, ethically grounded, and high-impact leaders.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button variant="hero" size="lg" asChild>
-              <Link href="/about">Explore Our Institution</Link>
+              <Link href="/services">Explore Our Services</Link>
             </Button>
             <Button variant="hero-outline" size="lg" asChild>
-              <Link href="/contact">Begin today</Link>
+              <Link href="/contact">SPM 3.0 Masterclass</Link>
             </Button>
           </div>
         </motion.div>
