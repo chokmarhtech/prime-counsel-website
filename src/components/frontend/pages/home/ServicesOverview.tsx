@@ -1,54 +1,82 @@
 import FadeIn from '@/components/frontend/FadeIn'
 import Link from 'next/link'
 import { services } from '@/constants'
+import { Button } from '@/components/ui/button'
 
 const ServicesOverview = () => (
   <section className="py-20 md:py-28 bg-muted">
     <div className="container-narrow mx-auto max-md:px-4">
-      <div>
-        <div className="flex justify-between">
-          <div className="max-w-lg">
-            <FadeIn>
-              <p className="section-label">Services</p>
-              <h2 className="heading-lg mb-4">Strategic Development for Leaders</h2>
-              <p className="font-body text-sm text-muted-foreground mb-8">
-                We deliver structured leadership development experiences designed to move
-                individuals and organisations from potential to positioned influence.
-              </p>
-            </FadeIn>
-          </div>
-          <div className="md:block hidden">
-            <FadeIn>
-              <Link href="/services" className="btn-primary">
-                View All Services
-              </Link>
-            </FadeIn>
-          </div>
+      <div className="flex flex-col md:flex-row justify-between items-start mb-12">
+        <div className="max-w-2xl">
+          <p className="section-label">Our Services</p>
+          <h2 className="heading-display text-3xl md:text-5xl text-navy">
+            Strategic Development for Leaders
+          </h2>
+          <p className="font-body text-base text-muted-foreground mt-4">
+            We deliver structured leadership development experiences designed 
+            to move individuals and organisations from potential to positioned 
+            influence.
+          </p>
+        </div>
+        <div className="hidden md:block">
+          <Link href="/services" className="btn-primary">
+            View All Services
+          </Link>
         </div>
       </div>
-
       <div className="mt-5">
-        <div className="lg:col-span-2 grid sm:grid-cols-2 gap-4">
+        <div className="lg:col-span-2 grid sm:grid-cols-2 gap-4 mt-10">
           {services.map((s, i) => (
             <FadeIn key={s.title} delay={i * 0.1}>
-              <div className="card-prime">
+              <div className="card-prime flex flex-col">
                 <s.icon className="w-6 h-6 text-accent mb-4" />
                 <p className="section-label">{s.tag}</p>
                 <h3 className="font-heading text-lg text-navy mb-2">{s.title}</h3>
-                <p className="font-body text-sm text-muted-foreground mb-4">{s.desc}</p>
-                <Link
-                  href="/services"
-                  className="text-accent-blue font-body text-sm font-semibold hover:underline"
-                >
-                  Learn More →
-                </Link>
+                <p className="font-body text-sm text-muted-foreground mb-4 grow">{s.desc}</p>
+
+                {s.tags && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {s.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="font-body text-[11px] font-semibold text-gold bg-gold/5 border border-gold/20 px-3 py-1 rounded-full whitespace-nowrap"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {s.title === 'Coaching & Mentorship' ? (
+                  <div className="flex flex-col sm:flex-row gap-3 mt-auto">
+                    <Button
+                      asChild
+                      className="w-full bg-transparent hover:bg-secondary/10 border border-secondary shadow-none uppercase text-accent-blue font-body text-[10px] sm:text-xs h-10 px-2"
+                    >
+                      <Link href="https://mail.google.com">One-to-One Coaching</Link>
+                    </Button>
+                    <Button
+                      asChild
+                      className="w-full bg-transparent hover:bg-secondary/10 border border-secondary shadow-none uppercase text-accent-blue font-body text-[10px] sm:text-xs h-10 px-2"
+                    >
+                      <Link href="https://drive.google.com">Vision Clarity Intensive</Link>
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    asChild
+                    className="w-full bg-transparent hover:bg-secondary/10 border border-secondary shadow-none uppercase text-accent-blue font-body text-[10px] sm:text-sm h-10 mt-auto"
+                  >
+                    <Link href={s.link}>{s.cta}</Link>
+                  </Button>
+                )}
               </div>
             </FadeIn>
           ))}
         </div>
       </div>
 
-      <div className="block md:hidden  mt-8">
+      <div className="block md:hidden mt-8">
         <FadeIn>
           <Link href="/services" className="btn-primary w-full">
             View All Services
@@ -57,32 +85,6 @@ const ServicesOverview = () => (
       </div>
     </div>
   </section>
-  // <section className="section-padding-1 bg-muted">
-  //   <div className="container-narrow">
-  //     <AnimatedSection>
-  //       <h2 className="heading-display text-3xl md:text-5xl text-foreground mb-16">
-  //         INSTITUTIONAL SERVICES
-  //       </h2>
-  //     </AnimatedSection>
-
-  //     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-  //       {services.map((s, i) => (
-  //         <AnimatedSection key={s.title} delay={i * 0.1}>
-  //           <div className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow duration-300">
-  //             <s.icon className="w-8 h-8 text-secondary mb-4" />
-  //             <h3 className="font-heading text-xl text-foreground mb-3">{s.title}</h3>
-  //             <p className="font-body text-sm text-muted-foreground leading-relaxed mb-6">
-  //               {s.desc}
-  //             </p>
-  //             <Button variant="link" className="p-0 text-secondary font-body font-semibold" asChild>
-  //               <Link href="/services">Learn More →</Link>
-  //             </Button>
-  //           </div>
-  //         </AnimatedSection>
-  //       ))}
-  //     </div>
-  //   </div>
-  // </section>
 )
 
 export default ServicesOverview

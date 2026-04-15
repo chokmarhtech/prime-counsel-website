@@ -58,7 +58,7 @@ const Navbar = () => {
         scrolled ? 'bg-primary shadow-lg' : 'bg-transparent'
       }`}
     >
-      <div className="container-narrow flex items-center justify-between py-4 px-4">
+      <div className="container-narrow flex items-center justify-between py-4 max-md:px-4">
         <Link href="/">
           <Image
             src={logoLight}
