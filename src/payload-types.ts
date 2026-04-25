@@ -72,6 +72,7 @@ export interface Config {
     categories: Category;
     users: User;
     testimonials: Testimonial;
+    products: Product;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -93,6 +94,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -372,6 +374,70 @@ export interface Testimonial {
   rating?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  title: string;
+  /**
+   * Determines checkout behavior. Sessions go directly to Stripe; Books/Digital go through cart.
+   */
+  type: 'book' | 'session' | 'digital';
+  category: number | Category;
+  price: number;
+  currency: 'GBP' | 'USD' | 'NGN';
+  heroImage: number | Media;
+  shortDescription: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  gains?:
+    | {
+        gain: string;
+        id?: string | null;
+      }[]
+    | null;
+  whoFor: string;
+  buttonText: string;
+  /**
+   * Optional. Override the global Calendly link for this specific product.
+   */
+  calendlyLink?: string | null;
+  duration?: string | null;
+  location: 'Online' | 'In-Person' | 'Online / In-Person';
+  booking?: string | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -722,6 +788,10 @@ export interface PayloadLockedDocument {
         value: number | Testimonial;
       } | null)
     | ({
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -959,6 +1029,45 @@ export interface TestimonialsSelect<T extends boolean = true> {
   rating?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  title?: T;
+  type?: T;
+  category?: T;
+  price?: T;
+  currency?: T;
+  heroImage?: T;
+  shortDescription?: T;
+  description?: T;
+  gains?:
+    | T
+    | {
+        gain?: T;
+        id?: T;
+      };
+  whoFor?: T;
+  buttonText?: T;
+  calendlyLink?: T;
+  duration?: T;
+  location?: T;
+  booking?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

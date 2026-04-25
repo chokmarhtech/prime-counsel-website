@@ -127,6 +127,28 @@ export default function Contact() {
                 </div>
                 <div>
                   <label className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-2 block">
+                    Services
+                  </label>
+                  <select
+                    className="w-full border border-border bg-background rounded-md px-4 py-3 font-body text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-secondary appearance-none"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>Select a service</option>
+                    <option value="Vision Clarity Call">Vision Clarity Call</option>
+                    <option value="One-on-one Mentorship">One-on-one Mentorship</option>
+                    <option value="Prime Emerging Leaders Cohort 2026">Prime Emerging Leaders Cohort 2026</option>
+                    <option value="Prime Builders Cohort 2026">Prime Builders Cohort 2026</option>
+                    <option value="ASKPRIME™">ASKPRIME™</option>
+                    <option value="SEEKCOUNSEL™">SEEKCOUNSEL™</option>
+                    <option value="Talks & Keynotes">Talks & Keynotes</option>
+                    <option value="Coaching & Mentorship">Coaching & Mentorship</option>
+                    <option value="Workshop & Training">Workshop & Training</option>
+                    <option value="Organizational Advisory">Organizational Advisory</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-2 block">
                     Message
                   </label>
                   <textarea

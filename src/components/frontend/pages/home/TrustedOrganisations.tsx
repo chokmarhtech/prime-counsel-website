@@ -1,12 +1,13 @@
 import AnimatedSection from '@/components/frontend/AnimatedSection'
+import Brands from './Brands'
 
-const orgs = [
-  'BT Group plc',
-  'Aleto Foundation',
-  'UK Youth',
-  'Winners Chapel International Birmingham',
-  'Proud To Be Me',
-]
+// const orgs = [
+//   'BT Group plc',
+//   'Aleto Foundation',
+//   'UK Youth',
+//   'Winners Chapel International Birmingham',
+//   'Proud To Be Me',
+// ]
 
 const TrustedOrganisations = () => (
   <section className="section-padding-1 bg-background">
@@ -17,7 +18,14 @@ const TrustedOrganisations = () => (
         </h2>
       </AnimatedSection>
 
-      <div className="flex flex-wrap justify-center items-center gap-12">
+
+      <div className='max-md:px-6'>
+        <Brands />
+      </div>
+
+
+
+      {/* <div className="flex flex-wrap justify-center items-center gap-12">
         {orgs.map((org, i) => (
           <AnimatedSection key={org} delay={i * 0.1}>
             <div className="text-center px-6 py-4">
@@ -27,7 +35,7 @@ const TrustedOrganisations = () => (
             </div>
           </AnimatedSection>
         ))}
-      </div>
+      </div> */}
     </div>
   </section>
 )

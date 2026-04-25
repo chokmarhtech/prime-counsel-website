@@ -11,6 +11,7 @@ import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Blog } from './collections/Blog'
 import { Testimonials } from './collections/Testimonials/index'
+import { Products } from './collections/Products'
 
 import { Users } from './collections/Users'
 import { plugins } from './plugins'
@@ -77,7 +78,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Blog, Media, Categories, Users, Testimonials],
+  collections: [Blog, Media, Categories, Users, Testimonials, Products],
   email: resendAdapter({
     defaultFromAddress: 'info@primecounsel.co.uk',
     defaultFromName: 'Prime Counsel Limited',
@@ -100,8 +101,7 @@ export default buildConfig({
           generateFileURL: ({ filename, prefix }) => {
             if (!filename) return ''
             const folder = prefix || ''
-            const nameWithoutExt = filename.includes('.') ? filename.substring(0, filename.lastIndexOf('.')) : filename
-            const publicId = folder ? `${folder}/${nameWithoutExt}` : nameWithoutExt
+            const publicId = folder ? `${folder}/${filename}` : filename
             const cloudName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || ''
             return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}`
           },

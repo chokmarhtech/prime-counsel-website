@@ -3,8 +3,9 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Menu, ChevronDown } from 'lucide-react'
+import { Menu, ChevronDown, ShoppingBag } from 'lucide-react'
 import { navLinks } from '@/constants'
+import { useCartStore } from '@/store/cart-store'
 import logoLight from '@/assets/logos/logo-light.svg'
 import Image from 'next/image'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
@@ -17,6 +18,7 @@ const Navbar = () => {
   const pathname = usePathname()
   const router = useRouter()
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const { items, setCartOpen } = useCartStore()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -128,22 +130,48 @@ const Navbar = () => {
           )}
         </div>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-4">
+          <button 
+            onClick={() => setCartOpen(true)}
+            className="relative p-2 text-primary-foreground hover:text-gold transition-colors"
+            aria-label="View cart"
+          >
+            <ShoppingBag className="w-5 h-5" />
+            {items.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-gold text-navy text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-300">
+                {items.reduce((acc, item) => acc + item.quantity, 0)}
+              </span>
+            )}
+          </button>
           <Link href="/contact" className="btn-secondary text-sm">
             Book a Consultation
           </Link>
         </div>
 
-        {/* Mobile hamburger — inside Sheet as trigger */}
-        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-          <SheetTrigger asChild>
-            <button
-              className="md:hidden text-primary-foreground"
-              aria-label="Open menu"
-            >
-              <Menu size={24} />
-            </button>
-          </SheetTrigger>
+        {/* Mobile View Cart & Hamburger */}
+        <div className="flex md:hidden items-center gap-4">
+          <button 
+            onClick={() => setCartOpen(true)}
+            className="relative p-2 text-primary-foreground"
+            aria-label="View cart"
+          >
+            <ShoppingBag className="w-6 h-6" />
+            {items.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-gold text-navy text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-300">
+                {items.reduce((acc, item) => acc + item.quantity, 0)}
+              </span>
+            )}
+          </button>
+          
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <button
+                className="text-primary-foreground"
+                aria-label="Open menu"
+              >
+                <Menu size={28} />
+              </button>
+            </SheetTrigger>
 
           <SheetContent side="left" className="bg-navy border-r border-white/10 w-72">
             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
@@ -216,6 +244,7 @@ const Navbar = () => {
             </div>
           </SheetContent>
         </Sheet>
+        </div>
       </div>
     </nav>
   )

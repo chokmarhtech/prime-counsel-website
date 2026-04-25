@@ -10,6 +10,12 @@ import {
   Globe,
 } from 'lucide-react'
 
+import aleto from '@/assets/images/brands/aleto.png'
+import btGroup from '@/assets/images/brands/bt-group.png'
+import p2beme from '@/assets/images/brands/P2beme.png'
+import ukYouth from '@/assets/images/brands/uk-youth.png'
+import wcb from '@/assets/images/brands/WC-B.png'
+
 //navLinks
 export const navLinks: {
   label: string
@@ -157,6 +163,32 @@ export const testimonials = [
     text: '“Attending the Strategic Positioning Masterclass (SPM 1.0) hosted by Prime Counsel in December 2025, was a defining moment in my professional journey. The level of insight shared during the session reshaped how I think about positioning, value, and long-term career strategy. Beyond the teaching itself, the audience experience and the quality of individuals in the room created an environment that encouraged deeper thinking and meaningful connections. The leverage I gained from the ideas and the network has genuinely expanded my horizon and shifted the trajectory of my career.”',
   },
 ]
+
+
+export const clientsLogo = [
+    {
+        id: 1,
+        logo: aleto,
+    },
+    {
+        id: 2,
+        logo: btGroup,
+    },
+    {
+        id: 3,
+        logo: p2beme,
+    },
+    {
+        id: 4,
+        logo: ukYouth,
+    },
+    {
+        id: 5,
+        logo: wcb,
+    },
+];
+
+
 
 //About Page
 export const AboutConvictions = [

@@ -64,8 +64,7 @@ export const cloudinaryAdapter = (config: CloudinaryConfig): Adapter => {
 
       generateURL: ({ filename, prefix: urlPrefix }) => {
         const folder = urlPrefix || prefix
-        const publicId = path.parse(filename).name
-        const fullPublicId = folder ? `${folder}/${publicId}` : publicId
+        const fullPublicId = folder ? `${folder}/${filename}` : filename
         return `https://res.cloudinary.com/${config.cloud_name}/image/upload/${fullPublicId}`
       },
 
@@ -78,8 +77,7 @@ export const cloudinaryAdapter = (config: CloudinaryConfig): Adapter => {
           return new Response('Not found', { status: 404 })
         }
 
-        const publicId = path.parse(filename).name
-        const fullPublicId = urlPrefix ? `${urlPrefix}/${publicId}` : publicId
+        const fullPublicId = urlPrefix ? `${urlPrefix}/${filename}` : filename
         const cloudUrl = `https://res.cloudinary.com/${config.cloud_name}/image/upload/${fullPublicId}`
         
         return Response.redirect(cloudUrl, 302)
