@@ -5,7 +5,12 @@ import Image from 'next/image'
 import { useCartStore } from '@/store/cart-store'
 import type { Product, Media } from '@/payload-types'
 import RichText from '@/components/RichText'
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from '@/components/ui/accordion'
 import { Clock, MapPin, Calendar, CheckCircle2 } from 'lucide-react'
 
 export const ProductDetailClient = ({ product }: { product: Product }) => {
@@ -34,19 +39,17 @@ export const ProductDetailClient = ({ product }: { product: Product }) => {
   return (
     <div className="bg-[#FAF9F6] min-h-screen pt-32 pb-20">
       <div className="container max-w-5xl mx-auto px-4">
-        
         {/* Top Section - Hero Image & Floating Card */}
         <div className="grid md:grid-cols-[1fr_400px] gap-8 mb-12 items-start">
-          
           {/* Left: Product Image */}
           <div className="w-full h-full relative aspect-3/4 md:aspect-auto md:h-[600px] rounded-xl overflow-hidden shadow-sm">
             {heroImage?.url && (
-              <Image 
-                src={heroImage.url} 
-                alt={product.title} 
-                fill 
+              <Image
+                src={heroImage.url}
+                alt={product.title}
+                fill
                 className="object-cover"
-                priority 
+                priority
               />
             )}
           </div>
@@ -56,14 +59,20 @@ export const ProductDetailClient = ({ product }: { product: Product }) => {
             <h1 className="font-heading text-2xl text-navy uppercase leading-tight mb-2">
               {product.title}
             </h1>
-            
+
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold text-navy">PC</div>
-              <span className="text-xs font-bold text-navy tracking-wider uppercase">Prime Counsel</span>
+              <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold text-navy">
+                PC
+              </div>
+              <span className="text-xs font-bold text-navy tracking-wider uppercase">
+                Prime Counsel
+              </span>
             </div>
 
             <div className="w-full p-3 border border-border rounded-xl text-sm font-bold text-navy mb-6 flex justify-between items-center bg-surface">
-              <span className="truncate">{formatPrice(product.price, product.currency)} - {product.title}</span>
+              <span className="truncate">
+                {formatPrice(product.price, product.currency)} - {product.title}
+              </span>
               <span className="text-muted-foreground ml-2 text-xs">↕</span>
             </div>
 
@@ -71,7 +80,7 @@ export const ProductDetailClient = ({ product }: { product: Product }) => {
               <p className="font-heading text-2xl text-navy whitespace-nowrap">
                 {formatPrice(product.price, product.currency)}
               </p>
-              <button 
+              <button
                 onClick={handlePrimaryAction}
                 className="btn-gold flex-1 text-xs py-3.5 tracking-widest shadow-md"
               >
@@ -104,20 +113,24 @@ export const ProductDetailClient = ({ product }: { product: Product }) => {
             </div>
 
             {product.gains && product.gains.length > 0 && (
-              <Accordion type="single" collapsible className="w-full border-t border-border/50 pt-2">
+              <Accordion
+                type="single"
+                collapsible
+                className="w-full border-t border-border/50 pt-2"
+              >
                 <AccordionItem value="item-1" className="border-none">
                   <AccordionTrigger className="text-sm hover:no-underline font-bold text-navy hover:text-gold uppercase tracking-wider py-3">
                     What&apos;s Included
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground space-y-2 pb-4 text-sm leading-relaxed">
-                     <ul className="space-y-2">
-                       {product.gains.map((gain, i) => (
-                         <li key={i} className="flex items-start gap-2">
-                           <CheckCircle2 className="w-4 h-4 text-gold shrink-0 mt-0.5" />
-                           <span>{gain.gain}</span>
-                         </li>
-                       ))}
-                     </ul>
+                    <ul className="space-y-2">
+                      {product.gains.map((gain, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-gold shrink-0 mt-0.5" />
+                          <span>{gain.gain}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -127,32 +140,38 @@ export const ProductDetailClient = ({ product }: { product: Product }) => {
 
         {/* Bottom Section - Details & Rich text */}
         <div className="bg-white rounded-2xl shadow-sm border border-border/30 p-8 md:p-12 mb-12 max-w-4xl w-full">
-           <div className="prose prose-navy prose-sm max-w-none prose-headings:font-heading prose-headings:uppercase prose-headings:tracking-wider prose-headings:text-navy">
-             <RichText data={product.description} enableGutter={false} />
-           </div>
+          <div className="prose prose-navy prose-sm max-w-none prose-headings:font-heading prose-headings:uppercase prose-headings:tracking-wider prose-headings:text-navy">
+            <RichText data={product.description} enableGutter={false} />
+          </div>
 
-           {product.whoFor && (
-             <div className="mt-12">
-               <h3 className="font-heading text-lg text-navy mb-4 uppercase tracking-widest">Who This Is For</h3>
-               <p className="font-body text-sm text-foreground/80 leading-relaxed border-l-2 border-gold pl-4">
-                 {product.whoFor}
-               </p>
-             </div>
-           )}
+          {product.whoFor && (
+            <div className="mt-12">
+              <h3 className="font-heading text-lg text-navy mb-4 uppercase tracking-widest">
+                Who This Is For
+              </h3>
+              <p className="font-body text-sm text-foreground/80 leading-relaxed border-l-2 border-gold pl-4">
+                {product.whoFor}
+              </p>
+            </div>
+          )}
 
-           <div className="mt-12 p-6 border border-dashed border-navy/20 rounded-xl bg-surface flex items-start gap-4">
-             <div className="w-10 h-10 rounded bg-navy/5 flex items-center justify-center shrink-0 text-xl">
-               🏦
-             </div>
-             <div>
-               <h4 className="font-heading text-sm text-navy uppercase tracking-widest mb-1">Bank Transfer Available</h4>
-               <p className="text-xs text-muted-foreground leading-relaxed">
-                 Option to pay via bank transfer, ClearPay, Klarna and mobile money are enabled once you add products to cart and proceed to checkout point.
-               </p>
-             </div>
-           </div>
+          <div className="flex items-center justify-between gap-4 mt-12">
+            <p className="font-heading text-2xl text-navy whitespace-nowrap">
+              {formatPrice(product.price, product.currency)}
+            </p>
+            <button
+              onClick={handlePrimaryAction}
+              className="btn-gold flex-1 text-xs py-3.5 tracking-widest shadow-md"
+            >
+              {getButtonLabel()}
+            </button>
+          </div>
+
+          {/* <div className="mt-12 p-6 border border-dashed border-navy/20 rounded-xl bg-surface flex items-start gap-4">
+             
+             
+           </div> */}
         </div>
-
       </div>
     </div>
   )
