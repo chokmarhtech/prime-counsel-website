@@ -15,6 +15,10 @@ import btGroup from '@/assets/images/brands/bt-group.png'
 import p2beme from '@/assets/images/brands/P2beme.png'
 import ukYouth from '@/assets/images/brands/uk-youth.png'
 import wcb from '@/assets/images/brands/WC-B.png'
+import tk from '@/assets/images/services/tk.jpeg';
+import coaching from '@/assets/images/services/coaching.jpeg';
+import workshop from '@/assets/images/services/workshop.jpeg';
+import organizationalAdvisory from '@/assets/images/services/organizational-advisory.jpeg';
 
 //navLinks
 export const navLinks: {
@@ -278,7 +282,7 @@ export const serviceBlocks = [
     outcomes: 'Inspired, challenged, and repositioned audiences',
     idealFor: 'Conferences, corporate events, universities, youth summits',
     cta: 'Enquire About a Talk →',
-    img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80',
+    img: tk,
   },
   {
     title: 'Coaching & Mentorship',
@@ -286,7 +290,7 @@ export const serviceBlocks = [
     outcomes: 'Clarity of identity, sharpened strategy, sustained development',
     idealFor: 'Professionals aged 18–45, executives, organisational leaders',
     cta: 'Begin Coaching →',
-    img: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80',
+    img: coaching,
   },
   {
     title: 'Workshops & Training',
@@ -294,7 +298,7 @@ export const serviceBlocks = [
     outcomes: 'Actionable frameworks, team alignment, leadership culture shift',
     idealFor: 'Corporate teams, student bodies, faith organisations',
     cta: 'Book a Workshop →',
-    img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80',
+    img: workshop,
   },
   {
     title: 'Organisational Advisory',
@@ -302,7 +306,7 @@ export const serviceBlocks = [
     outcomes: 'Cultural transformation, leadership infrastructure, structured development programs',
     idealFor: 'Corporates, NGOs, educational institutions, faith organisations',
     cta: 'Request Advisory →',
-    img: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&q=80',
+    img: organizationalAdvisory,
   },
 ]
 

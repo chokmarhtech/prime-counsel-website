@@ -12,7 +12,7 @@ import RichText from '@/components/RichText'
 import { generateMeta } from '@/utilities/generateMeta'
 import type { Media, Category, Blog } from '@/payload-types'
 import Layout from '@/components/frontend/layout/Layout'
-import { BlogCard } from '@/components/frontend/blog/blog-card'
+import { BlogCard } from '@/components/frontend/pages/blog/blog-card'
 import FadeIn from '@/components/frontend/FadeIn'
 
 export async function generateStaticParams() {

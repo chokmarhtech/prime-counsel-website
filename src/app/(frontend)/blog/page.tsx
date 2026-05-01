@@ -1,5 +1,5 @@
 import Layout from '@/components/frontend/layout/Layout'
-import { BlogHero, FeaturedPost, PostGrid } from '@/components/frontend/blog'
+import { BlogHero, FeaturedPost, PostGrid } from '@/components/frontend/pages/blog'
 
 export default function BlogPage() {
   return (

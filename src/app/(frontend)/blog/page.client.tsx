@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import type { Blog, Category } from '@/payload-types'
-import { BlogCard } from '@/components/frontend/blog/blog-card'
+import { BlogCard } from '@/components/frontend/pages/blog/blog-card'
 import FadeIn from '@/components/frontend/FadeIn'
 
 type Props = {
