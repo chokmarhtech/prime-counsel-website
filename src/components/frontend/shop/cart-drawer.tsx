@@ -194,7 +194,7 @@ export const CartDrawer = () => {
             {view === 'cart' ? (
               <button 
                 onClick={() => setView('checkout')}
-                className="w-full btn-navy py-4 text-sm font-bold uppercase tracking-widest shadow-xl flex justify-between items-center px-6"
+                className="w-full bg-foreground text-background py-4 text-sm font-bold uppercase tracking-widest shadow-xl flex justify-between items-center px-6"
               >
                 <span>Proceed To Checkout</span>
                 <ChevronRight className="w-5 h-5" />

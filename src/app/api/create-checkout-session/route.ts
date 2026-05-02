@@ -27,7 +27,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 })
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+    const siteUrl = process.env.NEXT_PUBLIC_APP_URL 
+      || process.env.NEXT_PUBLIC_SERVER_URL 
+      || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',

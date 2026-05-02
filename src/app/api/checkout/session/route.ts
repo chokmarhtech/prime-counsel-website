@@ -23,6 +23,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid product" }, { status: 400 })
     }
 
+    const siteUrl = process.env.NEXT_PUBLIC_APP_URL 
+      || process.env.NEXT_PUBLIC_SERVER_URL 
+      || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
@@ -44,8 +48,8 @@ export async function POST(req: Request) {
         productTitle: product.title,
         productType: product.type,
       },
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/mentorship/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/shop/${product.slug}`,
+      success_url: `${siteUrl}/mentorship/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${siteUrl}/shop/${product.slug}`,
     })
 
     return NextResponse.json({ url: session.url })
