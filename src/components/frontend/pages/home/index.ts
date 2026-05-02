@@ -6,7 +6,7 @@ import AskPrimeSection from './AskPrimeSection'
 import TrustedOrganisations from './TrustedOrganisations'
 import MeetCoach from './meet-coach'
 import PillarSection from './pillar-section'
-import Testimonials from './testimonials' 
+import Testimonials from './testimonials-server' 
 import HomeBlogPreview from './home-blog-preview'
 import Statistics from './statistics'
 

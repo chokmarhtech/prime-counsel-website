@@ -46,13 +46,11 @@ const Brands = () => {
         <div className="">
             <Slider {...settings}>
                 {clientsLogo.map((items) => (
-                        <div key={items.id} className="flex items-center">
+                        <div key={items.id} className="flex h-16 items-center justify-center px-4">
                             <Image
                                 src={items.logo}
-                                width={200}
-                                height={20}
-                                alt="client-images"
-                                className=""
+                                alt={`client-image-${items.id}`}
+                                className="max-h-12 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300"
                             />
                         </div>
                     ))}

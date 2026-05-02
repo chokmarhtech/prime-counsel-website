@@ -36,7 +36,7 @@ const HeroSection = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button variant="hero" size="lg" asChild>
-              <Link href="/services">Explore Our Services</Link>
+              <Link href="/shop">Explore Our Services</Link>
             </Button>
             <Button variant="hero-outline" size="lg" asChild>
               <Link href="/contact">SPM 3.0 Masterclass</Link>

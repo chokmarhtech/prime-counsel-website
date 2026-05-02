@@ -41,4 +41,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     creator: '@primecounsel',
   },
+  other: {
+    'color-scheme': 'light',
+  },
 }

@@ -53,13 +53,13 @@ const ServicesOverview = () => (
                       asChild
                       className="w-full bg-transparent hover:bg-secondary/10 border border-secondary shadow-none uppercase text-accent-blue font-body text-[10px] sm:text-xs h-10 px-2"
                     >
-                      <Link href="https://selfany.com/K5VUJ1B4IJ" target='_blank'>One-to-One Coaching</Link>
+                      <Link href="/shop/one-on-one-mentorship-counselling" target='_blank'>One-to-One Coaching</Link>
                     </Button>
                     <Button
                       asChild
                       className="w-full bg-transparent hover:bg-secondary/10 border border-secondary shadow-none uppercase text-accent-blue font-body text-[10px] sm:text-xs h-10 px-2"
                     >
-                      <Link href="https://selfany.com/DX03KFT8RC" target='_blank'>Vision Clarity Intensive</Link>
+                      <Link href="/shop/vision-clarity-call" target='_blank'>Vision Clarity Intensive</Link>
                     </Button>
                   </div>
                 ) : (

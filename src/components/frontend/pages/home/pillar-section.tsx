@@ -12,7 +12,6 @@ const PillarSection = () => {
           <FadeIn>
             <p className="section-label">Our Model</p>
             <h2 className="heading-lg mb-8">OUR LEADERSHIP ARCHITECTURE</h2>
-            <Link href="/contact" className="btn-gold">Schedule a Free Consultation</Link>
           </FadeIn>
         </div>
         <div className="lg:col-span-2 grid sm:grid-cols-2 gap-4">

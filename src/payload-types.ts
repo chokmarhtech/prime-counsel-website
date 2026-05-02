@@ -368,10 +368,24 @@ export interface User {
 export interface Testimonial {
   id: number;
   clientName: string;
-  role?: string | null;
-  company?: string | null;
+  /**
+   * e.g. "United Kingdom", "Nigeria"
+   */
+  location?: string | null;
+  /**
+   * e.g. "Vision Clarity Call", "One-to-One Mentorship"
+   */
+  programme: string;
   quote: string;
+  /**
+   * Featured testimonials are highlighted with a different style.
+   */
+  featured?: boolean | null;
   rating?: number | null;
+  /**
+   * Lower numbers appear first. Use this to control display order.
+   */
+  sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1023,10 +1037,12 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface TestimonialsSelect<T extends boolean = true> {
   clientName?: T;
-  role?: T;
-  company?: T;
+  location?: T;
+  programme?: T;
   quote?: T;
+  featured?: T;
   rating?: T;
+  sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }

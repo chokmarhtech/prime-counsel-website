@@ -1,10 +1,18 @@
 "use client"
 
-import { testimonials } from '@/constants'
 import React, { useState } from 'react'
 import Slider from 'react-slick'
 
-function TestimonialCard({ t, index }: { t: { name: string; location?: string; programme: string; text: string; featured?: boolean }; index: number }) {
+export interface TestimonialData {
+  id?: string | number
+  name: string
+  location?: string
+  programme: string
+  text: string
+  featured?: boolean
+}
+
+function TestimonialCard({ t, index }: { t: TestimonialData; index: number }) {
   const [expanded, setExpanded] = useState(false)
   const isOdd = index % 2 === 0 // 0, 2, 4 mapped to odd 1st, 3rd, 5th items
 
@@ -57,13 +65,15 @@ function TestimonialCard({ t, index }: { t: { name: string; location?: string; p
   )
 }
 
+interface TestimonialsSliderProps {
+  testimonials: TestimonialData[]
+}
 
-function TestimonialsSlider() {
+function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
   const settings = {
     infinite: true,
     centerPadding: '60px',
     slidesToShow: 1,
-    // slidesToScroll: 2,
     speed: 500,
     dots: true,
     autoplay: true,
@@ -103,6 +113,15 @@ function TestimonialsSlider() {
       },
     ],
   }
+
+  if (!testimonials || testimonials.length === 0) {
+    return (
+      <div className="container-narrow mx-auto text-center py-12">
+        <p className="font-body text-muted-foreground">No testimonials available yet.</p>
+      </div>
+    )
+  }
+
   return (
     <div
       className="slider-container container-narrow mx-auto pb-10 px-0 md:px-4 gap-12
@@ -114,7 +133,7 @@ function TestimonialsSlider() {
     >
       <Slider {...settings}>
         {testimonials.map((t, index) => (
-          <div key={t.name} className="px-3 outline-none h-full">
+          <div key={t.id ?? t.name} className="px-3 outline-none h-full">
             <TestimonialCard t={t} index={index} />
           </div>
         ))}
