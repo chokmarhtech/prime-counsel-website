@@ -41,10 +41,6 @@ const OurTeam = () => {
             <h2 className="font-heading text-3xl md:text-5xl text-primary-foreground mb-6">
               The People Behind the <span className="text-gold">Mission</span>
             </h2>
-            <p className="font-body text-primary-foreground/70 text-lg leading-relaxed">
-              To be the world&apos;s most trusted institution for leadership development — producing
-              leaders who are visionary, ethically grounded, and globally positioned.
-            </p>
           </div>
         </FadeIn>
 

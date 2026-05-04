@@ -50,7 +50,7 @@ const Brands = () => {
                             <Image
                                 src={items.logo}
                                 alt={`client-image-${items.id}`}
-                                className="max-h-12 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                                className="max-h-12 w-auto object-contain transition-all duration-300"
                             />
                         </div>
                     ))}
