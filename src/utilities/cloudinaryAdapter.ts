@@ -1,5 +1,5 @@
 import { Adapter, GeneratedAdapter } from '@payloadcms/plugin-cloud-storage/types'
-import path from 'path'
+import fs from 'fs'
 
 interface CloudinaryConfig {
   cloud_name: string
@@ -26,15 +26,25 @@ export const cloudinaryAdapter = (config: CloudinaryConfig): Adapter => {
       handleUpload: async ({ file, data }) => {
         const cloudinary = await getCloudinaryInstance(config)
 
-        if (!file.buffer || file.buffer.length === 0) {
-          throw new Error('[Cloudinary] file.buffer is empty or undefined')
+        let fileBuffer = file.buffer
+        if (!fileBuffer || fileBuffer.length === 0) {
+          if (file.tempFilePath) {
+            fileBuffer = await fs.promises.readFile(file.tempFilePath)
+          } else {
+            throw new Error('[Cloudinary] file.buffer is empty and tempFilePath is missing')
+          }
         }
 
-        const folder = data?.section ? `${prefix ? `${prefix}/` : ''}${data.section}` : prefix
-        const publicId = path.parse(file.filename).name
-
+        const docPrefix = data?.prefix || data?.section || ''
+        const folder = docPrefix ? `${prefix ? `${prefix}/` : ''}${docPrefix}` : prefix
+        
+        // Cloudinary expects the public_id WITHOUT the extension
+        // It automatically appends the format to the URL later.
+        const lastDotIndex = file.filename.lastIndexOf('.')
+        const publicId = lastDotIndex !== -1 ? file.filename.substring(0, lastDotIndex) : file.filename
+        
         // Use data URI upload instead of streams — streams don't work in the RSC webpack context
-        const dataURI = `data:${file.mimeType};base64,${file.buffer.toString('base64')}`
+        const dataURI = `data:${file.mimeType};base64,${fileBuffer.toString('base64')}`
 
         const result = await cloudinary.uploader.upload(dataURI, {
           public_id: publicId,
@@ -51,7 +61,8 @@ export const cloudinaryAdapter = (config: CloudinaryConfig): Adapter => {
 
         const docWithPrefix = doc as { prefix?: string }
         const folder = docWithPrefix?.prefix || prefix
-        const publicId = path.parse(filename).name
+        const lastDotIndex = filename.lastIndexOf('.')
+        const publicId = lastDotIndex !== -1 ? filename.substring(0, lastDotIndex) : filename
         const fullPublicId = folder ? `${folder}/${publicId}` : publicId
 
         try {

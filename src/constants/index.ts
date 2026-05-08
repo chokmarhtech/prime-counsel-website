@@ -28,6 +28,7 @@ export const navLinks: {
 }[] = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
+  { label: 'Shop', path: '/shop' },
   { label: 'Services', path: '/services' },
   {
     label: 'Events',
@@ -38,7 +39,6 @@ export const navLinks: {
       { label: 'SPM 3', path: '/events/spm-3' },
     ],
   },
-  { label: 'Shop', path: '/shop' },
   { label: 'Blog', path: '/blog' },
   { label: 'Contact', path: '/contact' },
 ]

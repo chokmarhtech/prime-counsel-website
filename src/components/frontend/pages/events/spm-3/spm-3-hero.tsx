@@ -13,11 +13,11 @@ const Spm3Hero = () => {
           <div className="flex flex-wrap gap-6 mt-8 font-body text-sm text-primary-foreground/70">
             <span className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-secondary" />
-              December, 2026
+              November, 2026
             </span>
             <span className="flex items-center gap-2">
               <MapPin className="w-4 h-4 text-secondary" />
-              Coming Soon
+              Birmingham, United Kingdom
             </span>
             <span className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-secondary" />
