@@ -25,6 +25,15 @@ export const Media: CollectionConfig = {
   },
   fields: [
     {
+      name: 'prefix',
+      type: 'text',
+      label: 'Folder Name',
+      admin: {
+        position: 'sidebar',
+        description: 'Type a folder name to organize this image (e.g., blog, products). Leave blank for root.',
+      },
+    },
+    {
       name: 'alt',
       type: 'text',
       //required: true,

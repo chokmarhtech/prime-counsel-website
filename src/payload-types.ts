@@ -198,6 +198,10 @@ export interface Blog {
  */
 export interface Media {
   id: number;
+  /**
+   * Type a folder name to organize this image (e.g., blog, products). Leave blank for root.
+   */
+  prefix?: string | null;
   alt?: string | null;
   caption?: {
     root: {
@@ -433,7 +437,7 @@ export interface Product {
    */
   calendlyLink?: string | null;
   duration?: string | null;
-  location: 'Online' | 'In-Person' | 'Online / In-Person';
+  location?: ('Online' | 'In-Person' | 'Online / In-Person') | null;
   booking?: string | null;
   meta?: {
     title?: string | null;
@@ -899,6 +903,7 @@ export interface BlogSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  prefix?: T;
   alt?: T;
   caption?: T;
   folder?: T;

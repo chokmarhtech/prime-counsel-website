@@ -147,6 +147,7 @@ export const Products: CollectionConfig = {
               type: 'text',
               label: 'Calendly Link',
               admin: {
+                condition: (data) => data.type === 'session',
                 description: 'Optional. Override the global Calendly link for this specific product.',
               },
             },
@@ -155,6 +156,9 @@ export const Products: CollectionConfig = {
               type: 'text',
               label: 'Duration',
               defaultValue: 'Tailored',
+              admin: {
+                condition: (data) => data.type === 'session',
+              },
             },
             {
               name: 'location',
@@ -167,12 +171,18 @@ export const Products: CollectionConfig = {
                     { label: 'Online / In-Person', value: 'Online / In-Person' },
                 ],  
                 required: true,
+              admin: {
+                condition: (data) => data.type === 'session',
+              },
             },
             {
               name: 'booking',
               type: 'text',
               label: 'Booking',
               defaultValue: 'Flexible',
+              admin: {
+                condition: (data) => data.type === 'session',
+              },
             },
           ],
         },

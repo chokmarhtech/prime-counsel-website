@@ -21,7 +21,7 @@ const Spm3Waitlist = () => {
         <div className="flex flex-col sm:flex-row items-center gap-6 text-sm text-primary-foreground/70 mb-8 font-body">
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-gold" />
-            <span className="font-semibold text-primary/40">December 2026</span>
+            <span className="font-semibold text-primary/40">November 2026</span>
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-gold" />

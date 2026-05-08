@@ -23,7 +23,7 @@ const events: Record<
     slug: 'spm-1',
     title: 'Strategic Positioning Masterclass',
     subtitle: 'SPM 1.0',
-    date: 'February 2024',
+    date: 'December 2025',
     location: 'Birmingham, United Kingdom',
     time: '10:00 AM – 5:00 PM',
     capacity: '100 Attendees',
@@ -45,7 +45,7 @@ const events: Record<
     date: '25th April, 2026',
     location: 'Luton, United Kingdom',
     time: '10am – 4pm',
-    capacity: 'Limited Seats',
+    capacity: '',
     description:
       'SPM 2.0 builds on the foundation of the inaugural masterclass — deeper, more structured, and designed for leaders ready to move from visibility to lasting impact. If SPM 1.0 was the ignition, SPM 2.0 is the engine.',
     highlights: [
