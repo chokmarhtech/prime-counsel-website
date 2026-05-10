@@ -39,6 +39,8 @@ export async function POST(req: Request) {
     console.log(`Payment confirmed for: ${session.metadata?.productSlug} by ${customerEmail}`)
 
     if (productId && customerEmail) {
+      const parsedProductId = Number(productId)
+      
       try {
         const payload = await getPayload({ config: configPromise })
         
@@ -47,7 +49,7 @@ export async function POST(req: Request) {
           collection: 'orders',
           data: {
             stripeSessionId: session.id,
-            product: productId,
+            product: parsedProductId,
             customerEmail: customerEmail,
             isDownloaded: false,
           },
@@ -57,7 +59,7 @@ export async function POST(req: Request) {
         if (productType === 'digital' || productType === 'book') {
           const product = await payload.findByID({
             collection: 'products',
-            id: productId,
+            id: parsedProductId,
             depth: 0,
           })
 
