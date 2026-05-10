@@ -73,6 +73,8 @@ export interface Config {
     users: User;
     testimonials: Testimonial;
     products: Product;
+    'digital-assets': DigitalAsset;
+    orders: Order;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -95,6 +97,8 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
+    'digital-assets': DigitalAssetsSelect<false> | DigitalAssetsSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -439,6 +443,10 @@ export interface Product {
   duration?: string | null;
   location?: ('Online' | 'In-Person' | 'Online / In-Person') | null;
   booking?: string | null;
+  /**
+   * The private, secure file that will be sent to the customer after purchase.
+   */
+  digitalFile?: (number | null) | DigitalAsset;
   meta?: {
     title?: string | null;
     /**
@@ -456,6 +464,50 @@ export interface Product {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * Private digital files attached to products. These files are securely stored and only accessible via unique, single-use download links.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "digital-assets".
+ */
+export interface DigitalAsset {
+  id: number;
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * Tracks customer purchases and manages single-use download tokens.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  stripeSessionId: string;
+  product: number | Product;
+  customerEmail: string;
+  /**
+   * The secure token used for the download link. Generated automatically.
+   */
+  downloadToken?: string | null;
+  /**
+   * Whether the customer has used their single-use download link yet.
+   */
+  isDownloaded?: boolean | null;
+  downloadedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -810,6 +862,14 @@ export interface PayloadLockedDocument {
         value: number | Product;
       } | null)
     | ({
+        relationTo: 'digital-assets';
+        value: number | DigitalAsset;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: number | Order;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1076,6 +1136,7 @@ export interface ProductsSelect<T extends boolean = true> {
   duration?: T;
   location?: T;
   booking?: T;
+  digitalFile?: T;
   meta?:
     | T
     | {
@@ -1089,6 +1150,38 @@ export interface ProductsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "digital-assets_select".
+ */
+export interface DigitalAssetsSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  stripeSessionId?: T;
+  product?: T;
+  customerEmail?: T;
+  downloadToken?: T;
+  isDownloaded?: T;
+  downloadedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

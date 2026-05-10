@@ -184,6 +184,15 @@ export const Products: CollectionConfig = {
                 condition: (data) => data.type === 'session',
               },
             },
+            {
+              name: 'digitalFile',
+              type: 'relationship',
+              relationTo: 'digital-assets',
+              admin: {
+                condition: (data) => data.type === 'digital' || data.type === 'book',
+                description: 'The private, secure file that will be sent to the customer after purchase.',
+              },
+            },
           ],
         },
         {
