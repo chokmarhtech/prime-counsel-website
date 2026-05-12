@@ -37,6 +37,7 @@ export const navLinks: {
       { label: 'SPM 1', path: '/events/spm-1' },
       { label: 'SPM 2', path: '/events/spm-2' },
       { label: 'SPM 3', path: '/events/spm-3' },
+      { label: 'Other Events', path: '/events/other-events' },
     ],
   },
   { label: 'Blog', path: '/blog' },
