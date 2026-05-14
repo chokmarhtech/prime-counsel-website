@@ -2,6 +2,20 @@ import React from 'react'
 import Layout from '@/components/frontend/layout/Layout'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import AnimatedSection from '@/components/frontend/spm/sections/AnimatedSection'
+import Image from 'next/image'
+
+import img01 from '@/assets/images/events/other-events/01.jpeg'
+import img02 from '@/assets/images/events/other-events/02.jpeg'
+import img03 from '@/assets/images/events/other-events/03.jpeg'
+import img04 from '@/assets/images/events/other-events/04.jpeg'
+
+const otherEventImages = [
+  { src: img01, alt: 'Monthly & Weekly Event Highlight 1' },
+  { src: img02, alt: 'Monthly & Weekly Event Highlight 2' },
+  { src: img03, alt: 'Monthly & Weekly Event Highlight 3' },
+  { src: img04, alt: 'Monthly & Weekly Event Highlight 4' },
+]
 
 const OtherEventsPage = () => {
   return (
@@ -26,6 +40,26 @@ const OtherEventsPage = () => {
                 <span className="text-secondary font-bold">Monthly </span>and{' '}
                 <span className="text-secondary font-bold">Weekly</span> Basis.
               </p>
+            </div>
+
+            <div>
+              <h2 className="font-heading text-2xl text-navy mb-6">Images From These Events</h2>
+              <div className="my-8">
+                <AnimatedSection delay={0.5}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {otherEventImages.map((img, index) => (
+                      <div key={index} className="rounded-xl overflow-hidden shadow-lg hover:scale-[1.02] transition-transform duration-300">
+                        <Image
+                          src={img.src}
+                          alt={img.alt}
+                          className="w-full h-auto object-contain"
+                          placeholder="blur"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </AnimatedSection>
+              </div>
             </div>
           </div>
 
