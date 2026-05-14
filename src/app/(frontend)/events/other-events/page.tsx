@@ -9,6 +9,7 @@ import img01 from '@/assets/images/events/other-events/01.jpeg'
 import img02 from '@/assets/images/events/other-events/02.jpeg'
 import img03 from '@/assets/images/events/other-events/03.jpeg'
 import img04 from '@/assets/images/events/other-events/04.jpeg'
+import { FaYoutube } from 'react-icons/fa'
 
 const otherEventImages = [
   { src: img01, alt: 'Monthly & Weekly Event Highlight 1' },
@@ -25,7 +26,7 @@ const OtherEventsPage = () => {
         <div className="container-narrow px-4">
           <p className="section-label text-primary-foreground/60 mb-4">OTHER EVENTS</p>
           <h1 className="font-heading text-4xl md:text-6xl text-primary-foreground mb-4 leading-tight">
-            OTHER EVENTS WITH PRIME COUNSEL
+            THE PRIME COUNSEL EXPERIENCE
           </h1>
         </div>
       </section>
@@ -36,9 +37,16 @@ const OtherEventsPage = () => {
             <div>
               <h2 className="font-heading text-2xl text-navy mb-4">ABOUT THIS EVENT</h2>
               <p className="font-body text-base text-muted-foreground leading-relaxed">
-                This is a collection of other events with Prime Counsel that Happens on a{' '}
-                <span className="text-secondary font-bold">Monthly </span>and{' '}
-                <span className="text-secondary font-bold">Weekly</span> Basis.
+                Events, Conversations & Leadership Gatherings Prime Counsel hosts a range of
+                recurring leadership, mentorship, and development experiences designed to foster
+                growth, strategic thinking, and meaningful community engagement.
+              </p>
+              <p className="font-body text-base text-muted-foreground leading-relaxed mt-4">
+                Beyond our flagship programmes and masterclasses, these sessions create ongoing
+                opportunities for learning, reflection, networking, and transformational dialogue
+                within the Prime Counsel ecosystem. Our monthly and weekly gatherings bring together
+                students, emerging professionals, leaders, and growth-minded individuals committed to
+                intentional development and purposeful living.
               </p>
             </div>
 
@@ -48,7 +56,10 @@ const OtherEventsPage = () => {
                 <AnimatedSection delay={0.5}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {otherEventImages.map((img, index) => (
-                      <div key={index} className="rounded-xl overflow-hidden shadow-lg hover:scale-[1.02] transition-transform duration-300">
+                      <div
+                        key={index}
+                        className="rounded-xl overflow-hidden shadow-lg hover:scale-[1.02] transition-transform duration-300"
+                      >
                         <Image
                           src={img.src}
                           alt={img.alt}
@@ -60,6 +71,20 @@ const OtherEventsPage = () => {
                   </div>
                 </AnimatedSection>
               </div>
+            </div>
+
+            <div>
+                <h2 className="font-heading text-2xl text-navy mb-4">Watch Previous Replays On Youtube</h2>
+                <Link
+                      href={"https://youtube.com/@primecounsel"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=" bg-red-800 py-3.5 w-full text-center flex items-center gap-4 justify-center rounded-full hover:bg-red-700 transition-colors"
+                      aria-label="YouTube"
+                    >
+                      <FaYoutube className="w-8 h-8 text-white transition-colors" />
+                      <span className="font-body text-xl font-medium text-white transition-all">Visit our Youtube Channel</span>
+                    </Link>
             </div>
           </div>
 
