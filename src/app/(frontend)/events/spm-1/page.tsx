@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react'
 import AnimatedSection from '@/components/frontend/spm/sections/AnimatedSection'
 import EventImageSlider from '@/components/frontend/pages/events/event-image-slider'
-import EventVideoGallery from '@/components/frontend/pages/events/event-video-gallery'
+// import EventVideoGallery from '@/components/frontend/pages/events/event-video-gallery'
 
 import image1 from '@/assets/images/events/spm1/image-1.png'
 import image2 from '@/assets/images/events/spm1/image-2.png'
@@ -15,9 +15,9 @@ const spm1Images = [
   { src: image3, alt: 'SPM 1.0 Highlights 3' },
 ]
 
-const spm1Videos = [
-  { url: 'https://vimeo.com/501958307', title: 'SPM 1.0 Recap' },
-]
+// const spm1Videos = [
+//   { url: 'https://vimeo.com/501958307', title: 'SPM 1.0 Recap' },
+// ]
 
 export default function SPM1Page() {
   return (
@@ -69,12 +69,12 @@ export default function SPM1Page() {
               </div>
             </div>
             <div>
-              <h2 className="font-heading text-2xl text-navy mb-6">Videos From The Event</h2>
+              {/* <h2 className="font-heading text-2xl text-navy mb-6">Videos From The Event</h2>
               <div className="my-8">
                 <AnimatedSection delay={0.7}>
                   <EventVideoGallery videos={spm1Videos} />
                 </AnimatedSection>
-              </div>
+              </div> */}
             </div>
           </div>
 
