@@ -47,6 +47,7 @@ export async function POST(req: Request) {
         productId: String(product.id),
         productTitle: product.title,
         productType: product.type,
+        productSlug: product.slug,
       },
       success_url: `${siteUrl}/mentorship/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/shop/${product.slug}`,

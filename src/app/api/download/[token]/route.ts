@@ -54,20 +54,46 @@ export async function GET(
       return new NextResponse('Digital file not found for this product.', { status: 404 })
     }
 
-    // 4. Construct the absolute path to the secure file
-    // Note: This relies on the staticDir configured in DigitalAssets ('../private-assets')
-    // We resolve relative to the payload root directory.
-    const filePath = path.resolve(process.cwd(), 'private-assets', digitalFile.filename)
-
-    if (!fs.existsSync(filePath)) {
-      console.error(`Secure file not found at path: ${filePath}`)
-      return new NextResponse('File missing on server.', { status: 500 })
+    // 4. Generate the Cloudinary private download URL (bypasses ACL restrictions)
+    if (!digitalFile.filename) {
+      console.error('Digital file URL is missing')
+      return new NextResponse('File URL missing on server.', { status: 500 })
     }
 
-    // 5. Read the file
-    const fileBuffer = fs.readFileSync(filePath)
+    const { v2: cloudinary } = await import('cloudinary')
 
-    // 6. Mark the token as used so it can NEVER be used again
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+      secure: true
+    })
+
+    const isZip = digitalFile.filename.endsWith('.zip') || digitalFile.filename.endsWith('.rar')
+    const resourceType = isZip ? 'raw' : 'image'
+    
+    // Extract publicId (filename without extension) and format
+    const lastDot = digitalFile.filename.lastIndexOf('.')
+    const publicId = lastDot !== -1 ? digitalFile.filename.substring(0, lastDot) : digitalFile.filename
+    const format = lastDot !== -1 ? digitalFile.filename.substring(lastDot + 1) : ''
+
+    const privateUrl = cloudinary.utils.private_download_url(publicId, format, {
+      resource_type: resourceType,
+      type: 'upload',
+      attachment: true
+    })
+
+    const fileResponse = await fetch(privateUrl)
+    
+    if (!fileResponse.ok) {
+      console.error(`Failed to fetch secure file from Cloudinary (Status: ${fileResponse.status})`)
+      return new NextResponse('Error retrieving the file from secure storage.', { status: 500 })
+    }
+
+    // Read as arrayBuffer
+    const fileBuffer = await fileResponse.arrayBuffer()
+
+    // 5. Mark the token as used so it can NEVER be used again
     await payload.update({
       collection: 'orders',
       id: order.id,
@@ -79,11 +105,19 @@ export async function GET(
 
     console.log(`Fulfilled digital download for order ${order.id} (Token: ${token})`)
 
-    // 7. Send the file to the user's browser as a direct download
+    // Determine a professional filename for the download instead of the encrypted string
+    let downloadFilename = digitalFile.filename
+    if (product && product.title) {
+      // e.g. "Prime Counsel Personal Development Guide" -> "prime_counsel_personal_development_guide"
+      const cleanTitle = product.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()
+      downloadFilename = `${cleanTitle}.${format}`
+    }
+
+    // 6. Send the file to the user's browser as a direct download
     return new NextResponse(fileBuffer, {
       headers: {
         'Content-Type': digitalFile.mimeType || 'application/pdf',
-        'Content-Disposition': `attachment; filename="${digitalFile.filename}"`,
+        'Content-Disposition': `attachment; filename="${downloadFilename}"`,
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
         'Pragma': 'no-cache',
         'Expires': '0',
