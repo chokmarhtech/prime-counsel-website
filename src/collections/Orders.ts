@@ -32,7 +32,6 @@ export const Orders: CollectionConfig = {
       name: 'stripeSessionId',
       type: 'text',
       required: true,
-      unique: true,
       index: true,
       admin: {
         readOnly: true,

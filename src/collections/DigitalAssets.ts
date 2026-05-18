@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import crypto from 'crypto'
 
 export const DigitalAssets: CollectionConfig = {
   slug: 'digital-assets',
@@ -14,14 +15,26 @@ export const DigitalAssets: CollectionConfig = {
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),
   },
+  hooks: {
+    beforeOperation: [
+      ({ req, args, operation }) => {
+        // Automatically rename uploaded digital files to a 64-character encrypted string
+        // to prevent anyone from guessing the Cloudinary URL.
+        if (operation === 'create' && req.file) {
+          const file = req.file
+          const ext = file.name.includes('.') ? file.name.substring(file.name.lastIndexOf('.')) : ''
+          const randomName = crypto.randomBytes(32).toString('hex')
+          file.name = `${randomName}${ext}`
+        }
+        return args
+      },
+    ],
+  },
   upload: {
-    // We intentionally do NOT use cloud storage for this. We want it local and secure.
-    // Ensure this folder exists or Payload will create it
-    staticDir: '../private-assets',
-    // Disable automatic public URL generation
-    disableLocalStorage: false, 
+    // We use cloud storage because Vercel deletes local files.
+    disableLocalStorage: true, 
     // Only allow specific file types like PDFs or zip files
-    mimeTypes: ['application/pdf', 'application/zip', 'application/x-zip-compressed'],
+    mimeTypes: ['application/pdf', 'application/zip', 'application/x-zip-compressed', 'application/rar'],
   },
   fields: [
     {

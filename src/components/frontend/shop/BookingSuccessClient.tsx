@@ -55,11 +55,11 @@ export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClien
               <CheckCircle2 className="w-8 h-8 text-gold" />
             </div>
             <h1 className="font-heading text-4xl md:text-5xl text-navy uppercase tracking-wider mb-4">
-              {isSession ? 'Payment Confirmed' : 'Purchase Complete'}
+              {isSession ? 'Payment Successful' : 'Purchase Complete'}
             </h1>
             <p className="font-body text-navy/70 text-lg max-w-lg mx-auto leading-relaxed">
               {isSession
-                ? 'Your session has been successfully secured. Please select a time below that aligns with your availability.'
+                ? 'Your session has been successfully booked. Check your Email for a scheduling link from Prime Counsel to select a time.'
                 : 'Thank you for your purchase. Your order has been securely processed.'}
             </p>
           </motion.div>
@@ -108,6 +108,15 @@ export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClien
                 </div>
               )}
 
+              {isSession && (
+                <div className="flex items-start gap-4 bg-surface p-6 rounded-xl mt-2">
+                  <Clock className="w-6 h-6 text-gold shrink-0" />
+                  <p className="font-body text-sm text-navy/80 leading-relaxed">
+                    We have successfully processed your payment. A receipt and your personalized scheduling link have been sent to your email. Please check your inbox to select your session time.
+                  </p>
+                </div>
+              )}
+
               {(isBook || isDigital) && (
                 <div className="flex items-start gap-4 bg-surface p-6 rounded-xl mt-2">
                   {isBook ? <BookOpen className="w-6 h-6 text-gold shrink-0" /> : <Download className="w-6 h-6 text-gold shrink-0" />}
@@ -121,40 +130,11 @@ export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClien
             </motion.div>
           )}
 
-          {/* Section 3: Calendly Embed (Only for sessions) */}
-          {isSession && calendlyUrl && (
-            <motion.div variants={itemVariants} className="bg-white rounded-2xl border border-border/40 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-              <div className="bg-navy p-6 text-center">
-                <h3 className="font-heading text-xl text-white uppercase tracking-wider">
-                  Select Your Time
-                </h3>
-              </div>
-              <div className="w-full h-[750px] relative bg-white">
-                <iframe
-                  src={calendlyUrl}
-                  width="100%"
-                  height="100%"
-                  frameBorder="0"
-                  className="absolute inset-0"
-                  title="Schedule your session with Prime Counsel"
-                />
-              </div>
-            </motion.div>
-          )}
-
-          {/* Fallback if Calendly URL is missing */}
-          {isSession && !calendlyUrl && (
-            <motion.div variants={itemVariants} className="bg-white rounded-2xl border border-border/40 p-8 text-center shadow-sm">
-              <p className="text-navy font-body mb-4">Your payment was successful, but the scheduling link is currently unavailable.</p>
-              <p className="text-sm text-muted-foreground">Our team will reach out to you via email shortly to schedule your session.</p>
-            </motion.div>
-          )}
-
           {/* Navigation & Metadata */}
           <motion.div variants={itemVariants} className="flex flex-col items-center pt-8 border-t border-border/40">
             <Link
               href="/shop"
-              className="btn-navy inline-flex items-center gap-2 py-4 px-8 text-xs font-bold uppercase tracking-widest shadow-lg hover:-translate-y-0.5 transition-all mb-8"
+              className="bg-navy text-white inline-flex items-center gap-2 py-4 px-8 text-xs font-bold uppercase tracking-widest shadow-lg hover:-translate-y-0.5 transition-all mb-8"
             >
               Return to Shop
               <ArrowRight className="w-4 h-4" />

@@ -105,7 +105,26 @@ export default buildConfig({
             const folder = prefix || ''
             const publicId = folder ? `${folder}/${filename}` : filename
             const cloudName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || ''
-            return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}`
+            const isRaw = filename.endsWith('.zip') || filename.endsWith('.rar')
+            const resourceType = isRaw ? 'raw' : 'image'
+            return `https://res.cloudinary.com/${cloudName}/${resourceType}/upload/${publicId}`
+          },
+        },
+        'digital-assets': {
+          adapter: cloudinaryAdapter({
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '',
+            api_key: process.env.CLOUDINARY_API_KEY || '',
+            api_secret: process.env.CLOUDINARY_API_SECRET || '',
+          }),
+          disablePayloadAccessControl: true,
+          generateFileURL: ({ filename, prefix }) => {
+            if (!filename) return ''
+            const folder = prefix || '' // Use root if prefix isn't explicitly set by adapter
+            const publicId = folder ? `${folder}/${filename}` : filename
+            const cloudName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || ''
+            const isRaw = filename.endsWith('.zip') || filename.endsWith('.rar')
+            const resourceType = isRaw ? 'raw' : 'image'
+            return `https://res.cloudinary.com/${cloudName}/${resourceType}/upload/${publicId}`
           },
         },
       },

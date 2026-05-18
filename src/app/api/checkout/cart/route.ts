@@ -60,7 +60,11 @@ export async function POST(req: Request) {
       line_items,
       metadata: {
         isCart: 'true',
-        primarySessionId, // Will be empty string if no session is in the cart
+        productIds: JSON.stringify(items.map((i: any) => i.id)),
+        productId: primarySessionId,
+        productType: primarySessionId ? 'session' : 'cart',
+        primarySessionId,
+        productSlug: items.length === 1 ? items[0].slug : 'cart-checkout',
       },
       success_url: `${siteUrl}/mentorship/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/shop`,
