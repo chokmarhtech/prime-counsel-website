@@ -6,7 +6,7 @@ import crypto from 'crypto'
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 const ADMIN_EMAIL="gpsimi01@gmail.com"
-const SUPERADMIN_EMAIL="aghorunsegodspower@gmail.com"
+const SUPERADMIN_EMAIL="gpsimi02@gmail.com"
 const FROM_EMAIL="Prime Counsel <info@primecounsel.co.uk>"
 
 // Helper to format Calendly ISO date string into a readable format
