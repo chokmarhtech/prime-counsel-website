@@ -4,9 +4,9 @@ import { clientEmailHtml, adminEmailHtml } from '@/lib/email-templates'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'primecounsel5@gmail.com'
-const SUPERADMIN_EMAIL = process.env.SUPERADMIN_EMAIL || 'info@primecounsel.co.uk'
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'Prime Counsel <info@primecounsel.co.uk>'
+const ADMIN_EMAIL="gpsimi01@gmail.com"
+const SUPERADMIN_EMAIL="gpsimi02@gmail.com"
+const FROM_EMAIL="Prime Counsel <info@primecounsel.co.uk>"
 
 
 export async function POST(req: Request) {

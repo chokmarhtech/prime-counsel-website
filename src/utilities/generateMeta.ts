@@ -23,9 +23,14 @@ export const generateMeta = async (args: { doc: Partial<Blog | Product> | null }
 
   const ogImage = getImageURL(doc?.meta?.image)
 
-  const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Payload Website Template'
-    : 'Payload Website Template'
+  let rawTitle = 'Prime Counsel'
+  if (doc?.meta?.title) {
+    rawTitle = doc.meta.title
+  } else if (doc?.title) {
+    rawTitle = doc.title
+  }
+
+  const title = rawTitle !== 'Prime Counsel' ? `${rawTitle} | Prime Counsel` : 'Prime Counsel'
 
   return {
     description: doc?.meta?.description,
