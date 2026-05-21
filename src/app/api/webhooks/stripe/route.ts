@@ -5,8 +5,8 @@ import configPromise from '@payload-config'
 import { Resend } from 'resend'
 import { adminSessionEmailHtml, clientSessionEmailHtml, adminOrderEmailHtml, clientDownloadEmailHtml } from '@/lib/email-templates'
 
-const ADMIN_EMAIL="primecounsel5@gmail.com"
-const SUPERADMIN_EMAIL="info@primecounsel.co.uk"
+const ADMIN_EMAIL="gpsimi01@gmail.com"
+const SUPERADMIN_EMAIL="aghorunsegodspower@gmail.com"
 const FROM_EMAIL="Prime Counsel <info@primecounsel.co.uk>"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
