@@ -5,6 +5,8 @@ import configPromise from '@payload-config'
 import { Resend } from 'resend'
 import { adminSessionEmailHtml, clientSessionEmailHtml, adminOrderEmailHtml, clientDownloadEmailHtml } from '@/lib/email-templates'
 
+export const dynamic = 'force-dynamic' // Fix for Vercel App Router caching webhooks
+
 const ADMIN_EMAIL="primecounsel5@gmail.com"
 const SUPERADMIN_EMAIL="info@primecounsel.co.uk"
 const FROM_EMAIL="Prime Counsel <info@primecounsel.co.uk>"
@@ -17,8 +19,17 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: Request) {
   console.log('⚡ Webhook received! Processing...')
-  const body = await req.text()
-  const signature = req.headers.get('stripe-signature')!
+  
+  let body: string;
+  let signature: string;
+
+  try {
+    body = await req.text()
+    signature = req.headers.get('stripe-signature') || ''
+  } catch (err) {
+    console.error('❌ Failed to read request body or signature', err)
+    return NextResponse.json({ error: 'Bad request' }, { status: 400 })
+  }
 
   let event: Stripe.Event
 
@@ -27,11 +38,17 @@ export async function POST(req: Request) {
       console.log('🛠️ Dev Mode: Bypassing signature verification')
       event = JSON.parse(body) as Stripe.Event
     } else {
-      event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!)
+      // .trim() is crucial here because pasting the secret into Vercel often includes an invisible trailing space!
+      const secret = (process.env.STRIPE_WEBHOOK_SECRET || '').trim()
+      if (!secret) {
+        console.error('❌ STRIPE_WEBHOOK_SECRET is missing in Vercel environment variables!')
+        return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
+      }
+      event = stripe.webhooks.constructEvent(body, signature, secret)
     }
-  } catch (err) {
-    console.error('Webhook verification failed.', err)
-    return NextResponse.json({ error: 'Verification failed' }, { status: 400 })
+  } catch (err: any) {
+    console.error(`❌ Webhook signature verification failed: ${err.message}`)
+    return NextResponse.json({ error: `Verification failed: ${err.message}` }, { status: 400 })
   }
 
   if (event.type === 'checkout.session.completed') {
