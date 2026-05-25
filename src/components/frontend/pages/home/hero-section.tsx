@@ -39,7 +39,7 @@ const HeroSection = () => {
               <Link href="/shop">Explore Our Shop</Link>
             </Button>
             <Button variant="hero-outline" size="lg" asChild>
-              <Link href="/contact">SPM 3.0 Masterclass</Link>
+              <Link href="/events/spm-3">SPM 3.0 Masterclass</Link>
             </Button>
           </div>
         </motion.div>
