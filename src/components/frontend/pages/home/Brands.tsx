@@ -39,21 +39,31 @@ const Brands = () => {
                     infinite: true,
                 },
             },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: true,
+                },
+            },
         ],
     };
 
     return (
-        <div className="">
+        <div className="w-full overflow-hidden">
             <Slider {...settings}>
                 {clientsLogo.map((items) => (
-                        <div key={items.id} className="flex h-24 items-center justify-center px-6">
+                    <div key={items.id} className="outline-none">
+                        <div className="flex h-24 items-center justify-center px-2 md:px-6">
                             <Image
                                 src={items.logo}
                                 alt={`client-image-${items.id}`}
-                                className="max-h-12 md:max-h-14 w-auto max-w-[160px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+                                className="max-h-12 md:max-h-14 w-auto max-w-[160px] object-contain hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
                             />
                         </div>
-                    ))}
+                    </div>
+                ))}
             </Slider>
         </div>
     );
