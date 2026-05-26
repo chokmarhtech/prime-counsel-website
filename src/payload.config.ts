@@ -14,6 +14,7 @@ import { Testimonials } from './collections/Testimonials/index'
 import { Products } from './collections/Products'
 import { DigitalAssets } from './collections/DigitalAssets'
 import { Orders } from './collections/Orders'
+import { Waitlist } from './collections/Waitlist'
 
 import { Users } from './collections/Users'
 import { plugins } from './plugins'
@@ -80,7 +81,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Blog, Media, Categories, Users, Testimonials, Products, DigitalAssets, Orders],
+  collections: [Blog, Media, Categories, Users, Testimonials, Products, DigitalAssets, Orders, Waitlist],
   email: resendAdapter({
     defaultFromAddress: 'info@primecounsel.co.uk',
     defaultFromName: 'Prime Counsel Limited',

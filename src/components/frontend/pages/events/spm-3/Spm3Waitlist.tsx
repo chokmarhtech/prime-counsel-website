@@ -1,8 +1,41 @@
-import React from 'react'
-import { Calendar, MapPin, ArrowRight } from 'lucide-react'
+'use client'
+
+import React, { useState } from 'react'
+import { Calendar, MapPin, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const Spm3Waitlist = () => {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    setErrorMessage('')
+
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, event: 'SPM-3' }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Something went wrong')
+      }
+
+      setStatus('success')
+    } catch (err: any) {
+      console.error(err)
+      setStatus('error')
+      setErrorMessage(err.message || 'Failed to join the waitlist. Please try again.')
+    }
+  }
+
   return (
     <section className="py-24 bg-background">
       <div className="container-narrow mx-auto px-4 flex flex-col items-center text-center">
@@ -36,29 +69,58 @@ const Spm3Waitlist = () => {
           influence and global relevance.
         </p>
 
-        {/* Form */}
-        <form className="w-full max-w-[440px] flex flex-col gap-4">
-          <div className="relative">
-            <input 
-              type="text" 
-              placeholder="Your full name"
-              required
-              className="w-full border border-primary rounded-full px-4 py-3.5 text-sm text-primary placeholder:text-primary/60 font-body font-medium focus:outline-none focus:border-gold/50 transition-colors"
-            />
+        {/* Form or Success State */}
+        {status === 'success' ? (
+          <div className="w-full max-w-[440px] flex flex-col items-center p-8 border border-gold/30 rounded-3xl bg-gold/5">
+            <CheckCircle2 className="w-12 h-12 text-gold mb-4" />
+            <h3 className="font-heading text-2xl text-primary mb-2">You&apos;re on the list!</h3>
+            <p className="font-body text-primary/70 text-sm">
+              Thank you for registering your interest. We&apos;ll send you an exclusive update when tickets go live.
+            </p>
           </div>
-          <div className="relative">
-            <input 
-              type="email" 
-              placeholder="Your email address"
-              required
-              className="w-full border border-primary rounded-full px-4 py-3.5 text-sm text-primary placeholder:text-primary60 font-body font-medium focus:outline-none focus:border-gold/50 transition-colors"
-            />
-          </div>
-          
-          <Button variant="gold" className="w-full mt-2 h-12" type="submit">
-            Join the Waitlist <ArrowRight className="w-4 h-4 ml-1" />
-          </Button>
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit} className="w-full max-w-[440px] flex flex-col gap-4">
+            <div className="relative">
+              <input 
+                type="text" 
+                placeholder="Your full name"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={status === 'loading'}
+                className="w-full border border-primary rounded-full px-4 py-3.5 text-sm text-primary placeholder:text-primary/60 font-body font-medium focus:outline-none focus:border-gold/50 transition-colors disabled:opacity-50"
+              />
+            </div>
+            <div className="relative">
+              <input 
+                type="email" 
+                placeholder="Your email address"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={status === 'loading'}
+                className="w-full border border-primary rounded-full px-4 py-3.5 text-sm text-primary placeholder:text-primary/60 font-body font-medium focus:outline-none focus:border-gold/50 transition-colors disabled:opacity-50"
+              />
+            </div>
+            
+            {status === 'error' && (
+              <p className="text-red-500 text-xs font-body font-semibold">{errorMessage}</p>
+            )}
+
+            <Button variant="gold" className="w-full mt-2 h-12" type="submit" disabled={status === 'loading'}>
+              {status === 'loading' ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Joining...
+                </>
+              ) : (
+                <>
+                  Join the Waitlist <ArrowRight className="w-4 h-4 ml-1" />
+                </>
+              )}
+            </Button>
+          </form>
+        )}
       </div>
     </section>
   )

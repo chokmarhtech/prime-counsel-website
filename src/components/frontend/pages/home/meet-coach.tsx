@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import AnimatedSection from '@/components/frontend/AnimatedSection'
 import coachPortrait from '@/assets/images/coach-ayoola.svg'
-import authorCardBg from '@/assets/images/author-card-bg.png'
+// import authorCardBg from '@/assets/images/author-card-bg.png'
 
 const MeetCoach = () => {
   return (
@@ -66,7 +66,7 @@ const MeetCoach = () => {
               </div>
 
               {/* Floating Card */}
-              <motion.div
+              {/* <motion.div
                 initial={{ opacity: 0, x: 20, y: 20 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: true }}
@@ -99,7 +99,7 @@ const MeetCoach = () => {
                   find <span className="text-foreground font-medium">in most leadership</span>{' '}
                   books.
                 </p>
-              </motion.div>
+              </motion.div> */}
             </div>
           </AnimatedSection>
         </div>

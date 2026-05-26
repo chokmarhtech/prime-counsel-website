@@ -75,6 +75,7 @@ export interface Config {
     products: Product;
     'digital-assets': DigitalAsset;
     orders: Order;
+    waitlist: Waitlist;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -99,6 +100,7 @@ export interface Config {
     products: ProductsSelect<false> | ProductsSelect<true>;
     'digital-assets': DigitalAssetsSelect<false> | DigitalAssetsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    waitlist: WaitlistSelect<false> | WaitlistSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -511,6 +513,18 @@ export interface Order {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "waitlist".
+ */
+export interface Waitlist {
+  id: number;
+  name: string;
+  email: string;
+  event: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -870,6 +884,10 @@ export interface PayloadLockedDocument {
         value: number | Order;
       } | null)
     | ({
+        relationTo: 'waitlist';
+        value: number | Waitlist;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1180,6 +1198,17 @@ export interface OrdersSelect<T extends boolean = true> {
   downloadToken?: T;
   isDownloaded?: T;
   downloadedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "waitlist_select".
+ */
+export interface WaitlistSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  event?: T;
   updatedAt?: T;
   createdAt?: T;
 }
