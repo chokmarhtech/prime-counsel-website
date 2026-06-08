@@ -71,7 +71,7 @@ const ShopGrid: React.FC<ShopGridProps> = ({ initialProducts, initialCategories 
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                     )}
-                    <div className="absolute top-3 left-3">
+                    <div className="absolute bottom-3 left-3">
                       <span className="inline-block font-body text-[10px] font-bold tracking-widest text-white bg-gold/70 backdrop-blur-md rounded-lg px-3 py-1.5 uppercase">
                         {typeof p.category === 'object' ? p.category?.title : ''}
                       </span>
