@@ -3,6 +3,8 @@ import config from '@payload-config'
 import Layout from '@/components/frontend/layout/Layout'
 import { ShopGrid, ShopHero } from '@/components/frontend/pages/shop'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ShopPage() {
   const payload = await getPayload({ config })
 
