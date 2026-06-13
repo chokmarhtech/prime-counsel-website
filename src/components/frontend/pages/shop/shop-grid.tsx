@@ -61,7 +61,7 @@ const ShopGrid: React.FC<ShopGridProps> = ({ initialProducts, initialCategories 
             <FadeIn key={p.id} delay={i * 0.1}>
               <div className="group block bg-white rounded-2xl p-4 shadow-sm border border-border/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden">
                 <Link href={`/shop/${p.slug}`} className="block">
-                  <div className="h-56 rounded-xl overflow-hidden mb-5 bg-muted relative">
+                  <div className="aspect-[3/4] w-full rounded-xl overflow-hidden mb-5 bg-muted relative">
                     {typeof p.heroImage === 'object' && p.heroImage?.url && (
                       <Image
                         src={p.heroImage.url}

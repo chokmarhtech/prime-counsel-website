@@ -98,7 +98,7 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
                         href={`/shop/${typedP.slug}`}
                         className="group block bg-white rounded-2xl p-6 shadow-sm border border-border/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
                       >
-                        <div className="h-56 rounded-xl overflow-hidden mb-6 bg-surface">
+                        <div className="aspect-[3/4] w-full rounded-xl overflow-hidden mb-6 bg-surface">
                           {typeof typedP.heroImage === 'object' && typedP.heroImage?.url && (
                             <Image 
                               src={typedP.heroImage.url}
