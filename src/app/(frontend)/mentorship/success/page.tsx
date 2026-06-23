@@ -35,7 +35,7 @@ export default async function SuccessPage({
   // Parse all product IDs from the cart
   const productIdsParam = session.metadata?.productIds
   const legacyProductId = session.metadata?.productId
-  let productIds: any[] = []
+  let productIds: string[] = []
   
   if (productIdsParam) {
     try {

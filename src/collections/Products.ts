@@ -143,12 +143,12 @@ export const Products: CollectionConfig = {
               required: true,
             },
             {
-              name: 'calendlyLink',
+              name: 'meetLink',
               type: 'text',
-              label: 'Calendly Link',
+              label: 'Google Meet Link',
               admin: {
                 condition: (data) => data.type === 'session',
-                description: 'Optional. Override the global Calendly link for this specific product.',
+                description: 'The static Google Meet link for this specific session (e.g., https://meet.google.com/abc-defg-hij). Sent to clients automatically upon purchase.',
               },
             },
             {

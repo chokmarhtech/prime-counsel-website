@@ -3,7 +3,7 @@ import Stripe from 'stripe'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Resend } from 'resend'
-import { adminSessionEmailHtml, clientSessionEmailHtml, adminOrderEmailHtml, clientDownloadEmailHtml } from '@/lib/email-templates'
+import { adminOrderEmailHtml, clientDownloadEmailHtml, adminDirectBookingEmailHtml, clientDirectBookingEmailHtml } from '@/lib/email-templates'
 
 export const dynamic = 'force-dynamic' // Fix for Vercel App Router caching webhooks
 
@@ -46,9 +46,9 @@ export async function POST(req: Request) {
       }
       event = stripe.webhooks.constructEvent(body, signature, secret)
     }
-  } catch (err: any) {
-    console.error(`❌ Webhook signature verification failed: ${err.message}`)
-    return NextResponse.json({ error: `Verification failed: ${err.message}` }, { status: 400 })
+  } catch (err: unknown) {
+    console.error(`❌ Webhook signature verification failed: ${(err as Error).message}`)
+    return NextResponse.json({ error: `Verification failed: ${(err as Error).message}` }, { status: 400 })
   }
 
   if (event.type === 'checkout.session.completed') {
@@ -59,19 +59,21 @@ export async function POST(req: Request) {
     const customerName = session.customer_details?.name || 'Valued Customer'
     
     // Support both single checkout (Mentorship) and Cart checkout (Books/Digital)
-    const rawProductIds = session.metadata?.productIds
-    const singleProductId = session.metadata?.productId
-    
+    const productIdsStr = session.metadata?.productIds || '[]'
     let productIdsToProcess: string[] = []
-    
-    if (rawProductIds) {
+    try {
+      productIdsToProcess = JSON.parse(productIdsStr)
+    } catch {
+      productIdsToProcess = session.metadata?.productId ? [session.metadata.productId] : []
+    }
+
+    let bookingsData: Record<string, string>[] = []
+    if (session.metadata?.hasBookings === 'true' && session.metadata?.bookingsData) {
       try {
-        productIdsToProcess = JSON.parse(rawProductIds)
+        bookingsData = JSON.parse(session.metadata.bookingsData)
       } catch (e) {
-        console.error('Failed to parse productIds from metadata', e)
+        console.error('Failed to parse bookingsData metadata', e)
       }
-    } else if (singleProductId) {
-      productIdsToProcess = [singleProductId]
     }
 
     console.log(`⚡ Payment confirmed for ${productIdsToProcess.length} item(s) by ${customerEmail}`)
@@ -160,36 +162,120 @@ export async function POST(req: Request) {
               console.log(`Sent secure download link for order ${order.id} to ${customerEmail}`)
             }
           } else if (product.type === 'session') {
-            // Admin notification for Session
-            await resend.emails.send({
-              from: FROM_EMAIL,
-              to: [ADMIN_EMAIL, SUPERADMIN_EMAIL],
-              subject: `New Mentorship Booking 🗓: ${product.title} - £${itemPrice}`,
-              html: adminSessionEmailHtml({
-                name: customerName,
-                email: customerEmail,
-                productTitle: product.title,
-                amount: itemPrice,
-                currency: session.currency?.toUpperCase() || 'GBP',
-                stripeId: session.id,
-              }),
-            })
+            const isDirectBooking = session.metadata?.isBooking === 'true'
+            const cartBookingsForProduct = bookingsData.filter(b => String(b.productId) === String(product.id))
 
-            // Client Session Email
-            const calendlyLink = product.calendlyLink || 'https://calendly.com/primecounsel' // Fallback
+            if (isDirectBooking) {
+              const bookingDate = session.metadata?.bookingDate || 'TBD'
+              const bookingTime = session.metadata?.bookingTime || 'TBD'
+              const meetLink = product.meetLink || 'https://meet.google.com/'
 
-            await resend.emails.send({
-              from: FROM_EMAIL,
-              to: customerEmail,
-              subject: `Payment Receipt & Action Required: Schedule Your ${product.title}`,
-              html: clientSessionEmailHtml({
-                name: customerName,
-                productTitle: product.title,
-                calendlyLink: calendlyLink,
-              }),
-            })
+              // Save to Bookings Collection
+              await payload.create({
+                collection: 'bookings',
+                data: {
+                  clientName: customerName,
+                  clientEmail: customerEmail,
+                  date: bookingDate,
+                  timeSlot: bookingTime,
+                  paymentStatus: 'paid',
+                  stripeSessionId: session.id,
+                  product: product.id,
+                },
+              })
 
-            console.log(`Sent session confirmation for order ${order.id} to ${customerEmail}`)
+              // Admin notification for Direct Booking
+              await resend.emails.send({
+                from: FROM_EMAIL,
+                to: [ADMIN_EMAIL, SUPERADMIN_EMAIL],
+                subject: `New Mentorship Booking 🗓: ${product.title} - £${itemPrice}`,
+                html: adminDirectBookingEmailHtml({
+                  name: customerName,
+                  email: customerEmail,
+                  productTitle: product.title,
+                  amount: itemPrice,
+                  currency: session.currency?.toUpperCase() || 'GBP',
+                  bookingDate,
+                  bookingTime,
+                  stripeId: session.id,
+                  meetLink,
+                }),
+              })
+
+              // Client Confirmation Email for Direct Booking
+              await resend.emails.send({
+                from: FROM_EMAIL,
+                to: customerEmail,
+                subject: `Session Confirmed: ${product.title}`,
+                html: clientDirectBookingEmailHtml({
+                  name: customerName,
+                  productTitle: product.title,
+                  bookingDate,
+                  bookingTime,
+                  meetLink,
+                }),
+              })
+
+              console.log(`Successfully processed direct booking and sent emails for order ${order.id} to ${customerEmail}`)
+
+            } else if (cartBookingsForProduct.length > 0) {
+              // Cart Multi-Booking Flow
+              for (const booking of cartBookingsForProduct) {
+                const bookingDate = booking.date || 'TBD'
+                const bookingTime = booking.timeSlot || 'TBD'
+
+                const meetLink = product.meetLink || 'https://meet.google.com/'
+
+                // Save to Bookings Collection
+                await payload.create({
+                  collection: 'bookings',
+                  data: {
+                    clientName: customerName,
+                    clientEmail: customerEmail,
+                    date: bookingDate,
+                    timeSlot: bookingTime,
+                    paymentStatus: 'paid',
+                    stripeSessionId: session.id,
+                    product: product.id,
+                  },
+                })
+
+                // Admin notification for Cart Booking
+                await resend.emails.send({
+                  from: FROM_EMAIL,
+                  to: [ADMIN_EMAIL, SUPERADMIN_EMAIL],
+                  subject: `New Mentorship Booking 🗓: ${product.title} - £${itemPrice}`,
+                  html: adminDirectBookingEmailHtml({
+                    name: customerName,
+                    email: customerEmail,
+                    productTitle: product.title,
+                    amount: itemPrice,
+                    currency: session.currency?.toUpperCase() || 'GBP',
+                    bookingDate,
+                    bookingTime,
+                    stripeId: session.id,
+                    meetLink,
+                  }),
+                })
+
+                // Client Confirmation Email for Cart Booking
+                await resend.emails.send({
+                  from: FROM_EMAIL,
+                  to: customerEmail,
+                  subject: `Session Confirmed: ${product.title} (${bookingDate} @ ${bookingTime})`,
+                  html: clientDirectBookingEmailHtml({
+                    name: customerName,
+                    productTitle: product.title,
+                    bookingDate,
+                    bookingTime,
+                    meetLink,
+                  }),
+                })
+
+                console.log(`Successfully processed cart booking for ${bookingDate} @ ${bookingTime} to ${customerEmail}`)
+              }
+              console.log(`Warning: Session product purchased without explicit booking time via legacy cart logic for order ${order.id}`)
+            }
           }
         } // End of loop
       } catch (err) {

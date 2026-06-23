@@ -12,11 +12,18 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion'
 import { Clock, MapPin, Calendar, CheckCircle2 } from 'lucide-react'
+import { BookingCalendarModal } from './BookingCalendarModal'
 
 export const ProductDetailClient = ({ product }: { product: Product }) => {
   const { addItem, setAddModalOpen } = useCartStore()
+  const [isBookingModalOpen, setIsBookingModalOpen] = React.useState(false)
+
   const handlePrimaryAction = async () => {
-    // ALL PRODUCTS → Add to Cart
+    if (product.type === 'session') {
+      setIsBookingModalOpen(true)
+      return
+    }
+    // ALL OTHER PRODUCTS → Add to Cart
     addItem(product)
     setAddModalOpen(true, product)
   }
@@ -168,6 +175,15 @@ export const ProductDetailClient = ({ product }: { product: Product }) => {
           </div>
         </div>
       </div>
+      
+      {/* Booking Calendar Modal */}
+      {product.type === 'session' && (
+        <BookingCalendarModal 
+          isOpen={isBookingModalOpen}
+          onClose={() => setIsBookingModalOpen(false)}
+          product={product}
+        />
+      )}
     </div>
   )
 }
