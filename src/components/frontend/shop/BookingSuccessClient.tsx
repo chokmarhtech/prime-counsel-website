@@ -22,8 +22,6 @@ export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClien
     return `${symbol} ${price.toLocaleString(undefined, { minimumFractionDigits: 2 })}`
   }
 
-  // Get Calendly link from product, fallback to env variable if not set
-  const calendlyUrl = product?.calendlyLink || process.env.NEXT_PUBLIC_CALENDLY_URL
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -59,7 +57,7 @@ export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClien
             </h1>
             <p className="font-body text-navy/70 text-lg max-w-lg mx-auto leading-relaxed">
               {isSession
-                ? 'Your session has been successfully booked. Check your Email for a scheduling link from Prime Counsel to select a time.'
+                ? 'Your session has been successfully booked. A receipt and your Google Meet link have been sent to your email.'
                 : 'Thank you for your purchase. Your order has been securely processed.'}
             </p>
           </motion.div>
@@ -112,7 +110,7 @@ export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClien
                 <div className="flex items-start gap-4 bg-surface p-6 rounded-xl mt-2">
                   <Clock className="w-6 h-6 text-gold shrink-0" />
                   <p className="font-body text-sm text-navy/80 leading-relaxed">
-                    We have successfully processed your payment. A receipt and your personalized scheduling link have been sent to your email. Please check your inbox to select your session time.
+                    We have successfully processed your payment. A receipt and your Google Meet link for the scheduled time have been sent to your email. Please check your inbox.
                   </p>
                 </div>
               )}

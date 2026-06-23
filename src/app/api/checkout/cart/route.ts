@@ -54,13 +54,24 @@ export async function POST(req: Request) {
       || process.env.NEXT_PUBLIC_SERVER_URL 
       || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
 
+    // Extract all bookings into an array
+    const bookingsData = items
+      .filter((i: Record<string, unknown>) => i.bookingDate && i.bookingTime)
+      .map((i: Record<string, unknown>) => ({
+        productId: i.id,
+        date: i.bookingDate,
+        timeSlot: i.bookingTime
+      }))
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
       line_items,
       metadata: {
         isCart: 'true',
-        productIds: JSON.stringify(items.map((i: any) => i.id)),
+        hasBookings: bookingsData.length > 0 ? 'true' : 'false',
+        bookingsData: bookingsData.length > 0 ? JSON.stringify(bookingsData) : '',
+        productIds: JSON.stringify(items.map((i: Record<string, unknown>) => i.id)),
         productId: primarySessionId,
         productType: primarySessionId ? 'session' : 'cart',
         primarySessionId,
