@@ -11,7 +11,7 @@ import { Blog } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Blog> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
+  return doc?.title ? `${doc.title} | Prime Counsel Limited` : 'Prime Counsel Limited'
 }
 
 const generateURL: GenerateURL<Blog> = ({ doc }) => {
