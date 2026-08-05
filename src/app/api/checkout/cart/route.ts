@@ -9,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: Request) {
   try {
-    const { items } = await req.json()
+    const { items, name, email } = await req.json()
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
@@ -71,6 +71,7 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
+      customer_email: email || undefined,
       line_items,
       metadata: {
         isCart: 'true',
@@ -81,6 +82,8 @@ export async function POST(req: Request) {
         productType: primarySessionId ? 'session' : 'cart',
         primarySessionId,
         productSlug: items.length === 1 ? items[0].slug : 'cart-checkout',
+        customName: name || '',
+        customEmail: email || '',
       },
       success_url: `${siteUrl}/mentorship/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/shop`,
