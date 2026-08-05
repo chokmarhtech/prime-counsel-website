@@ -54,9 +54,9 @@ export async function POST(req: Request) {
       }
       event = stripe.webhooks.constructEvent(body, signature, secret)
     }
-  } catch (err: unknown) {
-    console.error(`❌ Webhook signature verification failed: ${(err as Error).message}`)
-    return NextResponse.json({ error: `Verification failed: ${(err as Error).message}` }, { status: 400 })
+  } catch (err: any) {
+    console.error(`❌ Webhook signature verification failed: ${err.message}`)
+    return NextResponse.json({ error: `Verification failed: ${err.message}` }, { status: 400 })
   }
 
   if (event.type === 'checkout.session.completed') {
@@ -107,21 +107,19 @@ export async function POST(req: Request) {
     const customerName = session.customer_details?.name || 'Valued Customer'
     
     // Support both single checkout (Mentorship) and Cart checkout (Books/Digital)
-    const productIdsStr = session.metadata?.productIds || '[]'
+    const rawProductIds = session.metadata?.productIds
+    const singleProductId = session.metadata?.productId
+    
     let productIdsToProcess: string[] = []
-    try {
-      productIdsToProcess = JSON.parse(productIdsStr)
-    } catch {
-      productIdsToProcess = session.metadata?.productId ? [session.metadata.productId] : []
-    }
-
-    let bookingsData: Record<string, string>[] = []
-    if (session.metadata?.hasBookings === 'true' && session.metadata?.bookingsData) {
+    
+    if (rawProductIds) {
       try {
-        bookingsData = JSON.parse(session.metadata.bookingsData)
+        productIdsToProcess = JSON.parse(rawProductIds)
       } catch (e) {
-        console.error('Failed to parse bookingsData metadata', e)
+        console.error('Failed to parse productIds from metadata', e)
       }
+    } else if (singleProductId) {
+      productIdsToProcess = [singleProductId]
     }
 
     console.log(`⚡ Payment confirmed for ${productIdsToProcess.length} item(s) by ${customerEmail}`)

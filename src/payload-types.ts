@@ -566,28 +566,6 @@ export interface Booking {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "bookings".
- */
-export interface Booking {
-  id: number;
-  clientName: string;
-  clientEmail: string;
-  /**
-   * Format: YYYY-MM-DD
-   */
-  date: string;
-  /**
-   * E.g., 09:00, 10:00, 14:00
-   */
-  timeSlot: string;
-  paymentStatus: 'pending' | 'paid' | 'refunded';
-  stripeSessionId?: string | null;
-  product?: (number | null) | Product;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {

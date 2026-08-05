@@ -29,10 +29,10 @@ const Spm3Waitlist = () => {
       }
 
       setStatus('success')
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error(err)
       setStatus('error')
-      setErrorMessage((err as Error).message || 'Failed to join the waitlist. Please try again.')
+      setErrorMessage(err.message || 'Failed to join the waitlist. Please try again.')
     }
   }
 
