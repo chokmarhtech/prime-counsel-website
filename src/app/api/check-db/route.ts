@@ -17,7 +17,7 @@ export async function GET() {
   const results = orders.docs.map(o => {
     let digitalFileResult = null;
     if (o.product && typeof o.product === 'object' && o.product.digitalFile) {
-        const df = o.product.digitalFile as any;
+        const df = o.product.digitalFile as unknown as { filename: string; url: string; id: string; mimeType: string };
         digitalFileResult = {
             filename: df.filename,
             url: df.url,
