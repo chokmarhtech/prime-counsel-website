@@ -10,6 +10,8 @@ import { X, Trash2, ChevronRight, ChevronLeft, Loader2 } from 'lucide-react'
 export const CartDrawer = () => {
   const { isCartOpen, setCartOpen, items, updateQuantity, removeItem } = useCartStore()
   const [view, setView] = useState<'cart' | 'checkout'>('cart')
+  const [customerName, setCustomerName] = useState('')
+  const [customerEmail, setCustomerEmail] = useState('')
 
   // Reset to cart view when closed
   const handleOpenChange = (open: boolean) => {
@@ -38,6 +40,8 @@ export const CartDrawer = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
+          name: customerName,
+          email: customerEmail,
           items: items.map(item => ({ 
             id: item.id, 
             quantity: item.quantity,
@@ -162,22 +166,25 @@ export const CartDrawer = () => {
                   <div className="space-y-4">
                     <div>
                       <label className="text-xs font-bold text-navy uppercase tracking-wider mb-1 block">Full Name *</label>
-                      <input required type="text" placeholder="John Doe" className="w-full p-3 bg-surface border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
+                      <input 
+                        required 
+                        type="text" 
+                        placeholder="John Doe" 
+                        value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)}
+                        className="w-full p-3 bg-surface border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold" 
+                      />
                     </div>
                     <div>
                       <label className="text-xs font-bold text-navy uppercase tracking-wider mb-1 block">Email *</label>
-                      <input required type="email" placeholder="example@email.com" className="w-full p-3 bg-surface border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
-                    </div>
-                    <div>
-                      <label className="text-xs font-bold text-navy uppercase tracking-wider mb-1 block">Phone Number *</label>
-                      <div className="flex gap-2">
-                        <select className="p-3 bg-surface border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold w-24">
-                          <option>+44</option>
-                          <option>+1</option>
-                          <option>+234</option>
-                        </select>
-                        <input required type="tel" placeholder="Phone number" className="w-full p-3 bg-surface border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold flex-1" />
-                      </div>
+                      <input 
+                        required 
+                        type="email" 
+                        placeholder="example@email.com" 
+                        value={customerEmail}
+                        onChange={(e) => setCustomerEmail(e.target.value)}
+                        className="w-full p-3 bg-surface border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold" 
+                      />
                     </div>
                   </div>
                 </div>

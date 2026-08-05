@@ -102,9 +102,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ received: true })
     }
 
-    // Attempt to extract the customer's email
-    const customerEmail = session.customer_details?.email || session.customer_email
-    const customerName = session.customer_details?.name || 'Valued Customer'
+    // Attempt to extract the customer's email, prioritizing custom form inputs from metadata
+    const customerEmail = session.metadata?.customEmail || session.customer_details?.email || session.customer_email
+    const customerName = session.metadata?.customName || session.customer_details?.name || 'Valued Customer'
     
     // Support both single checkout (Mentorship) and Cart checkout (Books/Digital)
     const rawProductIds = session.metadata?.productIds
