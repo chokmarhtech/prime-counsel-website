@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import path from 'path'
+import fs from 'fs'
 
 export async function GET(
   req: Request,

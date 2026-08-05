@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { Product } from '@/payload-types'
-import { v4 as uuidv4 } from 'uuid'
 
 export interface CartItem extends Product {
   cartItemId: string
@@ -89,4 +88,3 @@ export const useCartStore = create<CartState>()(
     }
   )
 )
-
