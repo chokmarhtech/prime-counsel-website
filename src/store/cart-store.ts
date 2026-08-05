@@ -3,7 +3,10 @@ import { persist } from 'zustand/middleware'
 import type { Product } from '@/payload-types'
 
 export interface CartItem extends Product {
+  cartItemId: string
   quantity: number
+  bookingDate?: string
+  bookingTime?: string
 }
 
 interface CartState {
@@ -12,9 +15,9 @@ interface CartState {
   isAddModalOpen: boolean
   lastAddedProduct: Product | null
   
-  addItem: (product: Product) => void
-  removeItem: (productId: number) => void
-  updateQuantity: (productId: number, quantity: number) => void
+  addItem: (product: Product, bookingDate?: string, bookingTime?: string) => void
+  removeItem: (cartItemId: string) => void
+  updateQuantity: (cartItemId: string, quantity: number) => void
   clearCart: () => void
   
   setCartOpen: (isOpen: boolean) => void
@@ -29,27 +32,44 @@ export const useCartStore = create<CartState>()(
       isAddModalOpen: false,
       lastAddedProduct: null,
 
-      addItem: (product) => set((state) => {
-        const existingItem = state.items.find(item => item.id === product.id)
-        if (existingItem) {
-           return {
-             items: state.items.map(item => 
-               item.id === product.id 
-                 ? { ...item, quantity: item.quantity + 1 }
-                 : item
-             )
-           }
+      addItem: (product, bookingDate, bookingTime) => set((state) => {
+        // If it's a regular product (no booking date), check if we can just increment quantity
+        if (!bookingDate) {
+          const existingItem = state.items.find(item => item.id === product.id && !item.bookingDate)
+          if (existingItem) {
+             return {
+               items: state.items.map(item => 
+                 item.cartItemId === existingItem.cartItemId 
+                   ? { ...item, quantity: item.quantity + 1 }
+                   : item
+               )
+             }
+          }
         }
-        return { items: [...state.items, { ...product, quantity: 1 }] }
+        
+        // Generate client-side unique cart item ID
+        const cartItemId = typeof crypto !== 'undefined' && crypto.randomUUID 
+          ? crypto.randomUUID() 
+          : Math.random().toString(36).substring(2, 9) + Date.now().toString(36)
+
+        return { 
+          items: [...state.items, { 
+            ...product, 
+            cartItemId,
+            quantity: 1,
+            bookingDate,
+            bookingTime
+          }] 
+        }
       }),
       
-      removeItem: (productId) => set((state) => ({
-        items: state.items.filter(item => item.id !== productId)
+      removeItem: (cartItemId) => set((state) => ({
+        items: state.items.filter(item => item.cartItemId !== cartItemId)
       })),
 
-      updateQuantity: (productId, quantity) => set((state) => ({
+      updateQuantity: (cartItemId, quantity) => set((state) => ({
         items: state.items.map(item => 
-          item.id === productId ? { ...item, quantity } : item
+          item.cartItemId === cartItemId ? { ...item, quantity } : item
         )
       })),
 

@@ -38,7 +38,12 @@ export const CartDrawer = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          items: items.map(item => ({ id: item.id, quantity: item.quantity }))
+          items: items.map(item => ({ 
+            id: item.id, 
+            quantity: item.quantity,
+            bookingDate: item.bookingDate,
+            bookingTime: item.bookingTime
+          }))
         }),
       })
 
@@ -103,17 +108,25 @@ export const CartDrawer = () => {
               <div className="p-6 space-y-6 flex-1">
                 {items.map((item) => {
                   const heroImage = typeof item.heroImage === 'object' ? (item.heroImage as Media) : null
+                  const isBooking = !!item.bookingDate
 
                   return (
-                    <div key={item.id} className="flex gap-4 p-4 border border-border/50 rounded-2xl relative group">
+                    <div key={item.cartItemId} className="flex gap-4 p-4 border border-border/50 rounded-2xl relative group">
                       <div className="w-20 h-20 rounded-xl overflow-hidden bg-muted relative shrink-0">
                         {heroImage?.url && <Image src={heroImage.url} alt={item.title} fill className="object-cover" sizes="80px" />}
                       </div>
                       <div className="flex-1 flex flex-col justify-between">
                         <div className="flex justify-between items-start gap-2">
-                          <h4 className="font-heading text-sm text-navy leading-tight pr-6">{item.title}</h4>
+                          <div>
+                            <h4 className="font-heading text-sm text-navy leading-tight pr-6">{item.title}</h4>
+                            {isBooking && (
+                              <p className="text-xs text-muted-foreground mt-1 font-medium bg-gold/10 inline-block px-2 py-0.5 rounded-md text-navy">
+                                {item.bookingDate} @ {item.bookingTime}
+                              </p>
+                            )}
+                          </div>
                           <button 
-                            onClick={() => removeItem(item.id)}
+                            onClick={() => removeItem(item.cartItemId)}
                             className="absolute top-4 right-4 text-muted-foreground hover:text-red-500 transition-colors"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -122,13 +135,15 @@ export const CartDrawer = () => {
                         <div className="flex items-center justify-between mt-4">
                           <div className="flex items-center gap-3 border border-border bg-surface rounded-lg p-1">
                             <button 
-                              onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                              className="w-6 h-6 flex items-center justify-center hover:bg-white rounded hover:shadow-sm transition-all"
+                              onClick={() => updateQuantity(item.cartItemId, Math.max(1, item.quantity - 1))}
+                              disabled={isBooking}
+                              className={`w-6 h-6 flex items-center justify-center rounded transition-all ${isBooking ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:shadow-sm'}`}
                             >-</button>
                             <span className="text-xs font-bold w-4 text-center">{item.quantity}</span>
                             <button 
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="w-6 h-6 flex items-center justify-center hover:bg-white rounded hover:shadow-sm transition-all"
+                              onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
+                              disabled={isBooking}
+                              className={`w-6 h-6 flex items-center justify-center rounded transition-all ${isBooking ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:shadow-sm'}`}
                             >+</button>
                           </div>
                           <span className="font-bold text-sm text-navy">{formatPrice(item.price * item.quantity, item.currency)}</span>

@@ -3,7 +3,15 @@ import Stripe from 'stripe'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Resend } from 'resend'
-import { adminSessionEmailHtml, clientSessionEmailHtml, adminOrderEmailHtml, clientDownloadEmailHtml } from '@/lib/email-templates'
+import { 
+  adminSessionEmailHtml, 
+  clientSessionEmailHtml, 
+  adminOrderEmailHtml, 
+  clientDownloadEmailHtml, 
+  spmAdminNotificationEmailHtml,
+  adminDirectBookingEmailHtml,
+  clientDirectBookingEmailHtml 
+} from '@/lib/email-templates'
 
 export const dynamic = 'force-dynamic' // Fix for Vercel App Router caching webhooks
 
@@ -53,6 +61,46 @@ export async function POST(req: Request) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
+
+    // 1. Handle SPM 3.0 registrations separately
+    if (session.metadata?.type === 'spm_registration') {
+      const registrationId = session.metadata.registrationId
+      console.log(`⚡ SPM 3.0 Webhook registration complete for ID: ${registrationId}`)
+      if (registrationId) {
+        try {
+          const payload = await getPayload({ config: configPromise })
+          const updatedReg = await payload.update({
+            collection: 'spm-registrations',
+            id: registrationId,
+            data: {
+              status: 'paid',
+              stripeSessionId: session.id,
+            },
+          })
+          console.log(`✅ Updated SPM 3.0 registration status to PAID for ID: ${registrationId}`)
+
+          // Send admin notification immediately after payment confirmed
+          const ticketPrice = updatedReg.ticketType === 'physical' ? '50.00' : '25.00'
+          await resend.emails.send({
+            from: FROM_EMAIL,
+            to: [ADMIN_EMAIL, SUPERADMIN_EMAIL],
+            subject: `🎟️ New SPM 3.0 Registration: ${updatedReg.name} (${updatedReg.ticketType === 'physical' ? 'Physical' : 'Virtual'})`,
+            html: spmAdminNotificationEmailHtml({
+              name: updatedReg.name,
+              email: updatedReg.email,
+              ticketType: updatedReg.ticketType as 'physical' | 'virtual',
+              ticketCode: updatedReg.ticketCode || '',
+              amount: ticketPrice,
+              stripeId: session.id,
+            }),
+          })
+          console.log(`✅ Admin notification sent for SPM registration: ${updatedReg.ticketCode}`)
+        } catch (err) {
+          console.error(`❌ Failed to update SPM 3.0 registration:`, err)
+        }
+      }
+      return NextResponse.json({ received: true })
+    }
 
     // Attempt to extract the customer's email
     const customerEmail = session.customer_details?.email || session.customer_email
@@ -122,6 +170,8 @@ export async function POST(req: Request) {
             },
           })
 
+          // Fallback to env variable for Calendly link (per-product link removed)
+          const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/primecounsel'
           const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SERVER_URL || 'https://primecounsel.co.uk'
           const itemPrice = product.price ? product.price.toFixed(2) : (session.amount_total! / 100).toFixed(2)
 
@@ -160,36 +210,124 @@ export async function POST(req: Request) {
               console.log(`Sent secure download link for order ${order.id} to ${customerEmail}`)
             }
           } else if (product.type === 'session') {
-            // Admin notification for Session
-            await resend.emails.send({
-              from: FROM_EMAIL,
-              to: [ADMIN_EMAIL, SUPERADMIN_EMAIL],
-              subject: `New Mentorship Booking 🗓: ${product.title} - £${itemPrice}`,
-              html: adminSessionEmailHtml({
-                name: customerName,
-                email: customerEmail,
-                productTitle: product.title,
-                amount: itemPrice,
-                currency: session.currency?.toUpperCase() || 'GBP',
-                stripeId: session.id,
-              }),
-            })
+            // Check if this session has booking details attached in Stripe metadata
+            const hasBookings = session.metadata?.hasBookings === 'true'
+            const bookingsDataParam = session.metadata?.bookingsData
+            
+            let bookingDate = ''
+            let bookingTime = ''
+            let meetLink = ''
 
-            // Client Session Email
-            const calendlyLink = product.calendlyLink || 'https://calendly.com/primecounsel' // Fallback
+            if (hasBookings && bookingsDataParam) {
+              try {
+                const parsedBookings = JSON.parse(bookingsDataParam)
+                // Find matching booking for this specific product
+                const currentBooking = parsedBookings.find((b: any) => String(b.productId) === String(product.id))
+                
+                if (currentBooking) {
+                  bookingDate = currentBooking.date
+                  bookingTime = currentBooking.timeSlot
+                  
+                  // Generate random Google Meet link
+                  const part = (len: number) => Array.from({length: len}, () => 'abcdefghijklmnopqrstuvwxyz'[Math.floor(Math.random() * 26)]).join('')
+                  meetLink = `https://meet.google.com/${part(3)}-${part(4)}-${part(3)}`
 
-            await resend.emails.send({
-              from: FROM_EMAIL,
-              to: customerEmail,
-              subject: `Payment Receipt & Action Required: Schedule Your ${product.title}`,
-              html: clientSessionEmailHtml({
-                name: customerName,
-                productTitle: product.title,
-                calendlyLink: calendlyLink,
-              }),
-            })
+                  // Create Booking row in Payload
+                  const existingBookingRecord = await payload.find({
+                    collection: 'bookings',
+                    where: {
+                      and: [
+                        { stripeSessionId: { equals: session.id } },
+                        { product: { equals: product.id } }
+                      ]
+                    }
+                  })
 
-            console.log(`Sent session confirmation for order ${order.id} to ${customerEmail}`)
+                  if (existingBookingRecord.docs.length === 0) {
+                    await payload.create({
+                      collection: 'bookings',
+                      data: {
+                        clientName: customerName,
+                        clientEmail: customerEmail,
+                        date: bookingDate,
+                        timeSlot: bookingTime,
+                        paymentStatus: 'paid',
+                        stripeSessionId: session.id,
+                        product: product.id,
+                      },
+                    })
+                    console.log(`✅ Created booking record in Payload for ${customerEmail}: ${bookingDate} @ ${bookingTime}`)
+                  }
+                }
+              } catch (e) {
+                console.error('Failed to parse or create bookings in webhook:', e)
+              }
+            }
+
+            if (bookingDate && bookingTime) {
+              // Admin notification for Direct Booking
+              await resend.emails.send({
+                from: FROM_EMAIL,
+                to: [ADMIN_EMAIL, SUPERADMIN_EMAIL],
+                subject: `New Mentorship Booking 🗓: ${product.title} - £${itemPrice}`,
+                html: adminDirectBookingEmailHtml({
+                  name: customerName,
+                  email: customerEmail,
+                  productTitle: product.title,
+                  amount: itemPrice,
+                  currency: session.currency?.toUpperCase() || 'GBP',
+                  bookingDate,
+                  bookingTime,
+                  stripeId: session.id,
+                  meetLink,
+                }),
+              })
+
+              // Client Direct Booking Confirmation Email
+              await resend.emails.send({
+                from: FROM_EMAIL,
+                to: customerEmail,
+                subject: `Booking Confirmed: Your Session is Scheduled!`,
+                html: clientDirectBookingEmailHtml({
+                  name: customerName,
+                  productTitle: product.title,
+                  bookingDate,
+                  bookingTime,
+                  meetLink,
+                }),
+              })
+
+              console.log(`Sent direct booking confirmation for order ${order.id} to ${customerEmail}`)
+            } else {
+              // Fallback to legacy Calendly flow if no booking date selected
+              await resend.emails.send({
+                from: FROM_EMAIL,
+                to: [ADMIN_EMAIL, SUPERADMIN_EMAIL],
+                subject: `New Mentorship Booking 🗓: ${product.title} - £${itemPrice}`,
+                html: adminSessionEmailHtml({
+                  name: customerName,
+                  email: customerEmail,
+                  productTitle: product.title,
+                  amount: itemPrice,
+                  currency: session.currency?.toUpperCase() || 'GBP',
+                  stripeId: session.id,
+                }),
+              })
+
+              const calendlyLink = 'https://calendly.com/primecounsel'
+              await resend.emails.send({
+                from: FROM_EMAIL,
+                to: customerEmail,
+                subject: `Payment Receipt & Action Required: Schedule Your ${product.title}`,
+                html: clientSessionEmailHtml({
+                  name: customerName,
+                  productTitle: product.title,
+                  calendlyLink: calendlyLink,
+                }),
+              })
+
+              console.log(`Sent fallback session confirmation for order ${order.id} to ${customerEmail}`)
+            }
           }
         } // End of loop
       } catch (err) {

@@ -1,0 +1,8 @@
+export { default as HeroSection } from './HeroSection'
+export { default as RealitySection } from './RealitySection'
+export { default as DifferenceSection } from './DifferenceSection'
+export { default as AudienceSection } from './AudienceSection'
+export { default as DeliverablesSection } from './DeliverablesSection'
+export { default as JourneySection } from './JourneySection'
+export { default as FAQSection } from './FAQSection'
+export { default as ContactSection } from './ContactSection'

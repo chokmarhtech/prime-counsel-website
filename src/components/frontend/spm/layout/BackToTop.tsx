@@ -3,15 +3,22 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiArrowUp } from "react-icons/fi";
+import { usePathname } from "next/navigation";
 
 const BackToTop = () => {
   const [visible, setVisible] = useState(false);
+  const pathname = usePathname();
+  const isSPM3 = pathname?.includes('/spm-3');
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 500);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const buttonClass = isSPM3
+    ? "fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-gold text-navy shadow-lg flex items-center justify-center transition-all hover:shadow-[0_0_25px_rgba(var(--gold),0.4)] hover:scale-110"
+    : "fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-secondary text-secondary-foreground shadow-lg flex items-center justify-center transition-all hover:shadow-[0_0_25px_hsl(212,100%,46%,0.4)] hover:scale-110";
 
   return (
     <AnimatePresence>
@@ -22,7 +29,7 @@ const BackToTop = () => {
           exit={{ opacity: 0, scale: 0.8 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
-          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-secondary text-secondary-foreground shadow-lg flex items-center justify-center transition-all hover:shadow-[0_0_25px_hsl(212,100%,46%,0.4)] hover:scale-110"
+          className={buttonClass}
         >
           <FiArrowUp className="w-5 h-5" />
         </motion.button>

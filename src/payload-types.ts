@@ -76,6 +76,8 @@ export interface Config {
     'digital-assets': DigitalAsset;
     orders: Order;
     waitlist: Waitlist;
+    'spm-registrations': SpmRegistration;
+    bookings: Booking;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -101,6 +103,8 @@ export interface Config {
     'digital-assets': DigitalAssetsSelect<false> | DigitalAssetsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     waitlist: WaitlistSelect<false> | WaitlistSelect<true>;
+    'spm-registrations': SpmRegistrationsSelect<false> | SpmRegistrationsSelect<true>;
+    bookings: BookingsSelect<false> | BookingsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -438,10 +442,6 @@ export interface Product {
     | null;
   whoFor: string;
   buttonText: string;
-  /**
-   * Optional. Override the global Calendly link for this specific product.
-   */
-  calendlyLink?: string | null;
   duration?: string | null;
   location?: ('Online' | 'In-Person' | 'Online / In-Person') | null;
   booking?: string | null;
@@ -520,6 +520,47 @@ export interface Waitlist {
   name: string;
   email: string;
   event: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manages registrations and ticket allocations for SPM 3.0.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "spm-registrations".
+ */
+export interface SpmRegistration {
+  id: number;
+  name: string;
+  email: string;
+  ticketType: 'physical' | 'virtual';
+  ticketCode?: string | null;
+  status: 'pending' | 'paid';
+  paymentType: 'stripe' | 'bank_transfer';
+  stripeSessionId?: string | null;
+  emailsSent?: ('confirmation' | '5_days' | '3_days' | '1_day' | 'd_day')[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings".
+ */
+export interface Booking {
+  id: number;
+  clientName: string;
+  clientEmail: string;
+  /**
+   * Format: YYYY-MM-DD
+   */
+  date: string;
+  /**
+   * E.g., 09:00, 10:00, 14:00
+   */
+  timeSlot: string;
+  paymentStatus: 'pending' | 'paid' | 'refunded';
+  stripeSessionId?: string | null;
+  product?: (number | null) | Product;
   updatedAt: string;
   createdAt: string;
 }
@@ -888,6 +929,14 @@ export interface PayloadLockedDocument {
         value: number | Waitlist;
       } | null)
     | ({
+        relationTo: 'spm-registrations';
+        value: number | SpmRegistration;
+      } | null)
+    | ({
+        relationTo: 'bookings';
+        value: number | Booking;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1150,7 +1199,6 @@ export interface ProductsSelect<T extends boolean = true> {
       };
   whoFor?: T;
   buttonText?: T;
-  calendlyLink?: T;
   duration?: T;
   location?: T;
   booking?: T;
@@ -1209,6 +1257,37 @@ export interface WaitlistSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   event?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "spm-registrations_select".
+ */
+export interface SpmRegistrationsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  ticketType?: T;
+  ticketCode?: T;
+  status?: T;
+  paymentType?: T;
+  stripeSessionId?: T;
+  emailsSent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings_select".
+ */
+export interface BookingsSelect<T extends boolean = true> {
+  clientName?: T;
+  clientEmail?: T;
+  date?: T;
+  timeSlot?: T;
+  paymentStatus?: T;
+  stripeSessionId?: T;
+  product?: T;
   updatedAt?: T;
   createdAt?: T;
 }

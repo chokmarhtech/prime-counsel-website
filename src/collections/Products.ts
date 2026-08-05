@@ -142,15 +142,7 @@ export const Products: CollectionConfig = {
               label: 'Button Text',
               required: true,
             },
-            {
-              name: 'calendlyLink',
-              type: 'text',
-              label: 'Calendly Link',
-              admin: {
-                condition: (data) => data.type === 'session',
-                description: 'Optional. Override the global Calendly link for this specific product.',
-              },
-            },
+
             {
               name: 'duration',
               type: 'text',
