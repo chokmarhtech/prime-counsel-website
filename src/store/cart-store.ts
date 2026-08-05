@@ -47,11 +47,16 @@ export const useCartStore = create<CartState>()(
              }
           }
         }
-        // Otherwise (or if it's a new regular product), add as a new item with unique cartItemId
+        
+        // Generate client-side unique cart item ID
+        const cartItemId = typeof crypto !== 'undefined' && crypto.randomUUID 
+          ? crypto.randomUUID() 
+          : Math.random().toString(36).substring(2, 9) + Date.now().toString(36)
+
         return { 
           items: [...state.items, { 
             ...product, 
-            cartItemId: uuidv4(),
+            cartItemId,
             quantity: 1,
             bookingDate,
             bookingTime

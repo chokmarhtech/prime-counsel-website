@@ -21,7 +21,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ availableSlots: [] }) // No weekend slots
     }
 
-    // 2. Define standard slots (9 AM to 4 PM means last slot starts at 3 PM)
+    // 2. Define standard slots (9 AM to 4 PM standard)
     const standardSlots = [
       '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'
     ]
@@ -34,7 +34,6 @@ export async function GET(req: Request) {
       collection: 'bookings',
       where: {
         date: { equals: formattedDateStr },
-        // Consider both paid and pending slots as taken to prevent double-booking during checkout
         paymentStatus: { in: ['paid', 'pending'] }
       },
       limit: 100,

@@ -1,10 +1,8 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { format, isWeekend, startOfToday, addMonths } from 'date-fns'
-import { DayPicker } from 'react-day-picker'
-import 'react-day-picker/dist/style.css'
-import { Loader2, Calendar as CalendarIcon, Clock } from 'lucide-react'
+import { format, addMonths, isWeekend, startOfToday } from 'date-fns'
+import { Calendar as CalendarIcon, Clock, Loader2 } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -15,6 +13,7 @@ import {
 import type { Product } from '@/payload-types'
 import { toast } from '@/components/ui/use-toast'
 import { useCartStore } from '@/store/cart-store'
+import { Calendar } from '@/components/ui/calendar'
 
 interface BookingCalendarModalProps {
   isOpen: boolean
@@ -23,7 +22,7 @@ interface BookingCalendarModalProps {
 }
 
 export function BookingCalendarModal({ isOpen, onClose, product }: BookingCalendarModalProps) {
-  const [selectedDate, setSelectedDate] = useState<Date>()
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>()
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
   const [availableSlots, setAvailableSlots] = useState<string[]>([])
   const [isLoadingSlots, setIsLoadingSlots] = useState(false)
@@ -63,7 +62,7 @@ export function BookingCalendarModal({ isOpen, onClose, product }: BookingCalend
         toast({
           title: 'Error',
           description: 'Failed to load available times. Please try again.',
-          variant: 'destructive'
+          variant: 'destructive',
         })
       } finally {
         setIsLoadingSlots(false)
@@ -108,33 +107,38 @@ export function BookingCalendarModal({ isOpen, onClose, product }: BookingCalend
             </DialogHeader>
 
             <div className="flex justify-center mt-6 day-picker-custom">
-              <DayPicker
+              <Calendar
                 mode="single"
                 selected={selectedDate}
                 onSelect={setSelectedDate}
                 disabled={disabledDays}
-                modifiersClassNames={{
-                  selected: 'bg-gold text-white font-bold',
-                  today: 'text-gold font-bold',
-                }}
-                styles={{
-                  caption: { color: 'var(--navy)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase' },
-                  head_cell: { color: 'var(--muted-foreground)', fontSize: '0.8rem', fontWeight: 'bold' }
-                }}
+                className="rounded-md border border-border/50 p-3"
               />
             </div>
             
-            {/* Custom CSS for DayPicker since we can't easily style everything inline */}
+            {/* Custom styles for matching our theme */}
             <style jsx global>{`
-              .day-picker-custom .rdp-day_selected, .day-picker-custom .rdp-day_selected:focus, .day-picker-custom .rdp-day_selected:hover {
-                background-color: #D4AF37;
-                color: white;
+              .day-picker-custom [data-selected-single=true] {
+                background-color: #C9A84C !important;
+                color: #0B1C3D !important;
+                font-weight: bold;
+                border-radius: 9999px !important;
               }
-              .day-picker-custom .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
-                background-color: #f1f5f9;
+              .day-picker-custom button:hover:not([disabled]) {
+                background-color: rgba(201, 168, 76, 0.15) !important;
+                color: #0B1C3D !important;
+                border-radius: 9999px !important;
               }
-              .day-picker-custom .rdp {
-                margin: 0;
+              .day-picker-custom button[disabled] {
+                opacity: 0.25 !important;
+                cursor: not-allowed !important;
+                text-decoration: line-through !important;
+              }
+              .day-picker-custom .rdp-caption_label {
+                color: #0B1C3D !important;
+                font-weight: 700 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 1px !important;
               }
             `}</style>
           </div>
@@ -187,7 +191,7 @@ export function BookingCalendarModal({ isOpen, onClose, product }: BookingCalend
                 {/* Checkout Footer */}
                 <div className="mt-auto pt-6 border-t border-border/30">
                   <button
-                    className="w-full bg-navy text-white py-3 rounded-xl font-bold hover:bg-navy-light transition-colors disabled:opacity-50"
+                    className="w-full bg-navy text-white py-3.5 rounded-xl font-bold hover:bg-navy/90 transition-colors disabled:opacity-50"
                     onClick={handleCheckout}
                     disabled={!selectedSlot || isCheckingOut}
                   >
@@ -199,7 +203,7 @@ export function BookingCalendarModal({ isOpen, onClose, product }: BookingCalend
               <div className="flex-1 flex flex-col items-center justify-center text-center opacity-50">
                 <CalendarIcon className="w-12 h-12 text-muted-foreground mb-4" />
                 <h3 className="font-heading text-xl text-navy uppercase">Select a Date</h3>
-                <p className="text-sm text-muted-foreground mt-2 max-w-[200px]">
+                <p className="text-sm text-muted-foreground mt-2 max-w-[200px] mx-auto">
                   Please select a weekday from the calendar to view available times.
                 </p>
               </div>

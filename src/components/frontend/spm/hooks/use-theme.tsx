@@ -12,14 +12,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('spm-theme') as Theme | null
-      if (stored) return stored
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-    }
-    return 'light'
-  })
+  const [theme, setTheme] = useState<Theme>('light')
 
   useEffect(() => {
     const root = document.documentElement
@@ -28,7 +21,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('spm-theme', theme)
   }, [theme])
 
-  const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
+  const toggleTheme = () => {}
 
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
 }

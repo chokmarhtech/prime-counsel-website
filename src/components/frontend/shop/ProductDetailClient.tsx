@@ -175,7 +175,7 @@ export const ProductDetailClient = ({ product }: { product: Product }) => {
           </div>
         </div>
       </div>
-      
+
       {/* Booking Calendar Modal */}
       {product.type === 'session' && (
         <BookingCalendarModal 

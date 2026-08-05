@@ -142,15 +142,7 @@ export const Products: CollectionConfig = {
               label: 'Button Text',
               required: true,
             },
-            {
-              name: 'meetLink',
-              type: 'text',
-              label: 'Google Meet Link',
-              admin: {
-                condition: (data) => data.type === 'session',
-                description: 'The static Google Meet link for this specific session (e.g., https://meet.google.com/abc-defg-hij). Sent to clients automatically upon purchase.',
-              },
-            },
+
             {
               name: 'duration',
               type: 'text',

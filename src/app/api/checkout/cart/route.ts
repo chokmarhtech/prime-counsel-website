@@ -37,12 +37,17 @@ export async function POST(req: Request) {
         primarySessionId = String(product.id)
       }
 
+      let description = product.shortDescription || undefined
+      if (item.bookingDate && item.bookingTime) {
+        description = `Date: ${item.bookingDate} | Time: ${item.bookingTime} (GMT)`
+      }
+
       line_items.push({
         price_data: {
           currency: product.currency.toLowerCase(),
           product_data: {
             name: product.title,
-            description: product.shortDescription || undefined,
+            description,
           },
           unit_amount: Math.round(product.price * 100), // Convert to cents
         },

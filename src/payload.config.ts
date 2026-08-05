@@ -15,6 +15,7 @@ import { Products } from './collections/Products'
 import { DigitalAssets } from './collections/DigitalAssets'
 import { Orders } from './collections/Orders'
 import { Waitlist } from './collections/Waitlist'
+import { SpmRegistrations } from './collections/SpmRegistrations'
 import { Bookings } from './collections/Bookings'
 
 import { Users } from './collections/Users'
@@ -82,8 +83,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Blog, Media, Categories, Users, Testimonials, Products, DigitalAssets, Orders, Waitlist, Bookings],
-  globals: [],
+  collections: [Blog, Media, Categories, Users, Testimonials, Products, DigitalAssets, Orders, Waitlist, SpmRegistrations, Bookings],
   email: resendAdapter({
     defaultFromAddress: 'info@primecounsel.co.uk',
     defaultFromName: 'Prime Counsel Limited',

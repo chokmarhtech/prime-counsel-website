@@ -70,9 +70,33 @@ export default async function SuccessPage({
     console.error("❌ Error fetching products in SuccessPage:", error)
   }
 
+  // Parse bookingsData from metadata
+  const bookingsDataParam = session.metadata?.bookingsData
+  let bookingDate: string | undefined
+  let bookingTime: string | undefined
+
+  if (bookingsDataParam) {
+    try {
+      const parsedBookings = JSON.parse(bookingsDataParam)
+      if (parsedBookings && parsedBookings.length > 0) {
+        bookingDate = parsedBookings[0].date
+        bookingTime = parsedBookings[0].timeSlot
+      }
+    } catch (e) {
+      console.error("Failed to parse bookingsData from metadata", e)
+    }
+  }
+
   // If there's exactly ONE product and it's a session, show the luxury UI
   if (products.length === 1 && products[0].type === "session") {
-    return <BookingSuccessClient product={products[0]} sessionId={sessionId} />
+    return (
+      <BookingSuccessClient 
+        product={products[0]} 
+        sessionId={sessionId} 
+        bookingDate={bookingDate}
+        bookingTime={bookingTime}
+      />
+    )
   }
 
   // Multi-item or Standard Cart Flow

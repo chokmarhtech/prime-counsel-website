@@ -3,15 +3,22 @@
 import React from 'react'
 import Link from 'next/link'
 import type { Product } from '@/payload-types'
-import { CheckCircle2, Clock, MapPin, Download, BookOpen, ArrowRight } from 'lucide-react'
+import { CheckCircle2, Clock, MapPin, Download, BookOpen, ArrowRight, Calendar } from 'lucide-react'
 import { motion, Variants } from 'framer-motion'
 
 interface BookingSuccessClientProps {
   product: Product | null
   sessionId: string | null
+  bookingDate?: string
+  bookingTime?: string
 }
 
-export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClientProps) => {
+export const BookingSuccessClient = ({ 
+  product, 
+  sessionId,
+  bookingDate,
+  bookingTime
+}: BookingSuccessClientProps) => {
   const isSession = product?.type === 'session'
   const isBook = product?.type === 'book'
   const isDigital = product?.type === 'digital'
@@ -21,7 +28,6 @@ export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClien
     const symbol = currency === 'GBP' ? '£' : currency === 'USD' ? '$' : '₦'
     return `${symbol} ${price.toLocaleString(undefined, { minimumFractionDigits: 2 })}`
   }
-
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -53,11 +59,11 @@ export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClien
               <CheckCircle2 className="w-8 h-8 text-gold" />
             </div>
             <h1 className="font-heading text-4xl md:text-5xl text-navy uppercase tracking-wider mb-4">
-              {isSession ? 'Payment Successful' : 'Purchase Complete'}
+              {isSession ? 'Booking Successful' : 'Purchase Complete'}
             </h1>
             <p className="font-body text-navy/70 text-lg max-w-lg mx-auto leading-relaxed">
               {isSession
-                ? 'Your session has been successfully booked. A receipt and your Google Meet link have been sent to your email.'
+                ? 'Your session date and time have been successfully secured. A confirmation email has been sent.'
                 : 'Thank you for your purchase. Your order has been securely processed.'}
             </p>
           </motion.div>
@@ -84,7 +90,18 @@ export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClien
               </div>
 
               {isSession && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {bookingDate && bookingTime && (
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
+                        <Calendar className="w-5 h-5 text-gold" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold mb-0.5">Appointment</p>
+                        <p className="font-body text-navy text-sm font-bold">{bookingDate} @ {bookingTime}</p>
+                      </div>
+                    </div>
+                  )}
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-surface flex items-center justify-center shrink-0">
                       <Clock className="w-5 h-5 text-gold" />
@@ -107,10 +124,10 @@ export const BookingSuccessClient = ({ product, sessionId }: BookingSuccessClien
               )}
 
               {isSession && (
-                <div className="flex items-start gap-4 bg-surface p-6 rounded-xl mt-2">
-                  <Clock className="w-6 h-6 text-gold shrink-0" />
+                <div className="flex items-start gap-4 bg-surface p-6 rounded-xl mt-6">
+                  <CheckCircle2 className="w-6 h-6 text-gold shrink-0" />
                   <p className="font-body text-sm text-navy/80 leading-relaxed">
-                    We have successfully processed your payment. A receipt and your Google Meet link for the scheduled time have been sent to your email. Please check your inbox.
+                    We have successfully processed your booking. A confirmation email with the Google Meet conference room link has been dispatched to your email.
                   </p>
                 </div>
               )}
