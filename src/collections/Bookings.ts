@@ -58,5 +58,13 @@ export const Bookings: CollectionConfig = {
       type: 'relationship',
       relationTo: 'products',
     },
+    {
+      name: 'meetingLink',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        description: 'The custom meeting link allocated for this booking.',
+      },
+    },
   ],
 }
