@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 import img1 from '@/assets/images/events/spm2/spm-2-a.jpeg'
 import img2 from '@/assets/images/events/spm2/spm-2-c.jpeg'
-import img3 from '@/assets/images/events/spm1/image-2.png'
+import img3 from '@/assets/images/events/spm1/image-2.webp'
 
 const HeroSection = () => {
   return (

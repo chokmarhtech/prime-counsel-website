@@ -53,7 +53,7 @@ const MeetCoach = () => {
 
           {/* Right Column: Visuals */}
           <AnimatedSection direction="right" className="relative group">
-            <div className="relative aspect-4/5 w-full max-w-[500px] mx-auto lg:ml-auto">
+            <div className="relative aspect-[4/5] w-full max-w-[500px] mx-auto lg:ml-auto">
               {/* Main Image */}
               <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl border border-border/50">
                 <Image
