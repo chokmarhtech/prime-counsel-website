@@ -441,6 +441,10 @@ export interface Product {
       }[]
     | null;
   whoFor: string;
+  /**
+   * Paste your Zoom, Google Meet, or Microsoft Teams URL here for this mentorship session.
+   */
+  meetingLink?: string | null;
   buttonText: string;
   duration?: string | null;
   location?: ('Online' | 'In-Person' | 'Online / In-Person') | null;
@@ -561,6 +565,10 @@ export interface Booking {
   paymentStatus: 'pending' | 'paid' | 'refunded';
   stripeSessionId?: string | null;
   product?: (number | null) | Product;
+  /**
+   * The custom meeting link allocated for this booking.
+   */
+  meetingLink?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1198,6 +1206,7 @@ export interface ProductsSelect<T extends boolean = true> {
         id?: T;
       };
   whoFor?: T;
+  meetingLink?: T;
   buttonText?: T;
   duration?: T;
   location?: T;
@@ -1288,6 +1297,7 @@ export interface BookingsSelect<T extends boolean = true> {
   paymentStatus?: T;
   stripeSessionId?: T;
   product?: T;
+  meetingLink?: T;
   updatedAt?: T;
   createdAt?: T;
 }

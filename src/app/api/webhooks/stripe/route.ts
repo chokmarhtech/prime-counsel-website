@@ -228,9 +228,8 @@ export async function POST(req: Request) {
                   bookingDate = currentBooking.date
                   bookingTime = currentBooking.timeSlot
                   
-                  // Generate random Google Meet link
-                  const part = (len: number) => Array.from({length: len}, () => 'abcdefghijklmnopqrstuvwxyz'[Math.floor(Math.random() * 26)]).join('')
-                  meetLink = `https://meet.google.com/${part(3)}-${part(4)}-${part(3)}`
+                  // Use configured custom meeting link from the product
+                  meetLink = (product.meetingLink as string) || ''
 
                   // Create Booking row in Payload
                   const existingBookingRecord = await payload.find({
@@ -254,6 +253,7 @@ export async function POST(req: Request) {
                         paymentStatus: 'paid',
                         stripeSessionId: session.id,
                         product: product.id,
+                        meetingLink: meetLink,
                       },
                     })
                     console.log(`✅ Created booking record in Payload for ${customerEmail}: ${bookingDate} @ ${bookingTime}`)

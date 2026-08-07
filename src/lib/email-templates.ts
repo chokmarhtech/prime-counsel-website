@@ -1090,10 +1090,6 @@ export function spmAdminNotificationEmailHtml({
                   <td class="text-dark" style="padding:14px 20px;color:#555;font-size:13px;font-family:monospace;">${stripeId}</td>
                 </tr>
               </table>
-
-              <p style="margin:0;font-size:12px;color:#999;" class="text-muted">
-                Confirmed via Stripe webhook on ${new Date().toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at ${new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} GMT
-              </p>
             </td>
           </tr>
 
@@ -1500,10 +1496,6 @@ export function adminDirectBookingEmailHtml({
                   <td class="text-dark" style="padding:14px 20px;color:#555;font-size:13px;font-family:monospace;">${stripeId}</td>
                 </tr>
               </table>
-
-              <p style="margin:0;font-size:12px;color:#999;" class="text-muted">
-                Confirmed via Stripe webhook on ${new Date().toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} GMT
-              </p>
             </td>
           </tr>
 

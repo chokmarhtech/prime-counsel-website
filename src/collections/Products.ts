@@ -135,6 +135,20 @@ export const Products: CollectionConfig = {
               label: 'Who This Is For',
               required: true,
             },
+            {
+              name: 'meetingLink',
+              type: 'text',
+              validate: (val: string | null | undefined, { data }: { data: Record<string, any> }) => {
+                if (data?.type === 'session' && !val) {
+                  return 'Meeting link is required for mentorship sessions.'
+                }
+                return true
+              },
+              admin: {
+                description: 'Paste your Zoom, Google Meet, or Microsoft Teams URL here for this mentorship session.',
+                condition: (data) => data?.type === 'session',
+              },
+            },
 
             {
               name: 'buttonText',
