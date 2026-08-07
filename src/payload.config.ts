@@ -81,6 +81,7 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
+      max: 2, // Prevent connection exhaustion during concurrent Next.js builds
     },
   }),
   collections: [Blog, Media, Categories, Users, Testimonials, Products, DigitalAssets, Orders, Waitlist, SpmRegistrations, Bookings],
