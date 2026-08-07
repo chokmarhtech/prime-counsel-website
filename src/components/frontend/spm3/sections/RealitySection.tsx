@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import AnimatedSection from '@/components/frontend/spm/sections/AnimatedSection'
 import Image from 'next/image'
 import { FiCheckCircle } from 'react-icons/fi'
-import realityImg from '@/assets/images/events/spm1/image-3.png'
+import realityImg from '@/assets/images/events/spm1/image-3.webp'
 
 const RealitySection = () => {
   return (

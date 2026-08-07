@@ -17,7 +17,7 @@ const DifferenceSection = () => {
           {/* Left: Image Card */}
           <AnimatedSection delay={0.2} className="order-2 lg:order-1 relative">
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-lg max-h-125 bg-gold/5 rounded-3xl -z-10 rotate-3" />
-             <div className="relative bg-white p-4 rounded-3xl shadow-xl border border-gray-200 aspect-square lg:aspect-4/5 w-full max-w-md mx-auto">
+             <div className="relative bg-white p-4 rounded-3xl shadow-xl border border-gray-200 aspect-square lg:aspect-[4/5] w-full max-w-md mx-auto">
                <div className="w-full h-full rounded-2xl overflow-hidden relative">
                  <Image 
                     src={differenceImg} 

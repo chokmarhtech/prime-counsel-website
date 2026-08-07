@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import AnimatedSection from '@/components/frontend/spm/sections/AnimatedSection'
 import Image from 'next/image'
 
-import imgLeft from '@/assets/images/events/spm1/image-2.png'
+import imgLeft from '@/assets/images/events/spm1/image-2.webp'
 import imgRight from '@/assets/images/events/spm2/spm-2-e.jpeg'
 
 const AudienceSection = () => {

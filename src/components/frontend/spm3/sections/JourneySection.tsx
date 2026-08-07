@@ -2,9 +2,9 @@
 
 import AnimatedSection from '@/components/frontend/spm/sections/AnimatedSection'
 import Image from 'next/image'
-import spm1Img from '@/assets/images/events/spm1/image-1.png'
-import spm2Img from '@/assets/images/events/spm2/spm-2-a.png'
-import spm3Img from '@/assets/images/events/spm2/spm-2-e.png'
+import spm1Img from '@/assets/images/events/spm1/image-1.webp'
+import spm2Img from '@/assets/images/events/spm2/spm-2-a.webp'
+import spm3Img from '@/assets/images/events/spm2/spm-2-e.webp'
 
 const journeyData = [
   {
@@ -55,7 +55,7 @@ const JourneySection = () => {
             <AnimatedSection key={index} delay={0.2 * index}>
               <div className="flex flex-col items-start bg-transparent">
                 {/* Top Image Box */}
-                <div className="w-full aspect-4/5 sm:aspect-square md:aspect-4/5 rounded-3xl overflow-hidden mb-6 border-4 border-white/20 shadow-xl relative group bg-transparent">
+                <div className="w-full aspect-[4/5] sm:aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden mb-6 border-4 border-white/20 shadow-xl relative group bg-transparent">
                   <Image 
                     src={item.image} 
                     alt={item.version} 
