@@ -143,7 +143,7 @@ const HeroSection = () => {
             <Image
               src={flyer}
               alt="SPM 2.0 LUTON"
-              className="h-full object-cover rounded-2xl w-[400px]"
+              className="h-full object-cover rounded-2xl w-100"
             />
           </motion.div>
         </div>

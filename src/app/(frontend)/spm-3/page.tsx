@@ -4,18 +4,21 @@ import configPromise from '@payload-config'
 import {
   HeroSection,
   RealitySection,
-  DifferenceSection,
-  AudienceSection,
+  HighlightsSection,
+  WhySPMSection,
   DeliverablesSection,
-  JourneySection,
+  WhoIsThisForSection,
+  EventDetailsSection,
+  CoachSection,
   FAQSection,
-  ContactSection
+  ContactSection,
 } from '@/components/frontend/spm3/sections'
 import { RegistrationSuccessOverlay } from '@/components/frontend/spm3/components/RegistrationSuccessOverlay'
 
 export const metadata: Metadata = {
   title: 'Strategic Positioning Masterclass 3.0 | Prime Counsel',
-  description: 'Beyond Survival: Secret System to Thriving in the UK. A transformational one-day masterclass designed to help ambitious professionals move beyond hard work.',
+  description:
+    'Beyond Survival: Secret System to Thriving in the UK. A transformational one-day masterclass designed to help ambitious professionals move beyond hard work.',
 }
 
 export default async function SPM3({
@@ -51,18 +54,20 @@ export default async function SPM3({
 
   return (
     <main className="min-h-screen bg-background">
-        <div className="dark text-foreground bg-background">
-          <HeroSection />
-        </div>
-        <div className="light text-foreground bg-background">
-          <RealitySection />
-          <DifferenceSection />
-          <AudienceSection />
-          <DeliverablesSection />
-          <JourneySection />
-          <FAQSection />
-          <ContactSection />
-        </div>
+      <div className="dark text-foreground bg-background">
+        <HeroSection />
+      </div>
+      <div className="light text-foreground bg-background">
+        <RealitySection />
+        <HighlightsSection />
+        <WhySPMSection />
+        <DeliverablesSection />
+        <WhoIsThisForSection />
+        <EventDetailsSection />
+        <CoachSection />
+        <FAQSection />
+        <ContactSection />
+      </div>
       {/* Success Modal Overlay */}
       <RegistrationSuccessOverlay registration={registrationData} />
     </main>

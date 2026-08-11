@@ -28,10 +28,11 @@ const NAV_LINKS_SPM2 = [
 
 const NAV_LINKS_SPM3 = [
   { label: 'The Reality', href: '#reality' },
-  { label: 'The Difference', href: '#difference' },
-  { label: 'The Audience', href: '#audience' },
-  { label: 'The Value', href: '#value' },
-  { label: 'The Movement', href: '#movement' },
+  { label: 'Highlights', href: '#highlights' },
+  { label: 'Why SPM 3.0', href: '#why-spm' },
+  // { label: 'The Movement', href: '#movement' },
+  { label: 'Event', href: '#event-details' },
+  { label: 'Coach', href: '#coach' },
   { label: 'FAQ', href: '#faq' },
 ]
 
@@ -41,7 +42,7 @@ const Navbar = () => {
   const [mounted, setMounted] = useState(false)
   const [isMobileModalOpen, setIsMobileModalOpen] = useState(false)
   const pathname = usePathname()
-  
+
   const isSPM3 = pathname?.includes('/spm-3')
   const NAV_LINKS = isSPM3 ? NAV_LINKS_SPM3 : NAV_LINKS_SPM2
 
@@ -70,9 +71,7 @@ const Navbar = () => {
   // isSPM3 hero is visually dark, so transparent navbar needs white logo.
   // isSPM2 hero is light, so transparent navbar needs dark logo.
   // When scrolled, the navbar becomes white, so both need dark logo.
-  const currentLogo = isSPM3 
-    ? (scrolled ? logoDark : logoLight)
-    : logoDark;
+  const currentLogo = isSPM3 ? (scrolled ? logoDark : logoLight) : logoDark
 
   return (
     <AnimatePresence>
@@ -90,7 +89,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <Link
-              href={isSPM3 ? "/spm-3" : "/spm-2"}
+              href={isSPM3 ? '/spm-3' : '/spm-2'}
               onClick={(e) => {
                 e.preventDefault()
                 window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -114,16 +113,16 @@ const Navbar = () => {
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
                   className={`font-body uppercase text-[12px] font-medium px-2 py-2 rounded-sm transition-colors ${
-                    scrolled 
+                    scrolled
                       ? 'text-navy/70 hover:text-navy hover:bg-gray-100'
-                      : (isSPM3 ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-navy/70 hover:text-navy hover:bg-gray-100')
+                      : isSPM3
+                        ? 'text-white/70 hover:text-white hover:bg-white/10'
+                        : 'text-navy/70 hover:text-navy hover:bg-gray-100'
                   }`}
                 >
                   {link.label}
                 </button>
               ))}
-
-
 
               {/* CTA */}
               <RegistrationModalSPM3>
@@ -135,17 +134,17 @@ const Navbar = () => {
 
             {/* Mobile controls (Switcher + Hamburger on right) */}
             <div className="flex md:hidden items-center gap-2">
-
-
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
                   <Button
                     variant="ghost"
                     size="icon"
                     className={
-                      scrolled 
+                      scrolled
                         ? 'text-navy border border-gray-200 hover:bg-gray-100'
-                        : (isSPM3 ? 'text-white hover:bg-white/10 hover:text-white border border-white/20' : 'text-navy border border-gray-200 hover:bg-gray-100')
+                        : isSPM3
+                          ? 'text-white hover:bg-white/10 hover:text-white border border-white/20'
+                          : 'text-navy border border-gray-200 hover:bg-gray-100'
                     }
                   >
                     <Menu className="h-6 w-6" />
@@ -170,7 +169,7 @@ const Navbar = () => {
                       <button
                         onClick={openMobileModal}
                         className={`font-body text-sm text-center font-bold px-5 py-2 rounded-sm tracking-wider uppercase transition-all ${
-                          isSPM3 
+                          isSPM3
                             ? 'bg-gold text-navy hover:shadow-[0_0_20px_rgba(var(--gold),0.4)]'
                             : 'bg-secondary text-secondary-foreground hover:shadow-[0_0_20px_hsl(212,100%,46%,0.3)]'
                         }`}
@@ -184,9 +183,15 @@ const Navbar = () => {
 
               {/* External Registration Modal for Mobile Drawer */}
               {isSPM3 ? (
-                <RegistrationModalSPM3 open={isMobileModalOpen} onOpenChange={setIsMobileModalOpen} />
+                <RegistrationModalSPM3
+                  open={isMobileModalOpen}
+                  onOpenChange={setIsMobileModalOpen}
+                />
               ) : (
-                <RegistrationModalSPM2 open={isMobileModalOpen} onOpenChange={setIsMobileModalOpen} />
+                <RegistrationModalSPM2
+                  open={isMobileModalOpen}
+                  onOpenChange={setIsMobileModalOpen}
+                />
               )}
             </div>
           </div>
