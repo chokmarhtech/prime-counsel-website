@@ -1,62 +1,91 @@
 'use client'
 
-
 import AnimatedSection from '@/components/frontend/spm/sections/AnimatedSection'
-import { FiCheck } from 'react-icons/fi'
+import { RegistrationModal } from '@/components/frontend/spm3/components/RegistrationModal'
+import {
+  FiAward,
+  FiGift,
+  FiStar,
+  FiCoffee,
+  FiUsers,
+  FiMessageCircle,
+  FiCheckCircle,
+} from 'react-icons/fi'
 
 const deliverables = [
-  "Certificate of Participation",
-  "Branded Souvenirs",
-  "Discount on Coach Ayoola’s book- From Raw Talent to Market Value",
-  "Lunch & Refreshments",
-  "Networking Session",
-  "Fireside Q&A",
-  "Access to Prime Counsel Growth Community",
+  {
+    title: 'Certificate of Participation',
+    icon: FiAward,
+  },
+  {
+    title: 'Branded Souvenirs',
+    icon: FiGift,
+  },
+  {
+    title: 'Discount on Coach Ayoola’s book- From Raw Talent to Market Value',
+    icon: FiStar,
+  },
+  {
+    title: 'Lunch & Refreshments',
+    icon: FiCoffee,
+  },
+  {
+    title: 'Networking Session',
+    icon: FiUsers,
+  },
+  {
+    title: 'Fireside Q&A',
+    icon: FiMessageCircle,
+  },
+  {
+    title: 'Access to Prime Counsel Growth Community',
+    icon: FiCheckCircle,
+  },
 ]
 
 const DeliverablesSection = () => {
   return (
-    <section id="value" className="py-24 md:py-32 bg-gray-50 relative overflow-hidden">
+    <section className="py-20 md:py-28 section-dark text-white relative overflow-hidden">
+      {/* Background glow effects */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 blur-[150px] rounded-full pointer-events-none -z-0" />
+
       <div className="container mx-auto px-6 md:px-12 relative z-10 max-w-5xl">
-        
         <AnimatedSection>
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="h-px bg-gold w-8 md:w-12" />
-              <h2 className="font-heading text-sm uppercase tracking-[0.2em] text-gold font-semibold">
-                The Value
-              </h2>
-              <div className="h-px bg-gold w-8 md:w-12" />
-            </div>
-            <h3 className="font-heading text-3xl md:text-4xl lg:text-5xl text-navy">
-              What you will <br className="hidden md:block"/>
-              walk away with
-            </h3>
+          <div className="text-center mb-12">
+            <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-wider font-extrabold mb-4">
+              BONUS OFFER
+            </h2>
+            <div className="w-16 h-1 bg-gold mx-auto" />
           </div>
         </AnimatedSection>
 
-        <div className="relative">
-          {/* Decorative glowing background behind the list */}
-          <div className="absolute inset-0 bg-linear-to-b from-gold/10 to-transparent blur-3xl -z-10 rounded-full" />
-          
-          <div className="bg-white border border-gray-200 rounded-3xl p-8 md:p-12">
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-              {deliverables.map((item, index) => (
-                <AnimatedSection key={index} delay={0.1 * index}>
-                  <li className="flex items-start gap-4">
-                    <div className="mt-1 w-6 h-6 rounded-full bg-gold/20 flex items-center justify-center text-gold shrink-0 shadow-[0_0_10px_rgba(var(--gold),0.2)]">
-                      <FiCheck className="w-3 h-3" />
-                    </div>
-                    <span className="font-body text-base md:text-lg text-navy font-medium">
-                      {item}
-                    </span>
-                  </li>
-                </AnimatedSection>
-              ))}
-            </ul>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
+          {deliverables.map((item, index) => {
+            const Icon = item.icon
+            return (
+              <AnimatedSection key={index} delay={0.08 * index}>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-5 md:p-6 flex items-center gap-4 hover:border-gold/40 hover:bg-white/10 transition-all duration-300 h-full group">
+                  <div className="text-gold shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <span className="font-body text-sm md:text-base text-white/90 font-medium leading-snug">
+                    {item.title}
+                  </span>
+                </div>
+              </AnimatedSection>
+            )
+          })}
         </div>
 
+        <AnimatedSection delay={0.6}>
+          <div className="mt-12 flex justify-center">
+            <RegistrationModal>
+              <button className="bg-gold text-navy hover:bg-gold/90 font-body font-bold text-sm md:text-base px-8 py-4 rounded-md tracking-wider uppercase transition-all duration-300 shadow-xl hover:scale-105">
+                REGISTER NOW - GET YOUR TICKET
+              </button>
+            </RegistrationModal>
+          </div>
+        </AnimatedSection>
       </div>
     </section>
   )
