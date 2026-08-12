@@ -2,6 +2,11 @@ import { TESTIMONIALS } from '@/components/frontend/spm/data/constants'
 import { FiMessageCircle } from 'react-icons/fi'
 import AnimatedSection from './AnimatedSection'
 import ImageSlider from '../components/image-slider'
+import EventVideoGallery from '@/components/frontend/pages/events/event-video-gallery'
+
+const spm2Videos = [
+  { url: 'https://vimeo.com/1191671244?fl=tl&fe=ec', title: 'SPM 2.0 Event Highlights & Recap' },
+]
 
 const HighlightsSection = () => {
   return (
@@ -20,13 +25,18 @@ const HighlightsSection = () => {
           <div className="w-16 h-1 bg-gold mx-auto mb-14" />
         </AnimatedSection>
 
-        {/* <AnimatedSection delay={0.1}>
-          <p className="font-body text-primary-foreground/70 max-w-3xl mx-auto mb-14 leading-relaxed text-base md:text-lg">
-            Last year in Birmingham, over 40 ambitious individuals gathered for
-            SPM 1.0. Many of them have since begun applying the principles of
-            leadership, ownership, and control in their careers and businesses.
-          </p>
-        </AnimatedSection> */}
+        <div className="mt-14">
+          <AnimatedSection delay={0.5}>
+            <ImageSlider />
+          </AnimatedSection>
+        </div>
+
+        {/* Video Recap Component */}
+        <div className="mb-14 max-w-3xl mx-auto">
+          <AnimatedSection delay={0.6}>
+            <EventVideoGallery videos={spm2Videos} titleClassName="text-gold" />
+          </AnimatedSection>
+        </div>
 
         <div className="grid md:grid-cols-3 gap-5">
           {TESTIMONIALS.map((item, i) => (
@@ -43,15 +53,9 @@ const HighlightsSection = () => {
             </AnimatedSection>
           ))}
         </div>
-        
-        <div className="my-14">
-          <AnimatedSection delay={0.5}>
-            <ImageSlider />
-          </AnimatedSection>
-        </div>
 
         <AnimatedSection delay={0.5}>
-          <p className="font-heading text-xl md:text-2xl text-gold ">
+          <p className="font-heading text-xl md:text-2xl text-gold mt-6">
             SPM 3.0 Builds on That Foundation and Goes Deeper.
           </p>
         </AnimatedSection>

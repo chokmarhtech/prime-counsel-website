@@ -11,7 +11,16 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { BANK_DETAILS } from '@/components/frontend/spm3/data/constants'
-import {  Copy, CheckCircle2, ArrowRight, ArrowLeft, Loader2, Sparkles, Monitor, Users } from 'lucide-react'
+import {
+  Copy,
+  CheckCircle2,
+  ArrowRight,
+  ArrowLeft,
+  Loader2,
+  Sparkles,
+  Monitor,
+  Users,
+} from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/utilities/ui'
 
@@ -38,10 +47,10 @@ export const RegistrationModal = ({
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [paymentType, setPaymentType] = useState<'stripe' | 'bank_transfer'>('stripe')
-  
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  
+
   const [copied, setCopied] = useState<string | null>(null)
   const [bankSuccessCode, setBankSuccessCode] = useState('')
 
@@ -125,22 +134,45 @@ export const RegistrationModal = ({
   }
 
   return (
-    <Dialog open={open} onOpenChange={(val) => (val ? (setOpen ? setOpen(true) : null) : handleClose())}>
+    <Dialog
+      open={open}
+      onOpenChange={(val) => (val ? (setOpen ? setOpen(true) : null) : handleClose())}
+    >
       {children && (
         <DialogTrigger asChild>
           <div className={cn('inline-block', className)}>{children}</div>
         </DialogTrigger>
       )}
       <DialogContent className="w-[95vw] sm:max-w-xl max-h-[90vh] overflow-y-auto bg-[#04082B] text-white border-white/10 p-6 md:p-8 gap-0">
-        
         {/* Step Indicator Header */}
         {step !== 'bank_success' && (
           <div className="flex items-center gap-2 mb-6">
-            <span className={cn("text-xs font-bold uppercase tracking-widest transition-colors", step === 'ticket' ? 'text-gold' : 'text-white/40')}>01. Ticket</span>
+            <span
+              className={cn(
+                'text-xs font-bold uppercase tracking-widest transition-colors',
+                step === 'ticket' ? 'text-gold' : 'text-white/40',
+              )}
+            >
+              01. Ticket
+            </span>
             <ArrowRight className="w-3.5 h-3.5 text-white/20" />
-            <span className={cn("text-xs font-bold uppercase tracking-widest transition-colors", step === 'details' ? 'text-gold' : 'text-white/40')}>02. Details</span>
+            <span
+              className={cn(
+                'text-xs font-bold uppercase tracking-widest transition-colors',
+                step === 'details' ? 'text-gold' : 'text-white/40',
+              )}
+            >
+              02. Details
+            </span>
             <ArrowRight className="w-3.5 h-3.5 text-white/20" />
-            <span className={cn("text-xs font-bold uppercase tracking-widest transition-colors", step === 'payment' ? 'text-gold' : 'text-white/40')}>03. Payment</span>
+            <span
+              className={cn(
+                'text-xs font-bold uppercase tracking-widest transition-colors',
+                step === 'payment' ? 'text-gold' : 'text-white/40',
+              )}
+            >
+              03. Payment
+            </span>
           </div>
         )}
 
@@ -164,13 +196,13 @@ export const RegistrationModal = ({
 
               <div className="flex flex-col gap-4">
                 {/* Physical Ticket option */}
-                <div 
+                <div
                   onClick={() => setTicketType('physical')}
                   className={cn(
-                    "flex items-start gap-4 p-5 rounded-2xl border transition-all cursor-pointer",
-                    ticketType === 'physical' 
-                      ? 'bg-gold/10 border-gold shadow-[0_0_20px_rgba(201,168,76,0.15)]' 
-                      : 'bg-white/5 border-white/10 hover:border-white/20'
+                    'flex items-start gap-4 p-5 rounded-2xl border transition-all cursor-pointer',
+                    ticketType === 'physical'
+                      ? 'bg-gold/10 border-gold shadow-[0_0_20px_rgba(201,168,76,0.15)]'
+                      : 'bg-white/5 border-white/10 hover:border-white/20',
                   )}
                 >
                   <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center text-gold shrink-0 mt-1">
@@ -178,23 +210,28 @@ export const RegistrationModal = ({
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
-                      <span className="font-heading font-bold text-lg text-white tracking-wider">Physical Ticket</span>
-                      <span className="font-heading font-bold text-xl text-gold tracking-wide">£50</span>
+                      <span className="font-heading font-bold text-lg text-white tracking-wider">
+                        Physical Ticket
+                      </span>
+                      <span className="font-heading font-bold text-xl text-gold tracking-wide">
+                        £50
+                      </span>
                     </div>
                     <p className="font-body text-sm text-white/60 mt-1">
-                      Attend live in-person in Birmingham. Access includes lunch & refreshments, branded souvenirs, physical networking, and Q&A.
+                      Attend live in-person in Birmingham. Access includes lunch & refreshments,
+                      branded souvenirs, physical networking, and Q&A.
                     </p>
                   </div>
                 </div>
 
                 {/* Virtual Ticket option */}
-                <div 
+                <div
                   onClick={() => setTicketType('virtual')}
                   className={cn(
-                    "flex items-start gap-4 p-5 rounded-2xl border transition-all cursor-pointer",
-                    ticketType === 'virtual' 
-                      ? 'bg-gold/10 border-gold shadow-[0_0_20px_rgba(201,168,76,0.15)]' 
-                      : 'bg-white/5 border-white/10 hover:border-white/20'
+                    'flex items-start gap-4 p-5 rounded-2xl border transition-all cursor-pointer',
+                    ticketType === 'virtual'
+                      ? 'bg-gold/10 border-gold shadow-[0_0_20px_rgba(201,168,76,0.15)]'
+                      : 'bg-white/5 border-white/10 hover:border-white/20',
                   )}
                 >
                   <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center text-gold shrink-0 mt-1">
@@ -202,17 +239,21 @@ export const RegistrationModal = ({
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
-                      <span className="font-heading font-bold text-lg text-white tracking-wider">Virtual Ticket</span>
-                      <span className="font-heading font-bold text-xl text-gold tracking-wide">£25</span>
+                      <span className="font-heading font-bold text-lg text-white tracking-wider">
+                        Virtual Ticket
+                      </span>
+                      <span className="font-heading font-bold text-xl text-gold tracking-wide">
+                        £25
+                      </span>
                     </div>
                     <p className="font-body text-sm text-white/60 mt-1">
-                      Stream online globally. Access includes full live broadcast, digital participation tools, and community membership.
+                      Stream online globally. Access includes full live broadcast, and access to replay.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <Button 
+              <Button
                 onClick={handleNextStep}
                 className="bg-gold hover:bg-gold/90 text-navy font-body font-bold text-base py-6 rounded-lg uppercase tracking-wider shadow-lg shadow-gold/10 gap-2 mt-4"
               >
@@ -240,9 +281,14 @@ export const RegistrationModal = ({
 
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-white/70">Full Name</label>
-                  <input 
-                    type="text" 
+                  <label
+                    htmlFor="name"
+                    className="text-xs font-bold uppercase tracking-widest text-white/70"
+                  >
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -252,9 +298,14 @@ export const RegistrationModal = ({
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-white/70">Email Address</label>
-                  <input 
-                    type="email" 
+                  <label
+                    htmlFor="email"
+                    className="text-xs font-bold uppercase tracking-widest text-white/70"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -269,14 +320,14 @@ export const RegistrationModal = ({
               </div>
 
               <div className="grid grid-cols-2 gap-4 mt-4">
-                <Button 
+                <Button
                   onClick={handlePrevStep}
                   variant="ghost"
                   className="border border-white/10 hover:bg-white/5 hover:text-white font-body font-bold text-sm py-6 rounded-lg uppercase tracking-wider gap-2"
                 >
                   <ArrowLeft className="w-4 h-4" /> Back
                 </Button>
-                <Button 
+                <Button
                   onClick={handleNextStep}
                   className="bg-gold hover:bg-gold/90 text-navy font-body font-bold text-base py-6 rounded-lg uppercase tracking-wider shadow-lg shadow-gold/10 gap-2"
                 >
@@ -305,33 +356,49 @@ export const RegistrationModal = ({
 
               <div className="flex flex-col gap-4">
                 {/* Pay with card */}
-                <div 
+                <div
                   onClick={() => setPaymentType('stripe')}
                   className={cn(
-                    "flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer",
-                    paymentType === 'stripe' ? 'bg-gold/10 border-gold' : 'bg-white/5 border-white/10'
+                    'flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer',
+                    paymentType === 'stripe'
+                      ? 'bg-gold/10 border-gold'
+                      : 'bg-white/5 border-white/10',
                   )}
                 >
                   <div className="flex flex-col">
-                    <span className="font-heading font-bold text-base text-white tracking-wider">Pay Online (Card)</span>
-                    <span className="text-white/60 text-xs mt-0.5">Secure payment via card. Best for instant check-in.</span>
+                    <span className="font-heading font-bold text-base text-white tracking-wider">
+                      Pay Online (Card)
+                    </span>
+                    <span className="text-white/60 text-xs mt-0.5">
+                      Secure payment via card. Best for instant check-in.
+                    </span>
                   </div>
-                  <span className="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-gold/20 shrink-0">Instant</span>
+                  <span className="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-gold/20 shrink-0">
+                    Instant
+                  </span>
                 </div>
 
                 {/* Bank transfer */}
-                <div 
+                <div
                   onClick={() => setPaymentType('bank_transfer')}
                   className={cn(
-                    "flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer",
-                    paymentType === 'bank_transfer' ? 'bg-gold/10 border-gold' : 'bg-white/5 border-white/10'
+                    'flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer',
+                    paymentType === 'bank_transfer'
+                      ? 'bg-gold/10 border-gold'
+                      : 'bg-white/5 border-white/10',
                   )}
                 >
                   <div className="flex flex-col">
-                    <span className="font-heading font-bold text-base text-white tracking-wider">Direct Bank Transfer</span>
-                    <span className="text-white/60 text-xs mt-0.5">Submit registration and transfer directly to our account.</span>
+                    <span className="font-heading font-bold text-base text-white tracking-wider">
+                      Direct Bank Transfer
+                    </span>
+                    <span className="text-white/60 text-xs mt-0.5">
+                      Submit registration and transfer directly to our account.
+                    </span>
                   </div>
-                  <span className="bg-white/10 text-white/80 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-white/10 shrink-0">Manual</span>
+                  <span className="bg-white/10 text-white/80 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-white/10 shrink-0">
+                    Manual
+                  </span>
                 </div>
 
                 {error && (
@@ -340,7 +407,7 @@ export const RegistrationModal = ({
               </div>
 
               <div className="grid grid-cols-3 gap-4 mt-4">
-                <Button 
+                <Button
                   onClick={handlePrevStep}
                   variant="ghost"
                   className="border border-white/10 hover:bg-white/5 hover:text-white font-body font-bold text-sm py-6 rounded-lg uppercase tracking-wider gap-2 col-span-1"
@@ -348,7 +415,7 @@ export const RegistrationModal = ({
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </Button>
-                <Button 
+                <Button
                   onClick={handleSubmit}
                   className="bg-gold hover:bg-gold/90 text-navy font-body font-bold text-base py-6 rounded-lg uppercase tracking-wider shadow-lg shadow-gold/10 gap-2 col-span-2"
                   disabled={loading}
@@ -362,9 +429,7 @@ export const RegistrationModal = ({
                       Pay with Stripe <Sparkles className="w-4 h-4" />
                     </>
                   ) : (
-                    <>
-                      Submit Ticket
-                    </>
+                    <>Submit Ticket</>
                   )}
                 </Button>
               </div>
@@ -387,32 +452,72 @@ export const RegistrationModal = ({
                   Ticket Reserved!
                 </DialogTitle>
                 <DialogDescription className="font-body text-white/70 text-sm md:text-base mt-2">
-                  Thank you, <strong className="text-white">{name}</strong>! Your seat is reserved under pending validation.
+                  Thank you, <strong className="text-white">{name}</strong>! Your seat is reserved
+                  under pending validation.
                 </DialogDescription>
               </DialogHeader>
 
               <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 text-left space-y-4">
                 <div className="flex flex-col gap-1 border-b border-white/5 pb-3">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">Your Unique Ticket Reference</span>
-                  <span className="font-heading font-black text-xl text-gold tracking-wider">{bankSuccessCode}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+                    Your Unique Ticket Reference
+                  </span>
+                  <span className="font-heading font-black text-xl text-gold tracking-wider">
+                    {bankSuccessCode}
+                  </span>
                 </div>
 
                 <div className="font-body text-xs font-semibold text-white bg-gold/10 border border-gold/20 p-3 rounded-lg">
-                  <span className="text-gold text-[10px] font-black uppercase tracking-wider block mb-1">Payment Instructions:</span>
-                  Please transfer exactly <span className="text-gold font-bold">£{ticketType === 'physical' ? '50' : '25'}</span> to our bank account. Use your unique code <span className="text-gold font-bold">{bankSuccessCode}</span> as the bank reference.
+                  <span className="text-gold text-[10px] font-black uppercase tracking-wider block mb-1">
+                    Payment Instructions:
+                  </span>
+                  Please transfer exactly{' '}
+                  <span className="text-gold font-bold">
+                    £{ticketType === 'physical' ? '50' : '25'}
+                  </span>{' '}
+                  to our bank account. Use your unique code{' '}
+                  <span className="text-gold font-bold">{bankSuccessCode}</span> as the bank
+                  reference.
                 </div>
 
                 <div className="space-y-3 pt-2">
                   {[
-                    { label: 'Bank Name', value: BANK_DETAILS.bankName, id: 'bank', copyable: false },
-                    { label: 'Account Name', value: BANK_DETAILS.accountName, id: 'name', copyable: false },
-                    { label: 'Account Number', value: BANK_DETAILS.accountNumber, id: 'account', copyable: true },
-                    { label: 'Sort Code', value: BANK_DETAILS.sortCode, id: 'sort', copyable: true },
+                    {
+                      label: 'Bank Name',
+                      value: BANK_DETAILS.bankName,
+                      id: 'bank',
+                      copyable: false,
+                    },
+                    {
+                      label: 'Account Name',
+                      value: BANK_DETAILS.accountName,
+                      id: 'name',
+                      copyable: false,
+                    },
+                    {
+                      label: 'Account Number',
+                      value: BANK_DETAILS.accountNumber,
+                      id: 'account',
+                      copyable: true,
+                    },
+                    {
+                      label: 'Sort Code',
+                      value: BANK_DETAILS.sortCode,
+                      id: 'sort',
+                      copyable: true,
+                    },
                   ].map((detail) => (
-                    <div key={detail.id} className="flex items-center justify-between py-1 border-b border-white/5 last:border-0 last:pb-0">
+                    <div
+                      key={detail.id}
+                      className="flex items-center justify-between py-1 border-b border-white/5 last:border-0 last:pb-0"
+                    >
                       <div className="flex flex-col">
-                        <span className="text-[9px] font-bold uppercase tracking-wider text-white/40">{detail.label}</span>
-                        <span className="font-body text-sm font-semibold text-white mt-0.5">{detail.value}</span>
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-white/40">
+                          {detail.label}
+                        </span>
+                        <span className="font-body text-sm font-semibold text-white mt-0.5">
+                          {detail.value}
+                        </span>
                       </div>
                       {detail.copyable && (
                         <Button
@@ -435,12 +540,16 @@ export const RegistrationModal = ({
 
               <p className="text-xs text-white/60 font-body leading-relaxed">
                 After transferring, please email a screenshot of your transfer proof to:{' '}
-                <a href="mailto:info@primecounsel.co.uk" className="text-gold font-semibold hover:underline">
+                <a
+                  href="mailto:info@primecounsel.co.uk"
+                  className="text-gold font-semibold hover:underline"
+                >
                   info@primecounsel.co.uk
-                </a>. Your ticket code will be fully activated upon validation.
+                </a>
+                . Your ticket code will be fully activated upon validation.
               </p>
 
-              <Button 
+              <Button
                 onClick={handleClose}
                 className="bg-gold hover:bg-gold/90 text-navy font-body font-bold py-4 rounded-lg uppercase tracking-wider mt-2"
               >

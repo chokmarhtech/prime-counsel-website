@@ -22,7 +22,14 @@ const deliverables = [
     icon: FiGift,
   },
   {
-    title: 'Discount on Coach Ayoola’s book- From Raw Talent to Market Value',
+    title: (
+      <>
+        Discount on Coach Ayoola’s book-{' '}
+        <span className="font-bold text-white">
+          From Raw Talent to Market Value
+        </span>
+      </>
+    ),
     icon: FiStar,
   },
   {

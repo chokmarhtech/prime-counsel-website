@@ -123,34 +123,41 @@ const ContactForm = () => {
                   <p className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-4">
                     Connect With Us
                   </p>
-                  <div className="flex items-center gap-4">
-                    <Link
-                      href={CONTACT_INFO.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center hover:bg-secondary transition-all group"
-                      aria-label="Instagram"
-                    >
-                      <FaInstagram className="w-4 h-4 text-secondary group-hover:text-primary-foreground transition-colors" />
-                    </Link>
-                    <Link
-                      href={CONTACT_INFO.youtube}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center hover:bg-secondary transition-all group"
-                      aria-label="YouTube"
-                    >
-                      <FaYoutube className="w-4 h-4 text-secondary group-hover:text-primary-foreground transition-colors" />
-                    </Link>
-                    <Link
-                      href={CONTACT_INFO.tiktok}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center hover:bg-secondary transition-all group"
-                      aria-label="TikTok"
-                    >
-                      <FaTiktok className="w-4 h-4 text-secondary group-hover:text-primary-foreground transition-colors" />
-                    </Link>
+                  <div className="flex items-center gap-3">
+                    {[
+                      {
+                        href: CONTACT_INFO.instagram,
+                        Icon: FaInstagram,
+                        label: 'Instagram',
+                        colorClass:
+                          'text-[#E4405F] border-[#E4405F]/40 hover:bg-[#E4405F] hover:text-white',
+                      },
+                      {
+                        href: CONTACT_INFO.youtube,
+                        Icon: FaYoutube,
+                        label: 'YouTube',
+                        colorClass:
+                          'text-[#FF0000] border-[#FF0000]/40 hover:bg-[#FF0000] hover:text-white',
+                      },
+                      {
+                        href: CONTACT_INFO.tiktok,
+                        Icon: FaTiktok,
+                        label: 'TikTok',
+                        colorClass:
+                          'text-foreground border-border hover:bg-foreground hover:text-background',
+                      },
+                    ].map(({ href, Icon, label, colorClass }) => (
+                      <Link
+                        key={label}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-10 h-10 rounded-lg bg-secondary/10 border flex items-center justify-center ${colorClass} transition-all duration-300 hover:scale-110 shadow-sm`}
+                        aria-label={label}
+                      >
+                        <Icon className="w-5 h-5" />
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </div>

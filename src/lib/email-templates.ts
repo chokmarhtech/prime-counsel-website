@@ -1123,7 +1123,7 @@ export function spmConfirmationEmailHtml({
   const typeLabel = ticketType === 'physical' ? 'Physical Pass (In-Person)' : 'Virtual Pass (Online)'
   const price = ticketType === 'physical' ? '£50' : '£25'
   const venue = ticketType === 'physical' 
-    ? 'Conference Centre, Aston University, B4 7ET' 
+    ? 'Conference Centre, Aston University, Birmingham B4 7ET' 
     : 'Online Link (Will be sent 3 days before event)'
 
   return `
@@ -1271,7 +1271,7 @@ export function spmDripEmailHtml({
 
   const typeLabel = ticketType === 'physical' ? 'Physical Pass (In-Person)' : 'Virtual Pass (Online)'
   const venue = ticketType === 'physical' 
-    ? 'Conference Centre, Aston University, B4 7ET' 
+    ? 'Conference Centre, Aston University, Birmingham B4 7ET' 
     : 'Online Live Stream Link'
 
   if (daysRemaining === 5) {
@@ -1311,7 +1311,7 @@ export function spmDripEmailHtml({
       • 02:00 PM - Session 2 & Fireside Q&A<br/>
       • 04:00 PM - Event Close
       <br/><br/>
-      ${ticketType === 'virtual' ? `<strong>Your Stream Access Link:</strong> <a href="https://live.primecounsel.co.uk/spm3?code=${ticketCode}" style="color:#C9A84C; font-weight:bold;">Click here to join the live stream</a> (starts tomorrow at 9:45 AM)` : `<strong>Venue Reminder:</strong> Conference Centre, Aston University, B4 7ET. Free parking is available near the building.`}
+      ${ticketType === 'virtual' ? `<strong>Your Stream Access Link:</strong> <a href="https://live.primecounsel.co.uk/spm3?code=${ticketCode}" style="color:#C9A84C; font-weight:bold;">Click here to join the live stream</a> (starts tomorrow at 9:45 AM)` : `<strong>Venue Reminder:</strong> Conference Centre, Aston University, Birmingham B4 7ET. Free parking is available near the building.`}
     `
   } else if (daysRemaining === 0) {
     subject = `[Today] SPM 3.0 Starts at 10:00 AM! Join us`

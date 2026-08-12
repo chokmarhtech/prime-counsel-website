@@ -87,9 +87,9 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="relative h-70 sm:h-87.5 lg:h-105 w-full flex justify-center items-center perspective-1000"
-            >
-            <div className="relative w-full max-w-125 aspect-square">
+            className="w-full flex justify-center items-center mt-6 lg:mt-0"
+          >
+            <div className="relative w-full max-w-xs sm:max-w-md lg:max-w-lg">
               {/* Main center image */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -100,7 +100,8 @@ const HeroSection = () => {
                 <Image
                   src={flyer}
                   alt="SPM 3.0 BIRMINGHAM"
-                  className="h-full object-cover rounded-2xl w-100"
+                  className="w-full h-auto object-contain rounded-2xl shadow-2xl border border-gold/20"
+                  priority
                 />
               </motion.div>
             </div>
@@ -112,31 +113,33 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-24 sm:mt-14 md:mt-16 lg:mt-20 w-full flex items-center justify-center"
+          className="mt-12 sm:mt-16 md:mt-20 w-full flex items-center justify-center"
         >
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.4 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 border border-white/10 bg-white/5 backdrop-blur-sm rounded-xl px-6 sm:px-8 py-5 sm:py-6 md:py-8 w-full sm:w-auto text-center"
+            transition={{ duration: 0.6, delay: 1.0 }}
+            className="flex flex-col md:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 border border-white/15 bg-white/5 backdrop-blur-md rounded-2xl px-5 sm:px-8 py-5 sm:py-6 md:py-8 w-full max-w-4xl text-center shadow-xl"
           >
-            <div className="flex items-center justify-center gap-2.5 sm:gap-3 text-white/80 font-body text-sm sm:text-base md:text-[18px] uppercase tracking-wide">
-              <FiCalendar className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0 mr-2" />
+            <div className="flex items-center justify-center gap-2.5 sm:gap-3 text-white/90 font-body text-xs sm:text-sm md:text-base uppercase tracking-wide">
+              <FiCalendar className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0" />
               <span>Saturday, 21st November 2026</span>
             </div>
 
-            <div className="hidden md:block w-px h-4 bg-white/15 shrink-0" />
+            <div className="hidden md:block w-px h-5 bg-white/15 shrink-0" />
 
-            <div className="flex items-center justify-center gap-2.5 sm:gap-3 text-white/80 font-body text-sm sm:text-base md:text-[18px] uppercase tracking-wide">
-              <FiClock className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0 mr-2" />
+            <div className="flex items-center justify-center gap-2.5 sm:gap-3 text-white/90 font-body text-xs sm:text-sm md:text-base uppercase tracking-wide">
+              <FiClock className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0" />
               <span>10:00 AM - 4:00 PM</span>
             </div>
 
-            <div className="hidden md:block w-px h-4 bg-white/15 shrink-0" />
+            <div className="hidden md:block w-px h-5 bg-white/15 shrink-0" />
 
-            <div className="flex items-center justify-center gap-2.5 sm:gap-3 text-white/80 font-body text-sm sm:text-base md:text-[18px] uppercase tracking-wide">
-              <FiMapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0 mr-2" />
-              <span className='text-start'>Conference Centre, Aston University B4 7ET</span>
+            <div className="flex items-center justify-center gap-2.5 sm:gap-3 text-white/90 font-body text-xs sm:text-sm md:text-base uppercase tracking-wide">
+              <FiMapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0" />
+              <span className="text-center md:text-start">
+                Conference Centre, Aston University, Birmingham B4 7ET
+              </span>
             </div>
           </motion.div>
         </motion.div>

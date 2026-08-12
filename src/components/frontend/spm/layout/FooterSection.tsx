@@ -30,16 +30,8 @@ const FooterSection = () => {
           <div className="md:text-right">
             <div className="flex md:justify-end gap-3 mb-4">
               {[
-                {
-                  href: CONTACT_INFO.instagram,
-                  Icon: FaInstagram,
-                  label: "Instagram",
-                },
-                {
-                  href: CONTACT_INFO.youtube,
-                  Icon: FaYoutube,
-                  label: "YouTube",
-                },
+                { href: CONTACT_INFO.instagram, Icon: FaInstagram, label: "Instagram" },
+                { href: CONTACT_INFO.youtube, Icon: FaYoutube, label: "YouTube" },
                 { href: CONTACT_INFO.tiktok, Icon: FaTiktok, label: "TikTok" },
               ].map(({ href, Icon, label }) => (
                 <a
@@ -47,10 +39,10 @@ const FooterSection = () => {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-sm border border-white/15 flex items-center justify-center text-white/40 hover:text-secondary hover:border-secondary/40 transition-all duration-300"
+                  className="w-10 h-10 rounded-lg bg-white/10 border border-gold/40 flex items-center justify-center text-secondary hover:bg-Primary hover:text-gold transition-all duration-300 hover:scale-110 shadow-sm"
                   aria-label={label}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-5 h-5 text-gold" />
                 </a>
               ))}
             </div>
