@@ -81,7 +81,7 @@ const DeliverablesSection = () => {
           <div className="mt-12 flex justify-center">
             <RegistrationModal>
               <button className="bg-gold text-navy hover:bg-gold/90 font-body font-bold text-sm md:text-base px-8 py-4 rounded-md tracking-wider uppercase transition-all duration-300 shadow-xl hover:scale-105">
-                REGISTER NOW - GET YOUR TICKET
+                REGISTER NOW
               </button>
             </RegistrationModal>
           </div>
