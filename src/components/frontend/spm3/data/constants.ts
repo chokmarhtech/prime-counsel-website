@@ -2,7 +2,7 @@ export const EVENT_DETAILS = {
   date: 'Saturday, 21st November 2026',
   time: '10:00 AM – 4:00 PM',
   venue: 'Conference Centre',
-  address: 'Aston University B4 7ET',
+  address: 'Aston University, Birmingham B4 7ET',
 }
 
 export const BANK_DETAILS = {

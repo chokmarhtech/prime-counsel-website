@@ -30,34 +30,23 @@ const Footer = () => {
                   <p className="font-body text-sm font-semibold text-primary-foreground/70 uppercase tracking-wider mb-4">
                     Follow Us
                   </p>
-                  <div className="flex items-center gap-4">
-                    <Link
-                      href={CONTACT_INFO.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary transition-all group"
-                      aria-label="Instagram"
-                    >
-                      <FaInstagram className="w-3 h-3 text-white group-hover:text-primary-foreground transition-colors" />
-                    </Link>
-                    <Link
-                      href={CONTACT_INFO.youtube}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary transition-all group"
-                      aria-label="YouTube"
-                    >
-                      <FaYoutube className="w-3 h-3 text-white group-hover:text-primary-foreground transition-colors" />
-                    </Link>
-                    <Link
-                      href={CONTACT_INFO.tiktok}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary transition-all group"
-                      aria-label="TikTok"
-                    >
-                      <FaTiktok className="w-3 h-3 text-white group-hover:text-primary-foreground transition-colors" />
-                    </Link>
+                  <div className="flex items-center gap-3">
+                    {[
+                      { href: CONTACT_INFO.instagram, Icon: FaInstagram, label: 'Instagram' },
+                      { href: CONTACT_INFO.youtube, Icon: FaYoutube, label: 'YouTube' },
+                      { href: CONTACT_INFO.tiktok, Icon: FaTiktok, label: 'TikTok' },
+                    ].map(({ href, Icon, label }) => (
+                      <Link
+                        key={label}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-lg bg-white/10 border border-secondary/40 flex items-center justify-center text-secondary hover:bg-secondary hover:text-primary-foreground transition-all duration-300 hover:scale-110 shadow-sm"
+                        aria-label={label}
+                      >
+                        <Icon className="w-5 h-5" />
+                      </Link>
+                    ))}
                   </div>
                 </div>
           </div>

@@ -9,9 +9,13 @@ interface Video {
 
 interface EventVideoGalleryProps {
   videos: Video[]
+  titleClassName?: string
 }
 
-const EventVideoGallery: React.FC<EventVideoGalleryProps> = ({ videos }) => {
+const EventVideoGallery: React.FC<EventVideoGalleryProps> = ({
+  videos,
+  titleClassName = 'text-navy',
+}) => {
   if (!videos || videos.length === 0) return null
 
   // Function to extract Vimeo ID from URL
@@ -41,7 +45,7 @@ const EventVideoGallery: React.FC<EventVideoGalleryProps> = ({ videos }) => {
               />
             </div>
             {video.title && (
-              <p className="mt-3 font-body text-sm font-semibold text-navy uppercase tracking-wider">
+              <p className={`mt-3 font-body text-sm font-semibold uppercase tracking-wider ${titleClassName}`}>
                 {video.title}
               </p>
             )}

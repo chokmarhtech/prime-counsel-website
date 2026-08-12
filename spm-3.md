@@ -3,7 +3,7 @@ Beyond Survival: Secret System to Thriving in the UK
 A transformational one-day masterclass designed to help ambitious professionals, graduates, entrepreneurs and leaders move beyond hard work and become strategically positioned for greater opportunities, influence and income.
 📅 Saturday, 21st November 2026
 🕙 10:00 AM – 4:00 PM
-📍 Conference Centre, Aston University B4 7ET
+📍 Conference Centre, Aston University, Birmingham B4 7ET
 
 2. THE REALITY
 You work hard, have the required qualifications and keep applying for job and opportunities. Yet the opportunities you desire seem to go to someone else.

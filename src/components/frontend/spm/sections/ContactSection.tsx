@@ -55,16 +55,30 @@ const ContactSection = () => {
                 href: CONTACT_INFO.instagram,
                 Icon: FaInstagram,
                 label: 'Instagram',
+                colorClass: 'text-[#E4405F]',
+                hoverClass: 'hover:border-[#E4405F]/50 hover:bg-[#E4405F]/10 hover:shadow-md',
               },
-              { href: CONTACT_INFO.youtube, Icon: FaYoutube, label: 'YouTube' },
-              { href: CONTACT_INFO.tiktok, Icon: FaTiktok, label: 'TikTok' },
-            ].map(({ href, Icon, label }) => (
+              {
+                href: CONTACT_INFO.youtube,
+                Icon: FaYoutube,
+                label: 'YouTube',
+                colorClass: 'text-[#FF0000]',
+                hoverClass: 'hover:border-[#FF0000]/50 hover:bg-[#FF0000]/10 hover:shadow-md',
+              },
+              {
+                href: CONTACT_INFO.tiktok,
+                Icon: FaTiktok,
+                label: 'TikTok',
+                colorClass: 'text-black dark:text-white',
+                hoverClass: 'hover:border-black/50 hover:bg-black/10 hover:shadow-md',
+              },
+            ].map(({ href, Icon, label, colorClass, hoverClass }) => (
               <a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 rounded-sm border border-border flex items-center justify-center text-muted-foreground hover:text-secondary hover:border-secondary/40 hover:bg-secondary/5 transition-all duration-300"
+                className={`w-12 h-12 rounded-xl border border-border bg-background flex items-center justify-center ${colorClass} ${hoverClass} hover:-translate-y-0.5 transition-all duration-300`}
                 aria-label={label}
               >
                 <Icon className="w-5 h-5" />
