@@ -5,7 +5,7 @@ import ImageSlider from '../components/image-slider'
 import EventVideoGallery from '@/components/frontend/pages/events/event-video-gallery'
 
 const spm2Videos = [
-  { url: 'https://vimeo.com/1191671244?fl=tl&fe=ec', title: 'SPM 2.0 Event Highlights & Recap' },
+  { url: 'https://vimeo.com/1191671244?fl=tl&fe=ec', title: 'SPM 2.0 Event Highlights' },
 ]
 
 const HighlightsSection = () => {
