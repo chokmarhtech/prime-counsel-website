@@ -1,0 +1,3 @@
+- [x] Update `src/components/frontend/spm3/sections/RealitySection.tsx`
+- [x] Run type check (`npx tsc --noEmit`)
+- [x] Run build check (`npm run build`)
