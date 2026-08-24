@@ -121,22 +121,22 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 1.0 }}
             className="flex flex-col md:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 border border-white/15 bg-white/5 backdrop-blur-md rounded-2xl px-5 sm:px-8 py-5 sm:py-6 md:py-8 w-full max-w-4xl text-center shadow-xl"
           >
-            <div className="flex items-center justify-center gap-2.5 sm:gap-3 text-white/90 font-body text-xs sm:text-sm md:text-base uppercase tracking-wide">
-              <FiCalendar className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0" />
+            <div className="flex items-start justify-center gap-2.5 sm:gap-3 text-white/90 font-body text-xs sm:text-sm md:text-base uppercase tracking-wide">
+              <FiCalendar className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0 mt-0.5" />
               <span>Saturday, 21st November 2026</span>
             </div>
 
             <div className="hidden md:block w-px h-5 bg-white/15 shrink-0" />
 
-            <div className="flex items-center justify-center gap-2.5 sm:gap-3 text-white/90 font-body text-xs sm:text-sm md:text-base uppercase tracking-wide">
-              <FiClock className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0" />
+            <div className="flex items-start justify-center gap-2.5 sm:gap-3 text-white/90 font-body text-xs sm:text-sm md:text-base uppercase tracking-wide">
+              <FiClock className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0 mt-0.5" />
               <span>10:00 AM - 4:00 PM</span>
             </div>
 
             <div className="hidden md:block w-px h-5 bg-white/15 shrink-0" />
 
-            <div className="flex items-center justify-center gap-2.5 sm:gap-3 text-white/90 font-body text-xs sm:text-sm md:text-base uppercase tracking-wide">
-              <FiMapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0" />
+            <div className="flex items-start justify-center gap-2.5 sm:gap-3 text-white/90 font-body text-xs sm:text-sm md:text-base uppercase tracking-wide">
+              <FiMapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gold shrink-0 mt-0.5" />
               <span className="text-center md:text-start">
                 Conference Centre, Aston University, Birmingham B4 7ET
               </span>
