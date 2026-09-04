@@ -237,7 +237,7 @@ export const Products: CollectionConfig = {
   ],
   versions: {
     drafts: {
-      autosave: true,
+      autosave: false,
     },
     maxPerDoc: 50,
   },
