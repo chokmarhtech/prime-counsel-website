@@ -4,19 +4,30 @@ import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import type { Product } from '@/payload-types'
 
 export default async function AskPrimeSection() {
-  const payload = await getPayload({ config })
-  const { docs: products } = await payload.find({
-    collection: 'products',
-    where: {
-      slug: {
-        in: ['askprime', 'seekcounsel'],
+  let products: Product[] = []
+
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'products',
+      where: {
+        slug: {
+          in: ['askprime', 'seekcounsel'],
+        },
       },
-    },
-    limit: 2,
-    depth: 1,
-  })
+      limit: 2,
+      depth: 1,
+    })
+    products = result.docs
+  } catch (error) {
+    console.error('AskPrimeSection: Failed to fetch products', error)
+    return null // Gracefully hide section instead of crashing the page
+  }
+
+  if (!products.length) return null
 
   // Helper to format price
   const formatPrice = (price: number, currency: string) => {

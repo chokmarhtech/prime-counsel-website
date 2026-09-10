@@ -81,7 +81,7 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
-      max: 10, // Increased pool max from 2 to 10 to prevent connection deadlock during Admin saves
+      max: 3, // Keep low — remote PgBouncer limits total sessions to 15
     },
   }),
   collections: [Blog, Media, Categories, Users, Testimonials, Products, DigitalAssets, Orders, Waitlist, SpmRegistrations, Bookings],
