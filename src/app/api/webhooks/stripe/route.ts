@@ -176,7 +176,7 @@ export async function POST(req: Request) {
           const itemPrice = product.price ? product.price.toFixed(2) : (session.amount_total! / 100).toFixed(2)
 
           // 3. Handle specific product types
-          if (product.type === 'digital' || product.type === 'book') {
+          if (product.type === 'digital' || product.type === 'book' || product.type === 'programme') {
             // Admin Notification
             await resend.emails.send({
               from: FROM_EMAIL,

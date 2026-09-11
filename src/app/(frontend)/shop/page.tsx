@@ -13,6 +13,7 @@ export default async function ShopPage() {
       collection: 'products',
       depth: 1,
       limit: 100,
+      sort: ['sortOrder', '-createdAt'],
     })
 
     const { docs: categories } = await payload.find({

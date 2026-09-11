@@ -411,9 +411,13 @@ export interface Product {
   id: number;
   title: string;
   /**
-   * Determines checkout behavior. Sessions go directly to Stripe; Books/Digital go through cart.
+   * Determines checkout behavior. Sessions go directly to Stripe; Programmes/Books/Digital go through cart/checkout.
    */
-  type: 'book' | 'session' | 'digital';
+  type: 'book' | 'session' | 'digital' | 'programme';
+  /**
+   * Display order in Shop. Lower numbers appear first (e.g. set 1 to place at the top).
+   */
+  sortOrder?: number | null;
   category: number | Category;
   price: number;
   currency: 'GBP' | 'USD' | 'NGN';
@@ -1193,6 +1197,7 @@ export interface TestimonialsSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   type?: T;
+  sortOrder?: T;
   category?: T;
   price?: T;
   currency?: T;

@@ -47,10 +47,20 @@ export const Products: CollectionConfig = {
         { label: 'Book', value: 'book' },
         { label: 'Mentorship Session', value: 'session' },
         { label: 'Digital Product', value: 'digital' },
+        { label: 'Programme / Cohort', value: 'programme' },
       ],
       admin: {
         position: 'sidebar',
-        description: 'Determines checkout behavior. Sessions go directly to Stripe; Books/Digital go through cart.',
+        description: 'Determines checkout behavior. Sessions go directly to Stripe; Programmes/Books/Digital go through cart/checkout.',
+      },
+    },
+    {
+      name: 'sortOrder',
+      type: 'number',
+      defaultValue: 100,
+      admin: {
+        position: 'sidebar',
+        description: 'Display order in Shop. Lower numbers appear first (e.g. set 1 to place at the top).',
       },
     },
     {
