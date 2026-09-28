@@ -7,7 +7,7 @@ export const SpmRegistrations: CollectionConfig = {
     useAsTitle: 'name',
     group: 'Events',
     description: 'Manages registrations and ticket allocations for SPM 3.0.',
-    defaultColumns: ['name', 'email', 'ticketType', 'ticketCode', 'status', 'createdAt'],
+    defaultColumns: ['name', 'email', 'ticketType', 'ticketCode', 'status', 'checkedIn', 'createdAt'],
   },
   access: {
     create: () => true, // Public registration endpoint
@@ -69,11 +69,21 @@ export const SpmRegistrations: CollectionConfig = {
 
             const resend = new Resend(resendApiKey)
             const { spmConfirmationEmailHtml } = await import('@/lib/email-templates')
+            const { generateQrCodeDataUrl } = await import('@/lib/qrcode')
+
+            let qrCodeDataUrl: string | undefined = undefined
+            try {
+              const passUrl = `${process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SERVER_URL || 'https://primecounsel.co.uk'}/spm-3/pass/${doc.ticketCode}`
+              qrCodeDataUrl = await generateQrCodeDataUrl(passUrl, { width: 220 })
+            } catch (qrErr) {
+              console.error('[SPM] Failed to generate QR code data URL for email:', qrErr)
+            }
 
             const htmlContent = spmConfirmationEmailHtml({
               name: doc.name,
               ticketType: doc.ticketType,
               ticketCode: doc.ticketCode,
+              qrCodeDataUrl,
             })
 
             await resend.emails.send({
@@ -171,6 +181,38 @@ export const SpmRegistrations: CollectionConfig = {
       ],
       defaultValue: [],
       admin: {
+        readOnly: true,
+      },
+    },
+    {
+      name: 'checkedIn',
+      type: 'checkbox',
+      label: 'Checked In',
+      defaultValue: false,
+      index: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Whether the attendee has been scanned/checked in at the venue.',
+      },
+    },
+    {
+      name: 'checkedInAt',
+      type: 'date',
+      label: 'Checked In At',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+      },
+    },
+    {
+      name: 'checkedInBy',
+      type: 'text',
+      label: 'Checked In By',
+      admin: {
+        position: 'sidebar',
         readOnly: true,
       },
     },

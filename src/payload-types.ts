@@ -547,6 +547,12 @@ export interface SpmRegistration {
   paymentType: 'stripe' | 'bank_transfer';
   stripeSessionId?: string | null;
   emailsSent?: ('confirmation' | '5_days' | '3_days' | '1_day' | 'd_day')[] | null;
+  /**
+   * Whether the attendee has been scanned/checked in at the venue.
+   */
+  checkedIn?: boolean | null;
+  checkedInAt?: string | null;
+  checkedInBy?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1287,6 +1293,9 @@ export interface SpmRegistrationsSelect<T extends boolean = true> {
   paymentType?: T;
   stripeSessionId?: T;
   emailsSent?: T;
+  checkedIn?: T;
+  checkedInAt?: T;
+  checkedInBy?: T;
   updatedAt?: T;
   createdAt?: T;
 }

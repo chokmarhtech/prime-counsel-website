@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { ChevronDown, Loader2, CheckCircle2, AlertCircle, X } from 'lucide-react'
 
 const SERVICES = [
+  'Prime Counsel Academy(PCA)',
   'Vision Clarity Call',
   'One-on-one Mentorship',
   'Prime Emerging Leaders Cohort 2026',

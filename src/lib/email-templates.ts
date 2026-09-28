@@ -1115,16 +1115,19 @@ export function spmConfirmationEmailHtml({
   name,
   ticketType,
   ticketCode,
+  qrCodeDataUrl,
 }: {
   name: string
   ticketType: 'physical' | 'virtual'
   ticketCode: string
+  qrCodeDataUrl?: string
 }) {
   const typeLabel = ticketType === 'physical' ? 'Physical Pass (In-Person)' : 'Virtual Pass (Online)'
   const price = ticketType === 'physical' ? '£50' : '£25'
   const venue = ticketType === 'physical' 
     ? 'Conference Centre, Aston University, Birmingham B4 7ET' 
     : 'Online Link (Will be sent 3 days before event)'
+  const passUrl = `${SITE_URL}/spm-3/pass/${ticketCode}`
 
   return `
 <!DOCTYPE html>
@@ -1188,10 +1191,23 @@ export function spmConfirmationEmailHtml({
               </p>
 
               <!-- Ticket Code Highlight Box (Marvellex style) -->
-              <div class="highlight-box" style="background-color: #F7F4EB; border: 1px solid #E5DFD0; border-radius: 8px; padding: 24px; text-align: center; margin: 32px 0;">
+              <div class="highlight-box" style="background-color: #F7F4EB; border: 1px solid #E5DFD0; border-radius: 12px; padding: 28px 24px; text-align: center; margin: 32px 0;">
                 <div style="font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #C9A84C; font-weight: 700; margin-bottom: 8px;">Your Unique Ticket Code</div>
                 <div class="ticket-code-val" style="font-size: 32px; font-weight: 700; color: #0B1C3D; font-family: monospace; letter-spacing: 2px; margin-bottom: 6px;">${ticketCode}</div>
-                <div style="font-size: 13px; font-weight: 600; color: #C9A84C; text-transform: uppercase; letter-spacing: 1px;">${typeLabel}</div>
+                <div style="font-size: 13px; font-weight: 600; color: #C9A84C; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;">${typeLabel}</div>
+                
+                ${qrCodeDataUrl ? `
+                <div style="margin: 16px auto; display: inline-block; background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #e5e0d8; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                  <img src="${qrCodeDataUrl}" alt="Ticket QR Code" width="180" height="180" style="display: block; width: 180px; height: 180px;" />
+                  <div style="font-size: 10px; color: #888888; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px;">Scan at gate for entry</div>
+                </div>
+                ` : ''}
+
+                <div style="margin-top: 18px;">
+                  <a href="${passUrl}" target="_blank" style="display: inline-block; background-color: #0B1C3D; color: #C9A84C; font-size: 13px; font-weight: 700; text-decoration: none; padding: 12px 28px; border-radius: 30px; letter-spacing: 1px; text-transform: uppercase; border: 1px solid #C9A84C;">
+                    View Digital Boarding Pass →
+                  </a>
+                </div>
               </div>
 
               <!-- Details Section -->
