@@ -984,6 +984,7 @@ export function adminOrderEmailHtml({
 }
 
 // SPM 3.0 Admin Notification Email (fires on Stripe payment confirmed)
+// SPM 3.0 Admin Notification Email (fires on Stripe payment confirmed or Sponsored/Promo redemption)
 export function spmAdminNotificationEmailHtml({
   name,
   email,
@@ -991,16 +992,25 @@ export function spmAdminNotificationEmailHtml({
   ticketCode,
   amount,
   stripeId,
+  paymentType,
+  discountCode,
 }: {
   name: string
   email: string
   ticketType: 'physical' | 'virtual'
   ticketCode: string
   amount: string
-  stripeId: string
+  stripeId?: string
+  paymentType?: string
+  discountCode?: string
 }) {
-  const typeLabel = ticketType === 'physical' ? 'Physical Pass (In-Person) — £50' : 'Virtual Pass (Online) — £25'
+  const isSponsored = paymentType === 'sponsored' || Boolean(discountCode)
+  const typeLabel =
+    ticketType === 'physical'
+      ? `Physical Pass (In-Person) — ${isSponsored ? 'FREE (Sponsored)' : '£50'}`
+      : `Virtual Pass (Online) — ${isSponsored ? 'FREE (Sponsored)' : '£25'}`
   const badgeColor = ticketType === 'physical' ? '#C9A84C' : '#4C9AC9'
+  const headline = isSponsored ? 'Sponsored Ticket Claimed' : 'New Registration Received'
 
   return `
 <!DOCTYPE html>
@@ -1008,7 +1018,7 @@ export function spmAdminNotificationEmailHtml({
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New SPM 3.0 Registration – Prime Counsel</title>
+  <title>SPM 3.0 Registration Alert – Prime Counsel</title>
   <meta name="color-scheme" content="light dark">
   <meta name="supported-color-schemes" content="light dark">
   <style>
@@ -1055,11 +1065,15 @@ export function spmAdminNotificationEmailHtml({
           <!-- Body Content -->
           <tr>
             <td class="content-body" style="padding:40px;background-color:#ffffff;color:#4a4a4a;font-size:15px;line-height:1.7;">
-              <h1 class="text-navy" style="margin:0 0 8px;font-family:Georgia,serif;font-size:24px;font-weight:400;color:#0B1C3D;text-transform:uppercase;letter-spacing:1px;">New Registration Received</h1>
+              <h1 class="text-navy" style="margin:0 0 8px;font-family:Georgia,serif;font-size:24px;font-weight:400;color:#0B1C3D;text-transform:uppercase;letter-spacing:1px;">${headline}</h1>
               <div class="hr-line" style="border-top:1px solid #C9A84C;margin-bottom:24px;width:100%;"></div>
 
               <p style="margin:0 0 20px;">
-                A new registration payment has been confirmed for the <strong>Strategic Positioning Masterclass 3.0 (SPM 3.0)</strong>.
+                ${
+                  isSponsored
+                    ? 'A sponsored ticket has just been claimed for the <strong>Strategic Positioning Masterclass 3.0 (SPM 3.0)</strong>.'
+                    : 'A new registration payment has been confirmed for the <strong>Strategic Positioning Masterclass 3.0 (SPM 3.0)</strong>.'
+                }
               </p>
 
               <!-- Ticket Code Highlight Box -->
@@ -1072,7 +1086,7 @@ export function spmAdminNotificationEmailHtml({
               <!-- Details Section -->
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:32px;border-collapse:collapse;border:1px solid #e5e0d8;border-radius:6px;overflow:hidden;">
                 <tr class="detail-row row-bg" style="background-color:#FAF9F6;border-bottom:1px solid #e5e0d8;">
-                  <td style="padding:14px 20px;font-weight:600;color:#9a9a9a;font-size:11px;text-transform:uppercase;letter-spacing:1px;width:130px;">Attendee</td>
+                  <td style="padding:14px 20px;font-weight:600;color:#9a9a9a;font-size:11px;text-transform:uppercase;letter-spacing:1px;width:140px;">Attendee</td>
                   <td class="text-dark" style="padding:14px 20px;color:#0B1C3D;font-weight:600;">${name}</td>
                 </tr>
                 <tr class="detail-row" style="border-bottom:1px solid #e5e0d8;">
@@ -1082,13 +1096,37 @@ export function spmAdminNotificationEmailHtml({
                   </td>
                 </tr>
                 <tr class="detail-row row-bg" style="background-color:#FAF9F6;border-bottom:1px solid #e5e0d8;">
-                  <td style="padding:14px 20px;font-weight:600;color:#9a9a9a;font-size:11px;text-transform:uppercase;letter-spacing:1px;">Amount Paid</td>
-                  <td class="text-dark" style="padding:14px 20px;color:#0B1C3D;font-weight:600;">GBP ${amount}</td>
+                  <td style="padding:14px 20px;font-weight:600;color:#9a9a9a;font-size:11px;text-transform:uppercase;letter-spacing:1px;">Amount</td>
+                  <td class="text-dark" style="padding:14px 20px;color:${isSponsored ? '#10B981' : '#0B1C3D'};font-weight:600;">
+                    ${isSponsored ? 'FREE (£0.00)' : `GBP ${amount}`}
+                  </td>
                 </tr>
+                <tr class="detail-row" style="border-bottom:1px solid #e5e0d8;">
+                  <td style="padding:14px 20px;font-weight:600;color:#9a9a9a;font-size:11px;text-transform:uppercase;letter-spacing:1px;">Payment Method</td>
+                  <td class="text-dark" style="padding:14px 20px;color:#0B1C3D;font-weight:600;text-transform:capitalize;">
+                    ${isSponsored ? 'Sponsored / Discount Code' : paymentType || 'Stripe'}
+                  </td>
+                </tr>
+                ${
+                  discountCode
+                    ? `
+                <tr class="detail-row row-bg" style="background-color:#FAF9F6;border-bottom:1px solid #e5e0d8;">
+                  <td style="padding:14px 20px;font-weight:600;color:#9a9a9a;font-size:11px;text-transform:uppercase;letter-spacing:1px;">Promo Code</td>
+                  <td class="text-dark" style="padding:14px 20px;color:#10B981;font-weight:bold;font-family:monospace;">${discountCode}</td>
+                </tr>
+                `
+                    : ''
+                }
+                ${
+                  stripeId
+                    ? `
                 <tr class="detail-row">
                   <td style="padding:14px 20px;font-weight:600;color:#9a9a9a;font-size:11px;text-transform:uppercase;letter-spacing:1px;">Stripe Ref</td>
                   <td class="text-dark" style="padding:14px 20px;color:#555;font-size:13px;font-family:monospace;">${stripeId}</td>
                 </tr>
+                `
+                    : ''
+                }
               </table>
             </td>
           </tr>

@@ -20,11 +20,14 @@ import {
   Sparkles,
   Monitor,
   Users,
+  Tag,
+  Gift,
+  Check,
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/utilities/ui'
 
-type Step = 'ticket' | 'details' | 'payment' | 'bank_success'
+type Step = 'ticket' | 'details' | 'payment' | 'bank_success' | 'sponsored_success'
 
 export const RegistrationModal = ({
   children,
@@ -46,18 +49,75 @@ export const RegistrationModal = ({
   const [ticketType, setTicketType] = useState<'physical' | 'virtual'>('physical')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [paymentType, setPaymentType] = useState<'stripe' | 'bank_transfer'>('stripe')
+  const [paymentType, setPaymentType] = useState<'stripe' | 'bank_transfer' | 'sponsored'>('stripe')
+
+  // Discount code state
+  const [discountInput, setDiscountInput] = useState('')
+  const [validatingCode, setValidatingCode] = useState(false)
+  const [appliedDiscount, setAppliedDiscount] = useState<{
+    code: string
+    discountPercent: number
+    isFree: boolean
+  } | null>(null)
+  const [discountError, setDiscountError] = useState<string | null>(null)
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const [copied, setCopied] = useState<string | null>(null)
   const [bankSuccessCode, setBankSuccessCode] = useState('')
+  const [sponsoredSuccessCode, setSponsoredSuccessCode] = useState('')
 
   const handleCopy = (text: string, type: string) => {
     navigator.clipboard.writeText(text)
     setCopied(type)
     setTimeout(() => setCopied(null), 2000)
+  }
+
+  const handleApplyDiscount = async () => {
+    if (!discountInput.trim()) {
+      setDiscountError('Please enter a code.')
+      return
+    }
+
+    setValidatingCode(true)
+    setDiscountError(null)
+
+    try {
+      const res = await fetch('/api/spm/validate-discount', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: discountInput.trim() }),
+      })
+
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || 'Invalid discount code.')
+      }
+
+      setAppliedDiscount({
+        code: data.code,
+        discountPercent: data.discountPercent,
+        isFree: data.isFree,
+      })
+
+      if (data.isFree) {
+        setPaymentType('sponsored')
+      }
+    } catch (err: any) {
+      setDiscountError(err.message || 'Failed to apply code.')
+    } finally {
+      setValidatingCode(false)
+    }
+  }
+
+  const handleRemoveDiscount = () => {
+    setAppliedDiscount(null)
+    setDiscountInput('')
+    setDiscountError(null)
+    if (paymentType === 'sponsored') {
+      setPaymentType('stripe')
+    }
   }
 
   const handleNextStep = () => {
@@ -96,7 +156,8 @@ export const RegistrationModal = ({
           name,
           email,
           ticketType,
-          paymentType,
+          paymentType: appliedDiscount?.isFree ? 'sponsored' : paymentType,
+          discountCode: appliedDiscount?.code,
         }),
       })
 
@@ -106,7 +167,11 @@ export const RegistrationModal = ({
         throw new Error(data.error || 'Something went wrong. Please try again.')
       }
 
-      if (paymentType === 'stripe' && data.stripeUrl) {
+      if (appliedDiscount?.isFree && data.success) {
+        // Sponsored ticket claimed!
+        setSponsoredSuccessCode(data.ticketCode)
+        setStep('sponsored_success')
+      } else if (paymentType === 'stripe' && data.stripeUrl) {
         // Redirect to Stripe Checkout page
         window.location.href = data.stripeUrl
       } else if (paymentType === 'bank_transfer') {
@@ -129,9 +194,14 @@ export const RegistrationModal = ({
       setName('')
       setEmail('')
       setPaymentType('stripe')
+      setAppliedDiscount(null)
+      setDiscountInput('')
+      setDiscountError(null)
       setError(null)
     }, 300)
   }
+
+  const ticketOriginalPrice = ticketType === 'physical' ? 50 : 25
 
   return (
     <Dialog
@@ -145,7 +215,7 @@ export const RegistrationModal = ({
       )}
       <DialogContent className="w-[95vw] sm:max-w-xl max-h-[90vh] overflow-y-auto bg-[#04082B] text-white border-white/10 p-6 md:p-8 gap-0">
         {/* Step Indicator Header */}
-        {step !== 'bank_success' && (
+        {step !== 'bank_success' && step !== 'sponsored_success' && (
           <div className="flex items-center gap-2 mb-6">
             <span
               className={cn(
@@ -171,7 +241,7 @@ export const RegistrationModal = ({
                 step === 'payment' ? 'text-gold' : 'text-white/40',
               )}
             >
-              03. Payment
+              03. Confirmation
             </span>
           </div>
         )}
@@ -275,7 +345,7 @@ export const RegistrationModal = ({
                   Enter Your Details
                 </DialogTitle>
                 <DialogDescription className="font-body text-white/60 text-sm md:text-base mt-2">
-                  Provide your name and email address to receive your ticket confirmation.
+                  Provide your information and any sponsored or discount code.
                 </DialogDescription>
               </DialogHeader>
 
@@ -314,6 +384,67 @@ export const RegistrationModal = ({
                   />
                 </div>
 
+                {/* Discount / Sponsored Code Section */}
+                <div className="flex flex-col gap-2 pt-2 border-t border-white/10">
+                  <label className="text-xs font-bold uppercase tracking-widest text-white/70 flex items-center gap-1.5">
+                    <Tag className="w-3.5 h-3.5 text-gold" />
+                    Promo Code
+                  </label>
+
+                  {appliedDiscount ? (
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400">
+                      <div className="flex items-center gap-2">
+                        <Check className="w-4 h-4 shrink-0 text-green-400" />
+                        <div>
+                          <p className="text-xs font-bold uppercase tracking-wider">
+                            Promo Code Applied!
+                          </p>
+                          <p className="text-[11px] text-green-400/80">
+                            {appliedDiscount.isFree
+                              ? '100% Free Sponsored Ticket'
+                              : `${appliedDiscount.discountPercent}% Discount`}
+                          </p>
+                        </div>
+                      </div>
+                      {/* <button
+                        type="button"
+                        onClick={handleRemoveDiscount}
+                        className="text-xs text-white/60 hover:text-white underline ml-2"
+                      >
+                        Remove
+                      </button> */}
+                    </div>
+                  ) : (
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={discountInput}
+                        onChange={(e) => setDiscountInput(e.target.value.toUpperCase())}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault()
+                            handleApplyDiscount()
+                          }
+                        }}
+                        placeholder="Enter Code"
+                        className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-gold/50 font-body text-sm uppercase tracking-wider"
+                      />
+                      <Button
+                        type="button"
+                        onClick={handleApplyDiscount}
+                        disabled={validatingCode || !discountInput.trim()}
+                        className="bg-white/10 hover:bg-gold hover:text-navy text-white text-xs font-bold uppercase tracking-wider px-4 rounded-lg transition-colors shrink-0"
+                      >
+                        {validatingCode ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Apply'}
+                      </Button>
+                    </div>
+                  )}
+
+                  {discountError && (
+                    <p className="text-red-400 text-xs font-body font-semibold">{discountError}</p>
+                  )}
+                </div>
+
                 {error && (
                   <p className="text-red-400 text-xs font-body font-semibold mt-1">{error}</p>
                 )}
@@ -347,66 +478,112 @@ export const RegistrationModal = ({
             >
               <DialogHeader>
                 <DialogTitle className="font-heading text-2xl md:text-3xl text-white tracking-wider">
-                  Payment Method
+                  {appliedDiscount?.isFree ? 'Confirm Your Pass' : 'Payment Method'}
                 </DialogTitle>
                 <DialogDescription className="font-body text-white/60 text-sm md:text-base mt-2">
-                  Select how you would like to secure your {ticketType} pass.
+                  {appliedDiscount?.isFree
+                    ? 'Your pass is fully sponsored! Confirm to receive your official ticket and QR code.'
+                    : `Select how you would like to secure your ${ticketType} pass.`}
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="flex flex-col gap-4">
-                {/* Pay with card */}
-                <div
-                  onClick={() => setPaymentType('stripe')}
-                  className={cn(
-                    'flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer',
-                    paymentType === 'stripe'
-                      ? 'bg-gold/10 border-gold'
-                      : 'bg-white/5 border-white/10',
-                  )}
-                >
-                  <div className="flex flex-col">
-                    <span className="font-heading font-bold text-base text-white tracking-wider">
-                      Pay Online (Card)
-                    </span>
-                    <span className="text-white/60 text-xs mt-0.5">
-                      Secure payment via card. Best for instant check-in.
-                    </span>
-                  </div>
-                  <span className="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-gold/20 shrink-0">
-                    Instant
+              {/* Order summary box */}
+              <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                  <span className="text-xs uppercase tracking-wider text-white/60 block">
+                    Selected Pass
+                  </span>
+                  <span className="font-heading font-bold text-base text-white capitalize tracking-wider">
+                    SPM 3.0 {ticketType} Pass
                   </span>
                 </div>
-
-                {/* Bank transfer */}
-                <div
-                  onClick={() => setPaymentType('bank_transfer')}
-                  className={cn(
-                    'flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer',
-                    paymentType === 'bank_transfer'
-                      ? 'bg-gold/10 border-gold'
-                      : 'bg-white/5 border-white/10',
+                <div className="text-right">
+                  <span className="text-xs uppercase tracking-wider text-white/60 block">Total</span>
+                  {appliedDiscount?.isFree ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm line-through text-white/40">
+                        £{ticketOriginalPrice}
+                      </span>
+                      <span className="font-heading font-black text-xl text-gold">FREE</span>
+                    </div>
+                  ) : (
+                    <span className="font-heading font-bold text-xl text-gold">
+                      £{ticketOriginalPrice}
+                    </span>
                   )}
-                >
-                  <div className="flex flex-col">
-                    <span className="font-heading font-bold text-base text-white tracking-wider">
-                      Direct Bank Transfer
-                    </span>
-                    <span className="text-white/60 text-xs mt-0.5">
-                      Submit registration and transfer directly to our account.
-                    </span>
-                  </div>
-                  <span className="bg-white/10 text-white/80 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-white/10 shrink-0">
-                    Manual
-                  </span>
                 </div>
-
-                {error && (
-                  <p className="text-red-400 text-xs font-body font-semibold mt-1">{error}</p>
-                )}
               </div>
 
-              <div className="grid grid-cols-3 gap-4 mt-4">
+              {appliedDiscount?.isFree ? (
+                /* Sponsored Ticket Banner */
+                <div className="bg-gradient-to-r from-gold/20 via-gold/10 to-transparent border border-gold/40 rounded-xl p-5 flex items-start gap-3">
+                  
+                  <div>
+                    <h4 className="font-heading font-bold text-white text-base tracking-wider">
+                      Sponsored Invitation 🎉🎉
+                    </h4>
+                    <p className="text-white/70 text-xs mt-1 leading-relaxed">
+                      With the promo code, you have been granted complimentary access to this masterclass. Click below to claim your
+                      ticket and receive your entry pass via email.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                /* Standard Payment Methods */
+                <div className="flex flex-col gap-4">
+                  {/* Pay with card */}
+                  <div
+                    onClick={() => setPaymentType('stripe')}
+                    className={cn(
+                      'flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer',
+                      paymentType === 'stripe'
+                        ? 'bg-gold/10 border-gold'
+                        : 'bg-white/5 border-white/10',
+                    )}
+                  >
+                    <div className="flex flex-col">
+                      <span className="font-heading font-bold text-base text-white tracking-wider">
+                        Pay Online (Card)
+                      </span>
+                      <span className="text-white/60 text-xs mt-0.5">
+                        Secure payment via card. Best for instant check-in.
+                      </span>
+                    </div>
+                    <span className="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-gold/20 shrink-0">
+                      Instant
+                    </span>
+                  </div>
+
+                  {/* Bank transfer */}
+                  <div
+                    onClick={() => setPaymentType('bank_transfer')}
+                    className={cn(
+                      'flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer',
+                      paymentType === 'bank_transfer'
+                        ? 'bg-gold/10 border-gold'
+                        : 'bg-white/5 border-white/10',
+                    )}
+                  >
+                    <div className="flex flex-col">
+                      <span className="font-heading font-bold text-base text-white tracking-wider">
+                        Direct Bank Transfer
+                      </span>
+                      <span className="text-white/60 text-xs mt-0.5">
+                        Submit registration and transfer directly to our account.
+                      </span>
+                    </div>
+                    <span className="bg-white/10 text-white/80 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-white/10 shrink-0">
+                      Manual
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {error && (
+                <p className="text-red-400 text-xs font-body font-semibold mt-1">{error}</p>
+              )}
+
+              <div className="grid grid-cols-3 gap-4 mt-2">
                 <Button
                   onClick={handlePrevStep}
                   variant="ghost"
@@ -417,22 +594,83 @@ export const RegistrationModal = ({
                 </Button>
                 <Button
                   onClick={handleSubmit}
-                  className="bg-gold hover:bg-gold/90 text-navy font-body font-bold text-base py-6 rounded-lg uppercase tracking-wider shadow-lg shadow-gold/10 gap-2 col-span-2"
+                  className={cn(
+                    'text-navy font-body font-bold text-base py-6 rounded-lg uppercase tracking-wider shadow-lg gap-2 col-span-2',
+                    appliedDiscount?.isFree
+                      ? 'bg-gold hover:bg-gold/90 shadow-gold/10 text-black'
+                      : 'bg-gold hover:bg-gold/90 shadow-gold/10',
+                  )}
                   disabled={loading}
                 >
                   {loading ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" /> Processing
                     </>
+                  ) : appliedDiscount?.isFree ? (
+                    <>
+                      Claim Free Ticket
+                    </>
                   ) : paymentType === 'stripe' ? (
                     <>
-                      Pay with Stripe <Sparkles className="w-4 h-4" />
+                      Pay with Stripe
                     </>
                   ) : (
                     <>Submit Ticket</>
                   )}
                 </Button>
               </div>
+            </motion.div>
+          )}
+
+          {/* Sponsored Success Screen */}
+          {step === 'sponsored_success' && (
+            <motion.div
+              key="step-sponsored-success"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex flex-col gap-6 text-center"
+            >
+              <div className="mx-auto w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center text-green-400 mb-2">
+                <CheckCircle2 className="w-8 h-8" />
+              </div>
+
+              <DialogHeader className="text-center">
+                <DialogTitle className="font-heading text-2xl md:text-3xl text-white tracking-wider">
+                  Ticket Confirmed! 🎉
+                </DialogTitle>
+                <DialogDescription className="font-body text-white/70 text-sm md:text-base mt-2">
+                  Welcome aboard, <strong className="text-white">{name}</strong>! Your sponsored{' '}
+                  <span className="capitalize text-gold font-bold">{ticketType}</span> pass has been
+                  activated.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-left space-y-4">
+                <div className="flex flex-col gap-1 border-b border-white/5 pb-3">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+                    Your Official Ticket Code
+                  </span>
+                  <span className="font-heading font-black text-2xl text-gold tracking-wider">
+                    {sponsoredSuccessCode}
+                  </span>
+                </div>
+
+                <p className="text-xs text-white/70 font-body leading-relaxed">
+                  A confirmation email with your official pass and QR code has been dispatched to{' '}
+                  <strong className="text-white">{email}</strong>.
+                </p>
+
+                <div className="bg-gold/10 border border-gold/20 p-3 rounded-lg text-xs text-white/80 font-body">
+                  Please keep your ticket code handy on the day of the event for check-in.
+                </div>
+              </div>
+
+              <Button
+                onClick={handleClose}
+                className="bg-gold hover:bg-gold/90 text-navy font-body font-bold py-4 rounded-lg uppercase tracking-wider mt-2"
+              >
+                Done
+              </Button>
             </motion.div>
           )}
 

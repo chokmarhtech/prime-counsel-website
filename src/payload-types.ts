@@ -77,6 +77,7 @@ export interface Config {
     orders: Order;
     waitlist: Waitlist;
     'spm-registrations': SpmRegistration;
+    'discount-codes': DiscountCode;
     bookings: Booking;
     redirects: Redirect;
     forms: Form;
@@ -104,6 +105,7 @@ export interface Config {
     orders: OrdersSelect<false> | OrdersSelect<true>;
     waitlist: WaitlistSelect<false> | WaitlistSelect<true>;
     'spm-registrations': SpmRegistrationsSelect<false> | SpmRegistrationsSelect<true>;
+    'discount-codes': DiscountCodesSelect<false> | DiscountCodesSelect<true>;
     bookings: BookingsSelect<false> | BookingsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -544,7 +546,11 @@ export interface SpmRegistration {
   ticketType: 'physical' | 'virtual';
   ticketCode?: string | null;
   status: 'pending' | 'paid';
-  paymentType: 'stripe' | 'bank_transfer';
+  paymentType: 'stripe' | 'bank_transfer' | 'sponsored';
+  /**
+   * Promo or sponsored code used for this ticket registration.
+   */
+  discountCode?: string | null;
   stripeSessionId?: string | null;
   emailsSent?: ('confirmation' | '5_days' | '3_days' | '1_day' | 'd_day')[] | null;
   /**
@@ -553,6 +559,41 @@ export interface SpmRegistration {
   checkedIn?: boolean | null;
   checkedInAt?: string | null;
   checkedInBy?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manages promo and sponsored discount codes for events.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "discount-codes".
+ */
+export interface DiscountCode {
+  id: number;
+  /**
+   * The code attendees enter.
+   */
+  code: string;
+  /**
+   * Percentage discount (e.g. 100 for completely free/sponsored tickets).
+   */
+  discountPercent: number;
+  /**
+   * Maximum number of times this code can be redeemed.
+   */
+  maxUses: number;
+  /**
+   * Number of times this code has been used. You can edit or reset this back to 0 anytime in Admin.
+   */
+  usedCount: number;
+  /**
+   * Toggle off to instantly disable this code without deleting it.
+   */
+  isActive?: boolean | null;
+  /**
+   * Internal reference or notes on who this code is intended for.
+   */
+  note?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -951,6 +992,10 @@ export interface PayloadLockedDocument {
         value: number | SpmRegistration;
       } | null)
     | ({
+        relationTo: 'discount-codes';
+        value: number | DiscountCode;
+      } | null)
+    | ({
         relationTo: 'bookings';
         value: number | Booking;
       } | null)
@@ -1291,11 +1336,26 @@ export interface SpmRegistrationsSelect<T extends boolean = true> {
   ticketCode?: T;
   status?: T;
   paymentType?: T;
+  discountCode?: T;
   stripeSessionId?: T;
   emailsSent?: T;
   checkedIn?: T;
   checkedInAt?: T;
   checkedInBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "discount-codes_select".
+ */
+export interface DiscountCodesSelect<T extends boolean = true> {
+  code?: T;
+  discountPercent?: T;
+  maxUses?: T;
+  usedCount?: T;
+  isActive?: T;
+  note?: T;
   updatedAt?: T;
   createdAt?: T;
 }
