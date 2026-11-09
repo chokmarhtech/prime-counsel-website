@@ -16,6 +16,7 @@ import { DigitalAssets } from './collections/DigitalAssets'
 import { Orders } from './collections/Orders'
 import { Waitlist } from './collections/Waitlist'
 import { SpmRegistrations } from './collections/SpmRegistrations'
+import { DiscountCodes } from './collections/DiscountCodes'
 import { Bookings } from './collections/Bookings'
 
 import { Users } from './collections/Users'
@@ -84,7 +85,7 @@ export default buildConfig({
       max: 3, // Keep low — remote PgBouncer limits total sessions to 15
     },
   }),
-  collections: [Blog, Media, Categories, Users, Testimonials, Products, DigitalAssets, Orders, Waitlist, SpmRegistrations, Bookings],
+  collections: [Blog, Media, Categories, Users, Testimonials, Products, DigitalAssets, Orders, Waitlist, SpmRegistrations, DiscountCodes, Bookings],
   email: resendAdapter({
     defaultFromAddress: 'info@primecounsel.co.uk',
     defaultFromName: 'Prime Counsel Limited',

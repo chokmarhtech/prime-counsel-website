@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
@@ -21,9 +21,12 @@ export async function GET(req: NextRequest) {
 
     const payload = await getPayload({ config: configPromise })
 
-    // Fetch all registrations for SPM 3.0
+    // Fetch ONLY paid/valid registrations for SPM 3.0 (includes sponsored & card/bank paid)
     const result = await payload.find({
       collection: 'spm-registrations',
+      where: {
+        status: { equals: 'paid' },
+      },
       limit: 1000,
       depth: 0,
       sort: 'name',
@@ -41,7 +44,7 @@ export async function GET(req: NextRequest) {
       checkedInBy: doc.checkedInBy || null,
     }))
 
-    const totalPaid = attendees.filter((a) => a.status === 'paid').length
+    const totalPaid = attendees.length
     const totalCheckedIn = attendees.filter((a) => a.checkedIn).length
 
     return NextResponse.json({

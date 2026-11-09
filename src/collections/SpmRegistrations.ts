@@ -68,7 +68,7 @@ export const SpmRegistrations: CollectionConfig = {
             }
 
             const resend = new Resend(resendApiKey)
-            const { spmConfirmationEmailHtml } = await import('@/lib/email-templates')
+            const { spmConfirmationEmailHtml, spmAdminNotificationEmailHtml } = await import('@/lib/email-templates')
             const { generateQrCodeDataUrl } = await import('@/lib/qrcode')
 
             let qrCodeDataUrl: string | undefined = undefined
@@ -86,12 +86,44 @@ export const SpmRegistrations: CollectionConfig = {
               qrCodeDataUrl,
             })
 
+            // 1. Send confirmation pass with QR code to attendee
             await resend.emails.send({
               from: 'Prime Counsel <info@primecounsel.co.uk>',
               to: doc.email,
               subject: `Your SPM 3.0 Ticket is Confirmed! 🎉 [Code: ${doc.ticketCode}]`,
               html: htmlContent,
             })
+
+            // 2. Send premium branded notification to Admins (info@primecounsel.co.uk & primecounsel5@gmail.com)
+            const adminEmails = ['info@primecounsel.co.uk', 'primecounsel5@gmail.com']
+            const isSponsored = doc.paymentType === 'sponsored' || Boolean(doc.discountCode)
+            const adminSubject = isSponsored
+              ? `🎟️ Sponsored Ticket Claimed: ${doc.name} (${doc.ticketType.toUpperCase()})`
+              : `🎟️ New SPM 3.0 Registration: ${doc.name} (${doc.ticketType.toUpperCase()})`
+
+            const ticketPrice = doc.ticketType === 'physical' ? '50.00' : '25.00'
+            const adminHtml = spmAdminNotificationEmailHtml({
+              name: doc.name,
+              email: doc.email,
+              ticketType: doc.ticketType,
+              ticketCode: doc.ticketCode,
+              amount: ticketPrice,
+              stripeId: doc.stripeSessionId || undefined,
+              paymentType: doc.paymentType,
+              discountCode: doc.discountCode || undefined,
+            })
+
+            try {
+              await resend.emails.send({
+                from: 'Prime Counsel <info@primecounsel.co.uk>',
+                to: adminEmails,
+                subject: adminSubject,
+                html: adminHtml,
+              })
+              console.log(`[SPM] Admin notification sent to ${adminEmails.join(', ')}`)
+            } catch (adminErr) {
+              console.error('[SPM] Failed to send admin notification email:', adminErr)
+            }
 
             // Track that this confirmation has been sent successfully
             const currentSent = doc.emailsSent || []
@@ -157,9 +189,18 @@ export const SpmRegistrations: CollectionConfig = {
       options: [
         { label: 'Stripe', value: 'stripe' },
         { label: 'Bank Transfer', value: 'bank_transfer' },
+        { label: 'Sponsored / Discount Code', value: 'sponsored' },
       ],
       defaultValue: 'stripe',
       required: true,
+    },
+    {
+      name: 'discountCode',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        description: 'Promo or sponsored code used for this ticket registration.',
+      },
     },
     {
       name: 'stripeSessionId',
