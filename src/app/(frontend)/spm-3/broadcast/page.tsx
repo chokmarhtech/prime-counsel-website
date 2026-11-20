@@ -17,7 +17,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-const PHYSICAL_DEFAULT_SUBJECT = 'Just one more sleep!'
+const PHYSICAL_DEFAULT_SUBJECT = 'Just One More Sleep!'
 const PHYSICAL_DEFAULT_MESSAGE = `I hope you are as excited as I am about tomorrow's Strategic Positioning MasterClass 3.0.
 
 We have put a lot of thought into creating an experience that goes beyond the usual masterclass. From the conversations and learning sessions to the book launch, live business pitch and networking opportunities, I am confident you will have a memorable experience.
@@ -31,7 +31,7 @@ Thank you for making the decision to be part of this experience.
 
 We look forward to welcoming you tomorrow!`
 
-const VIRTUAL_DEFAULT_SUBJECT = 'The countdown is almost over!'
+const VIRTUAL_DEFAULT_SUBJECT = 'The Countdown is Almost Over!'
 const VIRTUAL_DEFAULT_MESSAGE = `Tomorrow, we finally get to experience the Strategic Positioning MasterClass 3.0.
 
 We are excited to have you joining us virtually, and we want to ensure you don't miss a moment of this experience.

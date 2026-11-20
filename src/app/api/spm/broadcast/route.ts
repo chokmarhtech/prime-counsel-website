@@ -71,12 +71,29 @@ export async function POST(req: NextRequest) {
         )
       }
 
-      // Generate a demo QR code for physical preview test
+      // Check if testEmail exists as an actual registration in the database
+      const payload = await getPayload({ config: configPromise })
+      const existingUser = await payload.find({
+        collection: 'spm-registrations',
+        where: {
+          email: { equals: testEmail.trim().toLowerCase() },
+        },
+        limit: 1,
+      })
+
+      const actualAttendee = existingUser.docs[0]
+      const recipientName = actualAttendee ? actualAttendee.name : 'Valued Attendee (Test)'
+      const recipientTicketCode: string =
+        actualAttendee?.ticketCode ||
+        (audience === 'physical' ? 'SPM3-PHY-TEST' : 'SPM3-VIR-TEST')
+      const targetTicketType = actualAttendee ? actualAttendee.ticketType : audience
+
+      // Generate a QR code for physical preview test (using real pass if found, or test code)
       let sampleQrCode: string | undefined = undefined
-      if (audience === 'physical') {
+      if (targetTicketType === 'physical' || audience === 'physical') {
         try {
           sampleQrCode = await generateQrCodeDataUrl(
-            `https://primecounsel.co.uk/spm-3/pass/SPM3-PHY-DEMO`,
+            `https://primecounsel.co.uk/spm-3/pass/${recipientTicketCode}`,
             { width: 220 },
           )
         } catch (e) {
@@ -85,9 +102,9 @@ export async function POST(req: NextRequest) {
       }
 
       const testHtml = spmBroadcastEmailHtml({
-        name: 'Valued Attendee (Test)',
-        ticketType: audience,
-        ticketCode: audience === 'physical' ? 'SPM3-PHY-DEMO' : 'SPM3-VIR-DEMO',
+        name: recipientName,
+        ticketType: targetTicketType as 'physical' | 'virtual',
+        ticketCode: recipientTicketCode,
         subject: `[TEST PREVIEW] ${subject}`,
         message,
         qrCodeDataUrl: sampleQrCode,
@@ -98,7 +115,7 @@ export async function POST(req: NextRequest) {
 
       await resend.emails.send({
         from: 'Prime Counsel <info@primecounsel.co.uk>',
-        to: testEmail,
+        to: testEmail.trim(),
         subject: `[TEST PREVIEW] ${subject}`,
         html: testHtml,
       })
@@ -106,7 +123,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         success: true,
         isTest: true,
-        message: `Test email successfully sent to ${testEmail}! Please check your inbox.`,
+        message: actualAttendee
+          ? `Test email sent to ${testEmail} using your real registration details (${actualAttendee.name}, Code: ${actualAttendee.ticketCode})!`
+          : `Test email sent to ${testEmail}!`,
       })
     }
 
