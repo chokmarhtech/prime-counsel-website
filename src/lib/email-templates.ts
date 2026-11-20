@@ -1807,10 +1807,10 @@ export function spmBroadcastEmailHtml({
               <!-- Unified Physical Entry Pass & Venue Card -->
               <div class="highlight-box" style="background-color: #ffffff; border: 1px solid #D4AF37; border-radius: 14px; overflow: hidden; margin: 28px 0; box-shadow: 0 4px 16px rgba(11,28,61,0.08);">
                 
-                <!-- Building Photo Header with Venue Badge -->
-                <div style="position: relative; width: 100%; max-height: 240px; overflow: hidden; background-color: #0B1C3D;">
-                  <img src="https://primecounsel.co.uk/images/spm3/conference-aston-venue.jpg" alt="Conference Aston Building" style="width: 100%; height: auto; max-height: 240px; object-fit: cover; display: block;" />
-                  <div style="background-color: #0B1C3D; color: #C9A84C; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 10px 18px; border-bottom: 2px solid #C9A84C;">
+                <!-- Building Photo Header with Venue Badge (Full Aspect Ratio & Width) -->
+                <div style="width: 100%; background-color: #0B1C3D;">
+                  <img src="https://primecounsel.co.uk/images/spm3/conference-aston-venue.jpg" alt="Conference Aston Building" width="600" style="width: 100%; height: auto; display: block; border: 0;" />
+                  <div style="background-color: #0B1C3D; color: #C9A84C; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 12px 18px; border-bottom: 2px solid #C9A84C; text-align: center;">
                     📍 Venue: Conference Aston, Birmingham
                   </div>
                 </div>
