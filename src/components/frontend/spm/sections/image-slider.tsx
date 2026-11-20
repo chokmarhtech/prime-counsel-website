@@ -5,9 +5,9 @@ import React from 'react'
 import Slider from 'react-slick'
 
 // Static imports for images
-import image1 from '@/assets/images/spm/image-1.png'
-import image2 from '@/assets/images/spm/image-2.png'
-import image3 from '@/assets/images/spm/image-3.png'
+import image1 from '@/assets/images/spm/image-1.webp'
+import image2 from '@/assets/images/spm/image-2.webp'
+import image3 from '@/assets/images/spm/image-3.webp'
 
 const ImageSlider = () => {
   const settings = {
@@ -57,3 +57,4 @@ const ImageSlider = () => {
 }
 
 export default ImageSlider
+

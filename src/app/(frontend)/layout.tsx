@@ -30,12 +30,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(getServerSideURL()),
   title: {
     default: 'Prime Counsel',
     template: '%s | Prime Counsel',
   },
-  description: 'Prime Counsel, Raising Leaders, Redifining Futures',
+  description: 'Prime Counsel is a UK-registered leadership and personal development organisation committed to helping emerging leaders move from potential to structured impact.',
+  metadataBase: new URL(getServerSideURL()),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
@@ -45,3 +48,5 @@ export const metadata: Metadata = {
     'color-scheme': 'light',
   },
 }
+
+

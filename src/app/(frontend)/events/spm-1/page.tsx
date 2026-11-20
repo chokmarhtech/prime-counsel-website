@@ -5,9 +5,9 @@ import AnimatedSection from '@/components/frontend/spm/sections/AnimatedSection'
 import EventImageSlider from '@/components/frontend/pages/events/event-image-slider'
 // import EventVideoGallery from '@/components/frontend/pages/events/event-video-gallery'
 
-import image1 from '@/assets/images/events/spm1/image-1.png'
-import image2 from '@/assets/images/events/spm1/image-2.png'
-import image3 from '@/assets/images/events/spm1/image-3.png'
+import image1 from '@/assets/images/events/spm1/image-1.webp'
+import image2 from '@/assets/images/events/spm1/image-2.webp'
+import image3 from '@/assets/images/events/spm1/image-3.webp'
 
 const spm1Images = [
   { src: image1, alt: 'SPM 1.0 Highlights 1' },
@@ -138,3 +138,4 @@ export default function SPM1Page() {
     </Layout>
   )
 }
+

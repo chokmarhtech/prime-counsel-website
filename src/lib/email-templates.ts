@@ -1,5 +1,5 @@
 // Client Confirmation Email Template
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SERVER_URL || 'https://primecounsel.co.uk'
+const SITE_URL = process.env.NODE_ENV === 'production' ? 'https://primecounsel.co.uk' : (process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SERVER_URL || 'https://primecounsel.co.uk')
 
 export function clientEmailHtml({
   name,
@@ -1699,3 +1699,280 @@ export function clientDirectBookingEmailHtml({
 `
 }
 
+
+
+// SPM 3.0 Custom Manual Broadcast Email Template
+// SPM 3.0 Custom Manual Broadcast Email Template
+export function spmBroadcastEmailHtml({
+  name,
+  ticketType,
+  ticketCode,
+  subject,
+  message,
+  qrCodeDataUrl,
+  meetingLink,
+  meetingPasscode,
+  meetingId,
+}: {
+  name: string
+  ticketType: 'physical' | 'virtual'
+  ticketCode: string
+  subject: string
+  message: string
+  qrCodeDataUrl?: string
+  meetingLink?: string
+  meetingPasscode?: string
+  meetingId?: string
+}) {
+  const isPhysical = ticketType === 'physical'
+  const typeLabel = isPhysical ? 'Physical Pass (In-Person)' : 'Virtual Pass (Online Stream)'
+  const venue = 'Conference Aston, Aston University, Aston Triangle, Birmingham B4 7ET'
+  const passUrl = `https://primecounsel.co.uk/spm-3/pass/${ticketCode}`
+
+  // Convert newlines in the message to paragraphs / line breaks cleanly
+  const formattedMessage = message
+    .split('\n\n')
+    .map((para) => `<p style="margin: 0 0 16px 0; font-size: 15px; line-height: 1.7; color: #4a4a4a;" class="text-dark">${para.replace(/\n/g, '<br/>')}</p>`)
+    .join('')
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${subject}</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <style>
+    :root { color-scheme: light dark; }
+    @media (prefers-color-scheme: dark) {
+      .bg-body { background-color: #04082B !important; }
+      .container { background-color: #0B0F3A !important; border-color: rgba(201, 168, 76, 0.2) !important; }
+      .content-body { background-color: #0B0F3A !important; color: #ffffff !important; }
+      .text-dark { color: #ffffff !important; }
+      .text-navy { color: #C9A84C !important; }
+      .text-muted { color: rgba(255, 255, 255, 0.7) !important; }
+      .highlight-box { background-color: #12184E !important; border-color: rgba(201, 168, 76, 0.25) !important; }
+      .ticket-code-val { color: #C9A84C !important; }
+      .detail-row { border-color: rgba(255, 255, 255, 0.1) !important; }
+      .footer-band { background-color: #04082B !important; border-top: 1px solid rgba(255, 255, 255, 0.05) !important; }
+      .footer-text { color: rgba(255, 255, 255, 0.4) !important; }
+      .hr-line { border-top: 1px solid rgba(255, 255, 255, 0.1) !important; }
+    }
+  </style>
+</head>
+<body class="bg-body" style="margin: 0; padding: 0; background-color: #FAF9F6; font-family: 'Segoe UI', Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" class="bg-body" style="background-color: #FAF9F6; padding: 40px 20px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" class="container" style="max-width: 600px; width: 100%; background-color: #ffffff; border: 1px solid #e5e0d8; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          
+          <!-- Header (Dark Navy Band) -->
+          <tr>
+            <td style="background-color: #0B1C3D; padding: 32px 40px; text-align: left; border-bottom: 2px solid #C9A84C;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="left" style="vertical-align: middle;">
+                    <img src="https://primecounsel.co.uk/logos/logo-light.svg" alt="Prime Counsel" style="height: 38px; width: auto; display: block;" />
+                  </td>
+                  <td align="right" style="vertical-align: middle;">
+                    <span style="font-size: 11px; font-weight: 700; color: #C9A84C; letter-spacing: 2px; text-transform: uppercase;">SPM 3.0</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Body Content -->
+          <tr>
+            <td class="content-body" style="padding: 40px; background-color: #ffffff; color: #4a4a4a; font-size: 15px; line-height: 1.7;">
+              <h1 class="text-navy" style="margin: 0 0 6px; font-family: Georgia, serif; font-size: 24px; font-weight: 400; color: #0B1C3D; text-transform: uppercase; letter-spacing: 1px;">
+                ${subject}
+              </h1>
+              <div class="hr-line" style="border-top: 1px solid #C9A84C; margin-bottom: 24px; width: 100%;"></div>
+
+              <p class="text-dark" style="margin: 0 0 20px 0; font-size: 16px; color: #0B1C3D; font-weight: 600;">
+                Dear ${name},
+              </p>
+
+              <!-- Custom Client Message -->
+              <div style="margin-bottom: 24px;">
+                ${formattedMessage}
+              </div>
+
+              ${
+                isPhysical
+                  ? `
+              <!-- Unified Physical Entry Pass & Venue Card -->
+              <div class="highlight-box" style="background-color: #ffffff; border: 1px solid #D4AF37; border-radius: 14px; overflow: hidden; margin: 28px 0; box-shadow: 0 4px 16px rgba(11,28,61,0.08);">
+                
+                <!-- Building Photo Header with Venue Badge -->
+                <div style="position: relative; width: 100%; max-height: 240px; overflow: hidden; background-color: #0B1C3D;">
+                  <img src="https://primecounsel.co.uk/images/spm3/conference-aston-venue.jpg" alt="Conference Aston Building" style="width: 100%; height: auto; max-height: 240px; object-fit: cover; display: block;" />
+                  <div style="background-color: #0B1C3D; color: #C9A84C; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 10px 18px; border-bottom: 2px solid #C9A84C;">
+                    📍 Venue: Conference Aston, Birmingham
+                  </div>
+                </div>
+
+                <!-- Ticket & QR Code Section -->
+                <div style="padding: 28px 22px; background-color: #FAF9F6; text-align: center;">
+                  <div style="font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #C9A84C; font-weight: 700; margin-bottom: 4px;">Official Entry Boarding Pass</div>
+                  <div class="ticket-code-val" style="font-size: 26px; font-weight: 700; color: #0B1C3D; font-family: monospace; letter-spacing: 2px; margin-bottom: 4px;">
+                    ${ticketCode}
+                  </div>
+                  <div style="font-size: 11px; font-weight: 600; color: #C9A84C; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;">
+                    ${typeLabel} • Saturday, 21st November 2026
+                  </div>
+
+                  ${(() => {
+                    const qrUrl =
+                      qrCodeDataUrl ||
+                      `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(passUrl)}`
+                    return `
+                  <div style="margin: 4px auto 14px; display: inline-block; background: #ffffff; padding: 14px; border-radius: 10px; border: 1px solid #e5e0d8; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">
+                    <img src="${qrUrl}" alt="Ticket QR Code" width="180" height="180" style="display: block; width: 180px; height: 180px; border: 0;" />
+                    <div style="font-size: 10px; font-weight: 600; color: #888888; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px;">Show this QR Code at the registration desk</div>
+                  </div>
+                  `
+                  })()}
+
+                  <div style="margin: 10px 0 16px;">
+                    <a href="${passUrl}" target="_blank" style="display: inline-block; background-color: #0B1C3D; color: #C9A84C; font-size: 12px; font-weight: 700; text-decoration: none; padding: 12px 26px; border-radius: 30px; letter-spacing: 1px; text-transform: uppercase; border: 1px solid #C9A84C; box-shadow: 0 2px 6px rgba(11,28,61,0.15);">
+                      View Digital Pass Online &rarr;
+                    </a>
+                  </div>
+
+                  <!-- Venue & Arrival Details Table -->
+                  <div style="margin-top: 20px; border-top: 1px dashed #d5cfc5; padding-top: 18px; text-align: left;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+                      <tr class="detail-row" style="border-bottom: 1px solid #eae5dc;">
+                        <td style="padding: 9px 0; font-weight: 600; color: #8a857b; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; width: 110px;">Registration</td>
+                        <td class="text-dark" style="padding: 9px 0; color: #0B1C3D; font-weight: 700; font-size: 14px;">Opens 9:30 AM (Please arrive early)</td>
+                      </tr>
+                      <tr class="detail-row" style="border-bottom: 1px solid #eae5dc;">
+                        <td style="padding: 9px 0; font-weight: 600; color: #8a857b; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Start Time</td>
+                        <td class="text-dark" style="padding: 9px 0; color: #0B1C3D; font-weight: 600; font-size: 14px;">10:00 AM GMT sharp</td>
+                      </tr>
+                      <tr class="detail-row">
+                        <td style="padding: 9px 0; font-weight: 600; color: #8a857b; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Address</td>
+                        <td class="text-dark" style="padding: 9px 0; color: #0B1C3D; font-weight: 600; font-size: 13px; line-height: 1.5;">${venue}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Car Parking Notice Box -->
+              <div style="background-color: #FFFBEB; border-left: 4px solid #C9A84C; padding: 16px 20px; border-radius: 6px; margin: 24px 0;">
+                <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #92400E; text-transform: uppercase; letter-spacing: 1px;">
+                  Car Parking at Conference Aston
+                </p>
+                <p style="margin: 0; font-size: 13px; color: #78350F; line-height: 1.6;">
+                  Parking must be booked and paid for online before arrival. Book your space through the <a href="https://firstparking.co.uk" target="_blank" style="color: #0B1C3D; font-weight: bold; text-decoration: underline;">First Parking Online Booking System</a>. You will receive an email permit to display on your windscreen and an entry code.
+                </p>
+              </div>
+              `
+                  : `
+              <!-- Virtual Stream Access Box -->
+              <div class="highlight-box" style="background-color: #F7F4EB; border: 1px solid #E5DFD0; border-radius: 12px; padding: 28px 20px; text-align: center; margin: 28px 0;">
+                <div style="font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #C9A84C; font-weight: 700; margin-bottom: 4px;">Live Stream Access</div>
+                <div class="ticket-code-val" style="font-size: 26px; font-weight: 700; color: #0B1C3D; font-family: monospace; letter-spacing: 2px; margin-bottom: 4px;">
+                  ${ticketCode}
+                </div>
+                <div style="font-size: 11px; font-weight: 600; color: #C9A84C; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">
+                  ${typeLabel}
+                </div>
+
+                ${
+                  meetingLink
+                    ? `
+                <div style="margin: 16px 0;">
+                  <a href="${meetingLink}" target="_blank" style="display: inline-block; background-color: #0B1C3D; color: #C9A84C; font-size: 14px; font-weight: 700; text-decoration: none; padding: 14px 32px; border-radius: 30px; letter-spacing: 1px; text-transform: uppercase; border: 1px solid #C9A84C; box-shadow: 0 4px 14px rgba(11,28,61,0.2);">
+                    Join Zoom Masterclass &rarr;
+                  </a>
+                </div>
+                `
+                    : ''
+                }
+
+                <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #E5DFD0; text-align: center;">
+                  ${
+                    meetingId
+                      ? `
+                  <div style="font-size: 13px; color: #0B1C3D; font-weight: 600; margin-bottom: 6px;">
+                    Meeting ID: <span style="font-family: monospace; background: #ffffff; padding: 3px 8px; border-radius: 4px; border: 1px solid #ddd; color: #0B1C3D; letter-spacing: 1px;">${meetingId}</span>
+                  </div>
+                  `
+                      : ''
+                  }
+                  ${
+                    meetingPasscode
+                      ? `
+                  <div style="font-size: 13px; color: #0B1C3D; font-weight: 600;">
+                    Passcode: <span style="font-family: monospace; background: #ffffff; padding: 3px 8px; border-radius: 4px; border: 1px solid #ddd; color: #0B1C3D; letter-spacing: 1px;">${meetingPasscode}</span>
+                  </div>
+                  `
+                      : ''
+                  }
+                </div>
+              </div>
+
+              <!-- Virtual Schedule & Guidelines -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px; border-collapse: collapse;">
+                <tr class="detail-row" style="border-bottom: 1px solid #e5e0d8;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #9a9a9a; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; width: 110px;">Date</td>
+                  <td class="text-dark" style="padding: 10px 0; color: #0B1C3D; font-weight: 600;">Saturday, 21 November 2026</td>
+                </tr>
+                <tr class="detail-row" style="border-bottom: 1px solid #e5e0d8;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #9a9a9a; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Time</td>
+                  <td class="text-dark" style="padding: 10px 0; color: #0B1C3D; font-weight: 600;">10:00 AM (UK Time) &bull; Room opens 9:45 AM</td>
+                </tr>
+                <tr class="detail-row">
+                  <td style="padding: 10px 0; font-weight: 600; color: #9a9a9a; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Replay</td>
+                  <td class="text-dark" style="padding: 10px 0; color: #0B1C3D; font-weight: 600; line-height: 1.5;">Full masterclass recording will be emailed post-event.</td>
+                </tr>
+              </table>
+              `
+              }
+
+              <!-- Signoff -->
+              <div style="margin-top: 32px; border-top: 1px solid #f0eee6; padding-top: 20px;">
+                <p style="margin: 0; font-size: 14px; color: #0B1C3D; font-weight: 600;" class="text-dark">
+                  Warm regards,
+                </p>
+                <p style="margin: 4px 0 0 0; font-size: 15px; color: #0B1C3D; font-weight: 700;" class="text-dark">
+                  Fasanya Titilayo
+                </p>
+                <p style="margin: 2px 0 0 0; font-size: 13px; color: #C9A84C; font-weight: 600;">
+                  Prime Counsel Limited
+                </p>
+              </div>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td class="footer-band" style="background-color: #FAF9F6; padding: 24px 40px; border-top: 1px solid #e5e0d8;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="left" style="font-size: 12px; color: #9a9a9a;" class="footer-text">
+                    <a href="https://primecounsel.co.uk" style="color: #C9A84C; text-decoration: none; font-weight: 600;">primecounsel.co.uk</a>
+                  </td>
+                  <td align="right" style="font-size: 12px; color: #9a9a9a;" class="footer-text">
+                    &copy; 2026 Prime Counsel Limited
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`
+}

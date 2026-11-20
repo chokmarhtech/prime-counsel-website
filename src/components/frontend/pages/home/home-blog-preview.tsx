@@ -11,7 +11,7 @@ const HomeBlogPreview = async () => {
 
   const result = await payload.find({
     collection: 'blog',
-    depth: 2,
+    depth: 1,
     limit: 2,
     overrideAccess: false,
     sort: '-createdAt',
@@ -90,3 +90,4 @@ const HomeBlogPreview = async () => {
 }
 
 export default HomeBlogPreview
+

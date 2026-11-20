@@ -15,6 +15,8 @@ import Layout from '@/components/frontend/layout/Layout'
 import { BlogCard } from '@/components/frontend/pages/blog/blog-card'
 import FadeIn from '@/components/frontend/FadeIn'
 
+export const revalidate = 600
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const posts = await payload.find({
