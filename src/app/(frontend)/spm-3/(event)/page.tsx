@@ -14,6 +14,7 @@ import {
   ContactSection,
 } from '@/components/frontend/spm3/sections'
 import { RegistrationSuccessOverlay } from '@/components/frontend/spm3/components/RegistrationSuccessOverlay'
+import { SPM3EventJsonLd } from '@/components/frontend/seo/JsonLd'
 
 export const metadata: Metadata = {
   title: 'Strategic Positioning Masterclass 3.0 | Prime Counsel',
@@ -54,6 +55,7 @@ export default async function SPM3({
 
   return (
     <main className="min-h-screen bg-background">
+      <SPM3EventJsonLd />
       <div className="dark text-foreground bg-background">
         <HeroSection />
       </div>
@@ -73,3 +75,4 @@ export default async function SPM3({
     </main>
   )
 }
+

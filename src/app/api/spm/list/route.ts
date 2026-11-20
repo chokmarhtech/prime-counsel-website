@@ -21,11 +21,14 @@ export async function GET(req: NextRequest) {
 
     const payload = await getPayload({ config: configPromise })
 
-    // Fetch ONLY paid/valid registrations for SPM 3.0 (includes sponsored & card/bank paid)
+    // Fetch ONLY paid/valid PHYSICAL registrations for SPM 3.0 gate entry
     const result = await payload.find({
       collection: 'spm-registrations',
       where: {
-        status: { equals: 'paid' },
+        and: [
+          { status: { equals: 'paid' } },
+          { ticketType: { equals: 'physical' } },
+        ],
       },
       limit: 1000,
       depth: 0,

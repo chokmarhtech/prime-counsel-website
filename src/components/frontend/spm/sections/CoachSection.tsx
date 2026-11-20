@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import AnimatedSection from './AnimatedSection'
-import coachImg from '@/assets/images/spm/coach-ayoola.jpg'
+import coachImg from '@/assets/images/spm/coach-ayoola.webp'
 
 const CoachSection = () => {
   return (

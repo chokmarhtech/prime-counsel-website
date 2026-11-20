@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { RegistrationModal } from '@/components/frontend/spm/components/RegistrationModal'
 import { FiCalendar, FiMapPin, FiClock } from 'react-icons/fi'
 import heroBg from '@/assets/images/spm/hero-bg.jpg'
-import flyer from '@/assets/images/spm/flyer.png'
+import flyer from '@/assets/images/spm/flyer.webp'
 import Image from 'next/image'
 
 const HeroSection = () => {

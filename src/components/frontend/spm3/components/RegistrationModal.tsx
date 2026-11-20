@@ -66,6 +66,7 @@ export const RegistrationModal = ({
 
   const [copied, setCopied] = useState<string | null>(null)
   const [bankSuccessCode, setBankSuccessCode] = useState('')
+  const [bankAmountToPay, setBankAmountToPay] = useState<number>(50)
   const [sponsoredSuccessCode, setSponsoredSuccessCode] = useState('')
 
   const handleCopy = (text: string, type: string) => {
@@ -73,6 +74,12 @@ export const RegistrationModal = ({
     setCopied(type)
     setTimeout(() => setCopied(null), 2000)
   }
+
+  const basePrice = ticketType === 'physical' ? 50 : 25
+  const discountPercent = appliedDiscount ? appliedDiscount.discountPercent : 0
+  const discountAmount = (basePrice * discountPercent) / 100
+  const finalPrice = Math.max(0, basePrice - discountAmount)
+  const isFree = finalPrice === 0
 
   const handleApplyDiscount = async () => {
     if (!discountInput.trim()) {
@@ -103,6 +110,10 @@ export const RegistrationModal = ({
 
       if (data.isFree) {
         setPaymentType('sponsored')
+      } else {
+        if (paymentType === 'sponsored') {
+          setPaymentType('stripe')
+        }
       }
     } catch (err: any) {
       setDiscountError(err.message || 'Failed to apply code.')
@@ -156,7 +167,7 @@ export const RegistrationModal = ({
           name,
           email,
           ticketType,
-          paymentType: appliedDiscount?.isFree ? 'sponsored' : paymentType,
+          paymentType: isFree ? 'sponsored' : paymentType,
           discountCode: appliedDiscount?.code,
         }),
       })
@@ -167,8 +178,8 @@ export const RegistrationModal = ({
         throw new Error(data.error || 'Something went wrong. Please try again.')
       }
 
-      if (appliedDiscount?.isFree && data.success) {
-        // Sponsored ticket claimed!
+      if (isFree && data.success) {
+        // Sponsored / 100% Free ticket claimed!
         setSponsoredSuccessCode(data.ticketCode)
         setStep('sponsored_success')
       } else if (paymentType === 'stripe' && data.stripeUrl) {
@@ -177,6 +188,7 @@ export const RegistrationModal = ({
       } else if (paymentType === 'bank_transfer') {
         // Transition to success screen for bank transfers
         setBankSuccessCode(data.ticketCode)
+        setBankAmountToPay(data.amountToPay !== undefined ? data.amountToPay : finalPrice)
         setStep('bank_success')
       }
     } catch (err: any) {
@@ -188,7 +200,6 @@ export const RegistrationModal = ({
 
   const handleClose = () => {
     if (setOpen) setOpen(false)
-    // Reset modal states after closing transition
     setTimeout(() => {
       setStep('ticket')
       setName('')
@@ -200,8 +211,6 @@ export const RegistrationModal = ({
       setError(null)
     }, 300)
   }
-
-  const ticketOriginalPrice = ticketType === 'physical' ? 50 : 25
 
   return (
     <Dialog
@@ -388,7 +397,7 @@ export const RegistrationModal = ({
                 <div className="flex flex-col gap-2 pt-2 border-t border-white/10">
                   <label className="text-xs font-bold uppercase tracking-widest text-white/70 flex items-center gap-1.5">
                     <Tag className="w-3.5 h-3.5 text-gold" />
-                    Promo Code
+                    Sponsored or Promo Code
                   </label>
 
                   {appliedDiscount ? (
@@ -397,22 +406,22 @@ export const RegistrationModal = ({
                         <Check className="w-4 h-4 shrink-0 text-green-400" />
                         <div>
                           <p className="text-xs font-bold uppercase tracking-wider">
-                            Promo Code Applied!
+                            {appliedDiscount.code} Applied!
                           </p>
                           <p className="text-[11px] text-green-400/80">
                             {appliedDiscount.isFree
                               ? '100% Free Sponsored Ticket'
-                              : `${appliedDiscount.discountPercent}% Discount`}
+                              : `${appliedDiscount.discountPercent}% Discount Applied`}
                           </p>
                         </div>
                       </div>
-                      {/* <button
+                      <button
                         type="button"
                         onClick={handleRemoveDiscount}
                         className="text-xs text-white/60 hover:text-white underline ml-2"
                       >
                         Remove
-                      </button> */}
+                      </button>
                     </div>
                   ) : (
                     <div className="flex gap-2">
@@ -426,7 +435,7 @@ export const RegistrationModal = ({
                             handleApplyDiscount()
                           }
                         }}
-                        placeholder="Enter Code"
+                        placeholder="e.g. SPM3SPONSORED"
                         className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-gold/50 font-body text-sm uppercase tracking-wider"
                       />
                       <Button
@@ -478,10 +487,10 @@ export const RegistrationModal = ({
             >
               <DialogHeader>
                 <DialogTitle className="font-heading text-2xl md:text-3xl text-white tracking-wider">
-                  {appliedDiscount?.isFree ? 'Confirm Your Pass' : 'Payment Method'}
+                  {isFree ? 'Confirm Your Pass' : 'Payment Method'}
                 </DialogTitle>
                 <DialogDescription className="font-body text-white/60 text-sm md:text-base mt-2">
-                  {appliedDiscount?.isFree
+                  {isFree
                     ? 'Your pass is fully sponsored! Confirm to receive your official ticket and QR code.'
                     : `Select how you would like to secure your ${ticketType} pass.`}
                 </DialogDescription>
@@ -493,43 +502,54 @@ export const RegistrationModal = ({
                   <span className="text-xs uppercase tracking-wider text-white/60 block">
                     Selected Pass
                   </span>
-                  <span className="font-heading font-bold text-base text-white capitalize tracking-wider">
+                  <span className="font-heading font-bold text-base text-white capitalize">
                     SPM 3.0 {ticketType} Pass
                   </span>
+                  {appliedDiscount && !isFree && (
+                    <span className="text-[11px] text-green-400 block font-medium mt-0.5">
+                      {appliedDiscount.discountPercent}% discount applied ({appliedDiscount.code})
+                    </span>
+                  )}
                 </div>
                 <div className="text-right">
                   <span className="text-xs uppercase tracking-wider text-white/60 block">Total</span>
-                  {appliedDiscount?.isFree ? (
+                  {isFree ? (
                     <div className="flex items-center gap-2">
-                      <span className="text-sm line-through text-white/40">
-                        £{ticketOriginalPrice}
+                      <span className="text-sm line-through text-white/40">£{basePrice}</span>
+                      <span className="font-heading font-black text-xl text-green-400">FREE</span>
+                    </div>
+                  ) : appliedDiscount ? (
+                    <div className="flex items-center gap-2 justify-end">
+                      <span className="text-sm line-through text-white/40">£{basePrice}</span>
+                      <span className="font-heading font-bold text-xl text-gold">
+                        £{finalPrice.toFixed(2)}
                       </span>
-                      <span className="font-heading font-black text-xl text-gold">FREE</span>
                     </div>
                   ) : (
                     <span className="font-heading font-bold text-xl text-gold">
-                      £{ticketOriginalPrice}
+                      £{basePrice}
                     </span>
                   )}
                 </div>
               </div>
 
-              {appliedDiscount?.isFree ? (
-                /* Sponsored Ticket Banner */
+              {isFree ? (
+                /* 100% Sponsored Ticket Banner */
                 <div className="bg-gradient-to-r from-gold/20 via-gold/10 to-transparent border border-gold/40 rounded-xl p-5 flex items-start gap-3">
-                  
+                  <Gift className="w-6 h-6 text-gold shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-heading font-bold text-white text-base tracking-wider">
-                      Sponsored Invitation 🎉🎉
+                    <h4 className="font-heading font-bold text-white text-base">
+                      Sponsored Invitation
                     </h4>
                     <p className="text-white/70 text-xs mt-1 leading-relaxed">
-                      With the promo code, you have been granted complimentary access to this masterclass. Click below to claim your
-                      ticket and receive your entry pass via email.
+                      Code <strong className="text-gold">{appliedDiscount?.code}</strong> grants you
+                      complimentary access to this masterclass. Click below to claim your ticket and
+                      receive your entry pass via email.
                     </p>
                   </div>
                 </div>
               ) : (
-                /* Standard Payment Methods */
+                /* Standard Payment Methods with Discounted Pricing */
                 <div className="flex flex-col gap-4">
                   {/* Pay with card */}
                   <div
@@ -546,7 +566,7 @@ export const RegistrationModal = ({
                         Pay Online (Card)
                       </span>
                       <span className="text-white/60 text-xs mt-0.5">
-                        Secure payment via card. Best for instant check-in.
+                        Pay £{finalPrice.toFixed(2)} securely via card. Instant confirmation.
                       </span>
                     </div>
                     <span className="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-gold/20 shrink-0">
@@ -569,7 +589,7 @@ export const RegistrationModal = ({
                         Direct Bank Transfer
                       </span>
                       <span className="text-white/60 text-xs mt-0.5">
-                        Submit registration and transfer directly to our account.
+                        Transfer £{finalPrice.toFixed(2)} directly to our bank account.
                       </span>
                     </div>
                     <span className="bg-white/10 text-white/80 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-white/10 shrink-0">
@@ -596,8 +616,8 @@ export const RegistrationModal = ({
                   onClick={handleSubmit}
                   className={cn(
                     'text-navy font-body font-bold text-base py-6 rounded-lg uppercase tracking-wider shadow-lg gap-2 col-span-2',
-                    appliedDiscount?.isFree
-                      ? 'bg-gold hover:bg-gold/90 shadow-gold/10 text-black'
+                    isFree
+                      ? 'bg-green-500 hover:bg-green-400 shadow-green-500/20 text-black'
                       : 'bg-gold hover:bg-gold/90 shadow-gold/10',
                   )}
                   disabled={loading}
@@ -606,16 +626,16 @@ export const RegistrationModal = ({
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" /> Processing
                     </>
-                  ) : appliedDiscount?.isFree ? (
+                  ) : isFree ? (
                     <>
-                      Claim Free Ticket
+                      Claim Free Ticket <Sparkles className="w-4 h-4" />
                     </>
                   ) : paymentType === 'stripe' ? (
                     <>
-                      Pay with Stripe
+                      Pay £{finalPrice.toFixed(2)} <Sparkles className="w-4 h-4" />
                     </>
                   ) : (
-                    <>Submit Ticket</>
+                    <>Submit Ticket (£{finalPrice.toFixed(2)})</>
                   )}
                 </Button>
               </div>
@@ -635,7 +655,7 @@ export const RegistrationModal = ({
               </div>
 
               <DialogHeader className="text-center">
-                <DialogTitle className="font-heading text-2xl md:text-3xl text-white tracking-wider">
+                <DialogTitle className="font-heading text-2xl md:text-3xl text-white">
                   Ticket Confirmed! 🎉
                 </DialogTitle>
                 <DialogDescription className="font-body text-white/70 text-sm md:text-base mt-2">
@@ -711,7 +731,7 @@ export const RegistrationModal = ({
                   </span>
                   Please transfer exactly{' '}
                   <span className="text-gold font-bold">
-                    £{ticketType === 'physical' ? '50' : '25'}
+                    £{bankAmountToPay.toFixed(2)}
                   </span>{' '}
                   to our bank account. Use your unique code{' '}
                   <span className="text-gold font-bold">{bankSuccessCode}</span> as the bank

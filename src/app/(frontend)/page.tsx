@@ -13,6 +13,7 @@ import {
   Statistics,
 } from '@/components/frontend/pages/home'
 import Layout from '@/components/frontend/layout/Layout'
+import { OrganizationJsonLd } from '@/components/frontend/seo/JsonLd'
 
 export const metadata = {
   title: 'Prime Counsel | Raising Leaders, Redifining Futures',
@@ -20,10 +21,13 @@ export const metadata = {
     'Prime Counsel is a UK-registered leadership and personal development organisation committed to helping emerging leaders move from potential to structured impact.',
 }
 
+export const revalidate = 600
+
 export default function Page() {
 
   return (
     <Layout>
+      <OrganizationJsonLd />
       <HeroSection />
       <InstitutionalIdentity />
       <PillarSection />
@@ -38,3 +42,4 @@ export default function Page() {
     </Layout>
   )
 }
+
