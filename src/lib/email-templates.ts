@@ -2107,7 +2107,7 @@ export function spmThankYouEmailHtml({
               </table>
 
               <!-- Action Card 3: Certificate Notice -->
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FAF9F6; border: 1px solid #E5DFD0; border-left: 4px solid #0B1C3D; border-radius: 8px; margin-bottom: 24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FAF9F6; border: 1px solid #E5DFD0; border-left: 4px solid #0B1C3D; border-radius: 8px; margin-bottom: 28px;">
                 <tr>
                   <td style="padding: 20px 24px;">
                     <h3 style="margin: 0 0 8px 0; font-family: Georgia, serif; font-size: 16px; color: #0B1C3D; font-weight: 600;">
@@ -2119,6 +2119,21 @@ export function spmThankYouEmailHtml({
                   </td>
                 </tr>
               </table>
+
+              <!-- Masterclass Event Session Photo (Styled exactly like Previous Venue Card) -->
+              <div class="highlight-box" style="background-color: #ffffff; border: 1px solid #D4AF37; border-radius: 14px; overflow: hidden; margin: 32px 0 24px 0; box-shadow: 0 4px 16px rgba(11,28,61,0.08);">
+                <div style="width: 100%; background-color: #0B1C3D;">
+                  <img
+                    src="https://res.cloudinary.com/dmojokble/image/upload/v1795624063/spm3/spm3-masterclass-session.jpg"
+                    alt="SPM 3.0 MasterClass in Session"
+                    width="600"
+                    style="width: 100%; height: auto; display: block; border: 0;"
+                  />
+                  <div style="background-color: #0B1C3D; color: #C9A84C; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 12px 18px; border-bottom: 2px solid #C9A84C; text-align: center;">
+                    📍 SPM 3.0 MasterClass in Session · Conference Aston
+                  </div>
+                </div>
+              </div>
 
               <!-- Concluding Note -->
               <p style="margin: 28px 0 0 0; font-size: 15px; line-height: 1.8; color: #374151;">
@@ -2255,7 +2270,7 @@ export function spmVirtualRescheduleEmailHtml({
                 <tr>
                   <td style="padding: 24px;">
                     <div style="font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #C9A84C; font-weight: 700; margin-bottom: 6px; text-align: center;">
-                      Select Your Date Preference
+                      SELECT YOUR DATE PREFERENCE
                     </div>
                     <p style="margin: 0 0 20px 0; font-size: 14px; color: #0B1C3D; font-weight: 600; text-align: center;">
                       Click your preferred session date to record your vote:
@@ -2269,7 +2284,7 @@ export function spmVirtualRescheduleEmailHtml({
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                               <tr>
                                 <td align="left">
-                                  <div style="font-size: 10px; color: #C9A84C; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Option 1</div>
+                                  <div style="font-size: 10px; color: #C9A84C; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">OPTION 1</div>
                                   <div style="font-size: 14px; font-weight: 700; color: #ffffff; margin-top: 2px;">Saturday, 28th November 2026</div>
                                 </td>
                                 <td align="right" style="vertical-align: middle;">
@@ -2290,7 +2305,7 @@ export function spmVirtualRescheduleEmailHtml({
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                               <tr>
                                 <td align="left">
-                                  <div style="font-size: 10px; color: #888888; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Option 2</div>
+                                  <div style="font-size: 10px; color: #888888; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">OPTION 2</div>
                                   <div style="font-size: 14px; font-weight: 700; color: #0B1C3D; margin-top: 2px;">Sunday, 29th November 2026</div>
                                 </td>
                                 <td align="right" style="vertical-align: middle;">
@@ -2302,17 +2317,13 @@ export function spmVirtualRescheduleEmailHtml({
                         </td>
                       </tr>
                     </table>
-
-                    <div style="margin-top: 16px; font-size: 12px; color: #777777; text-align: center;">
-                      Or simply reply directly to this email with your preference.
-                    </div>
                   </td>
                 </tr>
               </table>
 
               <!-- Concluding Note -->
               <p style="margin: 28px 0 0 0; font-size: 15px; line-height: 1.8; color: #374151;">
-                Once again, thank you for trusting us with your time and being part of this experience. We look forward to having you in more rooms where growth, learning and meaningful connections happen.
+                We look forward to having you experience SPM 3.0!
               </p>
 
               <!-- Signoff -->

@@ -57,35 +57,21 @@ const VIRTUAL_DEFAULT_ID = '867 1059 8357'
 const VIRTUAL_DEFAULT_PASSCODE = '262947'
 
 // 2. Post-Event Follow-Up Defaults
-const POST_PHYSICAL_SUBJECT = 'Thank You for attending SPM 3'
+const POST_PHYSICAL_SUBJECT = 'Thank You for attending SPM 3.0'
 const POST_PHYSICAL_MESSAGE = `What an incredible experience SPM 3.0 was!
 
 On behalf of Prime Counsel and Coach Ayoola, I want to sincerely thank you for being part of the 3rd edition of the Strategic Positioning MasterClass.
 
 Your presence made this experience even more meaningful. We hope you left with valuable insights, new connections, fresh perspectives and, most importantly, a renewed understanding of what it takes to position yourself for opportunities and create measurable value.
 
-A Few Things We'd Love You to Do:`
+A Few Things to Note:`
 
 const POST_VIRTUAL_SUBJECT = 'Update & Exclusive Session with Coach Ayoola | SPM 3.0'
 const POST_VIRTUAL_MESSAGE = `We are excited to bring you the Virtual Strategic Positioning MasterClass 3.0!
 
 As promised, Coach Ayoola is committed to ensuring that our virtual attendees get the full SPM 3.0 experience and the value they signed up for. This special virtual session will be completely FREE of charge.
 
-However, before we finalize the arrangements, we would love to know which of these dates works best for you.
-
-Please find the two available options below:
-Option 1:
-Date: Saturday, 28th November 2026
-Time: 8:00 PM GMT
-
-Option 2:
-Date: Sunday, 29th November 2026
-Time: 9:00 PM GMT
-
-Kindly let us know your preferred date by clicking your choice below or replying to this email.
-Your response will help us choose a date that allows as many of you as possible to participate.
-
-We look forward to having you experience SPM 3.0!`
+However, before we finalize the arrangements, we would love to know which of these dates works best for you.`
 
 export default function SpmBroadcastPage() {
   const [passcode, setPasscode] = useState('')
@@ -214,8 +200,8 @@ export default function SpmBroadcastPage() {
         sessionStorage.setItem('spm_broadcast_passcode', passcode)
       }
       fetchPollTally(passcode)
-    } catch (err: any) {
-      setAuthError(err.message || 'Authentication failed.')
+    } catch (err: unknown) {
+      setAuthError(err instanceof Error ? err.message : 'Authentication failed.')
     }
   }
 
@@ -302,8 +288,8 @@ export default function SpmBroadcastPage() {
       }
 
       setTestSuccess(data.message || `Test email dispatched to ${testEmail}! Check your inbox.`)
-    } catch (err: any) {
-      setError(err.message || 'An error occurred during test send.')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred during test send.')
     } finally {
       setIsSendingTest(false)
     }
@@ -364,8 +350,8 @@ export default function SpmBroadcastPage() {
         message: `Successfully delivered to ${data.successCount} of ${data.totalRecipients} attendees!`,
       })
       refreshCounts()
-    } catch (err: any) {
-      setError(err.message || 'An error occurred while pushing broadcast.')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred while pushing broadcast.')
     } finally {
       setIsBroadcasting(false)
     }
@@ -662,7 +648,7 @@ export default function SpmBroadcastPage() {
                 Message Body
               </label>
               <span className="text-[11px] text-white/40">
-                Automatically opens with "Dear [Attendee Name]," and signs off with Titilayo's team signoff.
+                Automatically opens with &quot;Dear [Attendee Name],&quot; and signs off with Titilayo&apos;s team signoff.
               </span>
             </div>
             <textarea
@@ -681,7 +667,7 @@ export default function SpmBroadcastPage() {
               </div>
               <ul className="text-xs text-white/70 space-y-1 list-disc list-inside">
                 <li><strong>📝 Feedback Form:</strong> Button linking directly to Google Form</li>
-                <li><strong>📚 Coach Ayoola's Book:</strong> Button linking directly to Amazon ("From Raw Talent to Market Value")</li>
+                <li><strong>📚 Coach Ayoola&apos;s Book:</strong> Button linking directly to Amazon (&quot;From Raw Talent to Market Value&quot;)</li>
                 <li><strong>🎓 Certificate Notice:</strong> Official participation certificate dispatch announcement</li>
               </ul>
             </div>
