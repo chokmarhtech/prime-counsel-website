@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Resend } from 'resend'
-import { spmBroadcastEmailHtml } from '@/lib/email-templates'
+import {
+  spmBroadcastEmailHtml,
+  spmThankYouEmailHtml,
+  spmVirtualRescheduleEmailHtml,
+} from '@/lib/email-templates'
 import { generateQrCodeDataUrl } from '@/lib/qrcode'
 
 const DEFAULT_PASSCODE = 'SPM3-GATE-2026'
@@ -13,6 +17,7 @@ export async function POST(req: NextRequest) {
     const {
       passcode,
       audience, // 'physical' | 'virtual'
+      campaignType = 'pre_event', // 'pre_event' | 'thank_you' | 'virtual_reschedule'
       subject,
       message,
       meetingLink,
@@ -88,30 +93,47 @@ export async function POST(req: NextRequest) {
         (audience === 'physical' ? 'SPM3-PHY-TEST' : 'SPM3-VIR-TEST')
       const targetTicketType = actualAttendee ? actualAttendee.ticketType : audience
 
-      // Generate a QR code for physical preview test (using real pass if found, or test code)
-      let sampleQrCode: string | undefined = undefined
-      if (targetTicketType === 'physical' || audience === 'physical') {
-        try {
-          sampleQrCode = await generateQrCodeDataUrl(
-            `https://primecounsel.co.uk/spm-3/pass/${recipientTicketCode}`,
-            { width: 220 },
-          )
-        } catch (e) {
-          console.error('Failed to generate sample QR code', e)
-        }
-      }
+      let testHtml = ''
 
-      const testHtml = spmBroadcastEmailHtml({
-        name: recipientName,
-        ticketType: targetTicketType as 'physical' | 'virtual',
-        ticketCode: recipientTicketCode,
-        subject: `[TEST PREVIEW] ${subject}`,
-        message,
-        qrCodeDataUrl: sampleQrCode,
-        meetingLink,
-        meetingPasscode,
-        meetingId,
-      })
+      if (campaignType === 'thank_you') {
+        testHtml = spmThankYouEmailHtml({
+          name: recipientName,
+          subject: `[TEST PREVIEW] ${subject}`,
+          message,
+        })
+      } else if (campaignType === 'virtual_reschedule') {
+        testHtml = spmVirtualRescheduleEmailHtml({
+          name: recipientName,
+          ticketCode: recipientTicketCode,
+          subject: `[TEST PREVIEW] ${subject}`,
+          message,
+        })
+      } else {
+        // Generate a QR code for physical preview test (using real pass if found, or test code)
+        let sampleQrCode: string | undefined = undefined
+        if (targetTicketType === 'physical' || audience === 'physical') {
+          try {
+            sampleQrCode = await generateQrCodeDataUrl(
+              `https://primecounsel.co.uk/spm-3/pass/${recipientTicketCode}`,
+              { width: 220 },
+            )
+          } catch (e) {
+            console.error('Failed to generate sample QR code', e)
+          }
+        }
+
+        testHtml = spmBroadcastEmailHtml({
+          name: recipientName,
+          ticketType: targetTicketType as 'physical' | 'virtual',
+          ticketCode: recipientTicketCode,
+          subject: `[TEST PREVIEW] ${subject}`,
+          message,
+          qrCodeDataUrl: sampleQrCode,
+          meetingLink,
+          meetingPasscode,
+          meetingId,
+        })
+      }
 
       await resend.emails.send({
         from: 'Prime Counsel <info@primecounsel.co.uk>',
@@ -159,27 +181,44 @@ export async function POST(req: NextRequest) {
     // 4. Send emails in series with individual personalization
     for (const reg of recipients) {
       try {
-        let qrCodeDataUrl: string | undefined = undefined
-        if (audience === 'physical' && reg.ticketCode) {
-          try {
-            const passUrl = `https://primecounsel.co.uk/spm-3/pass/${reg.ticketCode}`
-            qrCodeDataUrl = await generateQrCodeDataUrl(passUrl, { width: 220 })
-          } catch (qrErr) {
-            console.error(`[Broadcast] Failed QR for ${reg.ticketCode}:`, qrErr)
-          }
-        }
+        let emailHtml = ''
 
-        const emailHtml = spmBroadcastEmailHtml({
-          name: reg.name,
-          ticketType: audience,
-          ticketCode: reg.ticketCode || '',
-          subject,
-          message,
-          qrCodeDataUrl,
-          meetingLink,
-          meetingPasscode,
-          meetingId,
-        })
+        if (campaignType === 'thank_you') {
+          emailHtml = spmThankYouEmailHtml({
+            name: reg.name,
+            subject,
+            message,
+          })
+        } else if (campaignType === 'virtual_reschedule') {
+          emailHtml = spmVirtualRescheduleEmailHtml({
+            name: reg.name,
+            ticketCode: reg.ticketCode || '',
+            subject,
+            message,
+          })
+        } else {
+          let qrCodeDataUrl: string | undefined = undefined
+          if (audience === 'physical' && reg.ticketCode) {
+            try {
+              const passUrl = `https://primecounsel.co.uk/spm-3/pass/${reg.ticketCode}`
+              qrCodeDataUrl = await generateQrCodeDataUrl(passUrl, { width: 220 })
+            } catch (qrErr) {
+              console.error(`[Broadcast] Failed QR for ${reg.ticketCode}:`, qrErr)
+            }
+          }
+
+          emailHtml = spmBroadcastEmailHtml({
+            name: reg.name,
+            ticketType: audience,
+            ticketCode: reg.ticketCode || '',
+            subject,
+            message,
+            qrCodeDataUrl,
+            meetingLink,
+            meetingPasscode,
+            meetingId,
+          })
+        }
 
         await resend.emails.send({
           from: 'Prime Counsel <info@primecounsel.co.uk>',

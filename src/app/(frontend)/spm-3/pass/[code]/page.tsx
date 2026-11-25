@@ -37,7 +37,7 @@ export default async function SpmPassPage({ params }: Props) {
 
   if (!registration) {
     return (
-      <div className="min-h-screen bg-[#04082B] text-white flex flex-col items-center justify-center p-4">
+      <div className="min-h-full bg-[#04082B] text-white flex flex-col items-center justify-center p-4">
         <div className="max-w-md w-full bg-[#0B0F3A] border border-[#C9A84C]/30 rounded-2xl p-8 text-center shadow-2xl">
           <div className="w-16 h-16 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
             ✕

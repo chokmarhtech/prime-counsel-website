@@ -257,5 +257,27 @@ export const SpmRegistrations: CollectionConfig = {
         readOnly: true,
       },
     },
+    {
+      name: 'rescheduleVote',
+      type: 'select',
+      label: 'Virtual Reschedule Vote',
+      options: [
+        { label: 'Saturday, 28th Nov - 8:00 PM GMT', value: 'saturday_8pm' },
+        { label: 'Sunday, 29th Nov - 9:00 PM GMT', value: 'sunday_9pm' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Selected preferred date for the Coach Ayoola makeup session.',
+      },
+    },
+    {
+      name: 'rescheduleVotedAt',
+      type: 'date',
+      label: 'Voted At',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
+    },
   ],
 }

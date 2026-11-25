@@ -1976,3 +1976,382 @@ export function spmBroadcastEmailHtml({
 </html>
 `
 }
+
+// ---------------------------------------------------------------------------
+// Post-Event Thank You & Virtual Reschedule Poll Templates
+// ---------------------------------------------------------------------------
+
+export function spmThankYouEmailHtml({
+  name,
+  subject,
+  message,
+}: {
+  name: string
+  subject: string
+  message: string
+}) {
+  const formattedMessage = message
+    .split('\n\n')
+    .map((p) => `<p style="margin: 0 0 16px 0; font-size: 15px; line-height: 1.8; color: #374151;">${p.replace(/\n/g, '<br/>')}</p>`)
+    .join('')
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${subject} – Prime Counsel</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <style>
+    :root { color-scheme: light dark; }
+    .logo-light-mode { display: none !important; }
+    .logo-dark-mode { display: inline-block !important; }
+    @media (prefers-color-scheme: dark) {
+      .logo-light-mode { display: inline-block !important; }
+      .logo-dark-mode { display: none !important; }
+      .header-bg { background-color: #071228 !important; }
+      .content-body { background-color: #0B1C3D !important; color: #E5E7EB !important; }
+      .text-navy { color: #ffffff !important; }
+      .text-dark { color: #F3F4F6 !important; }
+      .action-card { background-color: #0e244d !important; border-color: #1f3765 !important; }
+      .footer-band { background-color: #071228 !important; }
+      .footer-text { color: #9CA3AF !important; }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #FAF9F6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FAF9F6; padding: 36px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; width: 100%; background-color: #ffffff; border: 1px solid #e5e0d8; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
+          
+          <!-- Header -->
+          <tr>
+            <td class="header-bg" style="background-color: #0B1C3D; padding: 32px 40px; text-align: center; border-bottom: 3px solid #C9A84C;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="left">
+                    <img src="https://primecounsel.co.uk/logos/logo-light.svg" alt="Prime Counsel" style="height: 38px; width: auto; border: 0; display: inline-block;" />
+                  </td>
+                  <td align="right">
+                    <span style="font-size: 11px; font-weight: 700; color: #C9A84C; letter-spacing: 2px; text-transform: uppercase;">SPM 3.0</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Content Body -->
+          <tr>
+            <td class="content-body" style="padding: 40px; background-color: #ffffff; color: #374151; font-size: 15px; line-height: 1.8;">
+              <h1 class="text-navy" style="margin: 0 0 8px; font-family: Georgia, serif; font-size: 24px; font-weight: 400; color: #0B1C3D; letter-spacing: 1px;">
+                ${subject}
+              </h1>
+              <div style="border-top: 1px solid #C9A84C; margin-bottom: 24px; width: 100%;"></div>
+
+              <p class="text-dark" style="margin: 0 0 20px 0; font-size: 16px; color: #0B1C3D; font-weight: 600;">
+                Dear ${name},
+              </p>
+
+              <!-- Main Letter Body -->
+              <div style="margin-bottom: 28px;">
+                ${formattedMessage}
+              </div>
+
+              <!-- Action Card 1: Feedback Form -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FAF9F6; border: 1px solid #E5DFD0; border-radius: 8px; margin-bottom: 20px;">
+                <tr>
+                  <td style="padding: 22px 24px;">
+                    <div style="font-size: 11px; font-weight: 700; color: #C9A84C; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px;">
+                      ATTENDEE FEEDBACK
+                    </div>
+                    <h3 style="margin: 0 0 10px 0; font-family: Georgia, serif; font-size: 18px; color: #0B1C3D; font-weight: 600;">
+                      Share Your Experience With Us
+                    </h3>
+                    <p style="margin: 0 0 10px 0; font-size: 14px; color: #4B5563; line-height: 1.7;">
+                      Your feedback matters. We'd love to know what stood out for you, what you learnt and how we can make future experiences even better.
+                    </p>
+                    <p style="margin: 0 0 18px 0; font-size: 14px; color: #4B5563; line-height: 1.7;">
+                      Please take a few minutes to complete our feedback form here:
+                    </p>
+                    <a href="https://forms.gle/cP8fYZZPeXNseNC79" target="_blank" style="display: inline-block; background-color: #0B1C3D; color: #C9A84C; font-size: 11px; font-weight: 700; text-decoration: none; padding: 12px 24px; border-radius: 4px; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid #C9A84C;">
+                      COMPLETE FEEDBACK FORM &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Action Card 2: Coach Ayoola's Book -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FAF9F6; border: 1px solid #E5DFD0; border-radius: 8px; margin-bottom: 20px;">
+                <tr>
+                  <td style="padding: 22px 24px;">
+                    <div style="font-size: 11px; font-weight: 700; color: #0B1C3D; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px;">
+                      RECOMMENDED RESOURCE
+                    </div>
+                    <h3 style="margin: 0 0 10px 0; font-family: Georgia, serif; font-size: 18px; color: #0B1C3D; font-weight: 600;">
+                      Get Your Copy of Coach Ayoola's Book
+                    </h3>
+                    <p style="margin: 0 0 10px 0; font-size: 14px; color: #4B5563; line-height: 1.7;">
+                      The learning doesn't have to end with the MasterClass!
+                    </p>
+                    <p style="margin: 0 0 18px 0; font-size: 14px; color: #4B5563; line-height: 1.7;">
+                      Coach Ayoola's book, <em>From Raw Talent to Market Value</em>, is a valuable resource designed to help you understand how to transform your potential into tangible value and navigate your professional journey.
+                    </p>
+                    <a href="https://a.co/d/0il3C6Ke" target="_blank" style="display: inline-block; background-color: #C9A84C; color: #0B1C3D; font-size: 11px; font-weight: 700; text-decoration: none; padding: 12px 24px; border-radius: 4px; letter-spacing: 1.5px; text-transform: uppercase;">
+                      ORDER ON AMAZON &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Action Card 3: Certificate Notice -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FAF9F6; border: 1px solid #E5DFD0; border-left: 4px solid #0B1C3D; border-radius: 8px; margin-bottom: 24px;">
+                <tr>
+                  <td style="padding: 20px 24px;">
+                    <h3 style="margin: 0 0 8px 0; font-family: Georgia, serif; font-size: 16px; color: #0B1C3D; font-weight: 600;">
+                      Certificate of Participation
+                    </h3>
+                    <p style="margin: 0; font-size: 14px; color: #4B5563; line-height: 1.7;">
+                      As a participant of SPM 3.0, your Certificate of Participation will be sent to you shortly. We appreciate your commitment to learning and taking intentional steps towards your personal and professional growth.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Concluding Note -->
+              <p style="margin: 28px 0 0 0; font-size: 15px; line-height: 1.8; color: #374151;">
+                Once again, thank you for trusting us with your time and being part of this experience. We look forward to having you in more rooms where growth, learning and meaningful connections happen.
+              </p>
+
+              <!-- Signoff -->
+              <div style="margin-top: 28px; border-top: 1px solid #f0eee6; padding-top: 20px;">
+                <p style="margin: 0; font-size: 14px; color: #0B1C3D; font-weight: 600;" class="text-dark">
+                  Warm regards,
+                </p>
+                <p style="margin: 4px 0 0 0; font-size: 15px; color: #0B1C3D; font-weight: 700;" class="text-dark">
+                  Fasanya Titilayo
+                </p>
+                <p style="margin: 2px 0 0 0; font-size: 13px; color: #C9A84C; font-weight: 600;">
+                  Prime Counsel Team
+                </p>
+              </div>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td class="footer-band" style="background-color: #FAF9F6; padding: 24px 40px; border-top: 1px solid #e5e0d8;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="left" style="font-size: 12px; color: #9a9a9a;" class="footer-text">
+                    <a href="https://primecounsel.co.uk" style="color: #C9A84C; text-decoration: none; font-weight: 600;">primecounsel.co.uk</a>
+                  </td>
+                  <td align="right" style="font-size: 12px; color: #9a9a9a;" class="footer-text">
+                    &copy; 2026 Prime Counsel Limited
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`
+}
+
+export function spmVirtualRescheduleEmailHtml({
+  name,
+  ticketCode,
+  subject,
+  message,
+}: {
+  name: string
+  ticketCode: string
+  subject: string
+  message: string
+}) {
+  const formattedMessage = message
+    .split('\n\n')
+    .map((p) => `<p style="margin: 0 0 16px 0; font-size: 15px; line-height: 1.8; color: #374151;">${p.replace(/\n/g, '<br/>')}</p>`)
+    .join('')
+
+  const option1VoteUrl = `https://primecounsel.co.uk/spm-3/reschedule-vote?code=${encodeURIComponent(ticketCode)}&choice=saturday_8pm`
+  const option2VoteUrl = `https://primecounsel.co.uk/spm-3/reschedule-vote?code=${encodeURIComponent(ticketCode)}&choice=sunday_9pm`
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${subject} – Prime Counsel</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <style>
+    :root { color-scheme: light dark; }
+    .logo-light-mode { display: none !important; }
+    .logo-dark-mode { display: inline-block !important; }
+    @media (prefers-color-scheme: dark) {
+      .logo-light-mode { display: inline-block !important; }
+      .logo-dark-mode { display: none !important; }
+      .header-bg { background-color: #071228 !important; }
+      .content-body { background-color: #0B1C3D !important; color: #E5E7EB !important; }
+      .text-navy { color: #ffffff !important; }
+      .text-dark { color: #F3F4F6 !important; }
+      .vote-card { background-color: #0e244d !important; border-color: #C9A84C !important; }
+      .footer-band { background-color: #071228 !important; }
+      .footer-text { color: #9CA3AF !important; }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #FAF9F6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FAF9F6; padding: 36px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; width: 100%; background-color: #ffffff; border: 1px solid #e5e0d8; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
+          
+          <!-- Header -->
+          <tr>
+            <td class="header-bg" style="background-color: #0B1C3D; padding: 32px 40px; text-align: center; border-bottom: 3px solid #C9A84C;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="left">
+                    <img src="https://primecounsel.co.uk/logos/logo-light.svg" alt="Prime Counsel" style="height: 38px; width: auto; border: 0; display: inline-block;" />
+                  </td>
+                  <td align="right">
+                    <span style="font-size: 11px; font-weight: 700; color: #C9A84C; letter-spacing: 2px; text-transform: uppercase;">SPM 3.0 Virtual</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Content Body -->
+          <tr>
+            <td class="content-body" style="padding: 40px; background-color: #ffffff; color: #374151; font-size: 15px; line-height: 1.8;">
+              <h1 class="text-navy" style="margin: 0 0 8px; font-family: Georgia, serif; font-size: 22px; font-weight: 400; color: #0B1C3D; letter-spacing: 1px;">
+                ${subject}
+              </h1>
+              <div style="border-top: 1px solid #C9A84C; margin-bottom: 24px; width: 100%;"></div>
+
+              <p class="text-dark" style="margin: 0 0 20px 0; font-size: 16px; color: #0B1C3D; font-weight: 600;">
+                Hello ${name},
+              </p>
+
+              <!-- Main Letter Body -->
+              <div style="margin-bottom: 28px;">
+                ${formattedMessage}
+              </div>
+
+              <!-- Interactive Voting Table -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FAF9F6; border: 1px solid #E5DFD0; border-radius: 8px; margin: 28px 0;">
+                <tr>
+                  <td style="padding: 24px;">
+                    <div style="font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #C9A84C; font-weight: 700; margin-bottom: 6px; text-align: center;">
+                      Select Your Date Preference
+                    </div>
+                    <p style="margin: 0 0 20px 0; font-size: 14px; color: #0B1C3D; font-weight: 600; text-align: center;">
+                      Click your preferred session date to record your vote:
+                    </p>
+
+                    <!-- Option 1 -->
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 12px;">
+                      <tr>
+                        <td>
+                          <a href="${option1VoteUrl}" target="_blank" style="display: block; background-color: #0B1C3D; color: #ffffff; text-decoration: none; padding: 14px 20px; border-radius: 6px; border: 1px solid #0B1C3D;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td align="left">
+                                  <div style="font-size: 10px; color: #C9A84C; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Option 1</div>
+                                  <div style="font-size: 14px; font-weight: 700; color: #ffffff; margin-top: 2px;">Saturday, 28th November 2026</div>
+                                </td>
+                                <td align="right" style="vertical-align: middle;">
+                                  <span style="font-size: 12px; font-weight: 600; color: #C9A84C; background-color: rgba(201,168,76,0.15); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(201,168,76,0.3);">8:00 PM GMT</span>
+                                </td>
+                              </tr>
+                            </table>
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Option 2 -->
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td>
+                          <a href="${option2VoteUrl}" target="_blank" style="display: block; background-color: #ffffff; color: #0B1C3D; text-decoration: none; padding: 14px 20px; border-radius: 6px; border: 1px solid #D5CFC5;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td align="left">
+                                  <div style="font-size: 10px; color: #888888; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Option 2</div>
+                                  <div style="font-size: 14px; font-weight: 700; color: #0B1C3D; margin-top: 2px;">Sunday, 29th November 2026</div>
+                                </td>
+                                <td align="right" style="vertical-align: middle;">
+                                  <span style="font-size: 12px; font-weight: 600; color: #0B1C3D; background-color: #F0EEE9; padding: 4px 10px; border-radius: 4px; border: 1px solid #D5CFC5;">9:00 PM GMT</span>
+                                </td>
+                              </tr>
+                            </table>
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <div style="margin-top: 16px; font-size: 12px; color: #777777; text-align: center;">
+                      Or simply reply directly to this email with your preference.
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Concluding Note -->
+              <p style="margin: 28px 0 0 0; font-size: 15px; line-height: 1.8; color: #374151;">
+                Once again, thank you for trusting us with your time and being part of this experience. We look forward to having you in more rooms where growth, learning and meaningful connections happen.
+              </p>
+
+              <!-- Signoff -->
+              <div style="margin-top: 28px; border-top: 1px solid #f0eee6; padding-top: 20px;">
+                <p style="margin: 0; font-size: 14px; color: #0B1C3D; font-weight: 600;" class="text-dark">
+                  Warm regards,
+                </p>
+                <p style="margin: 4px 0 0 0; font-size: 15px; color: #0B1C3D; font-weight: 700;" class="text-dark">
+                  Fasanya Titilayo
+                </p>
+                <p style="margin: 2px 0 0 0; font-size: 13px; color: #C9A84C; font-weight: 600;">
+                  Prime Counsel Team
+                </p>
+              </div>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td class="footer-band" style="background-color: #FAF9F6; padding: 24px 40px; border-top: 1px solid #e5e0d8;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="left" style="font-size: 12px; color: #9a9a9a;" class="footer-text">
+                    <a href="https://primecounsel.co.uk" style="color: #C9A84C; text-decoration: none; font-weight: 600;">primecounsel.co.uk</a>
+                  </td>
+                  <td align="right" style="font-size: 12px; color: #9a9a9a;" class="footer-text">
+                    &copy; 2026 Prime Counsel Limited
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`
+}
