@@ -200,8 +200,8 @@ export default function SpmBroadcastPage() {
         sessionStorage.setItem('spm_broadcast_passcode', passcode)
       }
       fetchPollTally(passcode)
-    } catch (err: any) {
-      setAuthError(err.message || 'Authentication failed.')
+    } catch (err: unknown) {
+      setAuthError(err instanceof Error ? err.message : 'Authentication failed.')
     }
   }
 
@@ -288,8 +288,8 @@ export default function SpmBroadcastPage() {
       }
 
       setTestSuccess(data.message || `Test email dispatched to ${testEmail}! Check your inbox.`)
-    } catch (err: any) {
-      setError(err.message || 'An error occurred during test send.')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred during test send.')
     } finally {
       setIsSendingTest(false)
     }
@@ -350,8 +350,8 @@ export default function SpmBroadcastPage() {
         message: `Successfully delivered to ${data.successCount} of ${data.totalRecipients} attendees!`,
       })
       refreshCounts()
-    } catch (err: any) {
-      setError(err.message || 'An error occurred while pushing broadcast.')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred while pushing broadcast.')
     } finally {
       setIsBroadcasting(false)
     }
@@ -648,7 +648,7 @@ export default function SpmBroadcastPage() {
                 Message Body
               </label>
               <span className="text-[11px] text-white/40">
-                Automatically opens with "Dear [Attendee Name]," and signs off with Titilayo's team signoff.
+                Automatically opens with &quot;Dear [Attendee Name],&quot; and signs off with Titilayo&apos;s team signoff.
               </span>
             </div>
             <textarea
@@ -667,7 +667,7 @@ export default function SpmBroadcastPage() {
               </div>
               <ul className="text-xs text-white/70 space-y-1 list-disc list-inside">
                 <li><strong>📝 Feedback Form:</strong> Button linking directly to Google Form</li>
-                <li><strong>📚 Coach Ayoola's Book:</strong> Button linking directly to Amazon ("From Raw Talent to Market Value")</li>
+                <li><strong>📚 Coach Ayoola&apos;s Book:</strong> Button linking directly to Amazon (&quot;From Raw Talent to Market Value&quot;)</li>
                 <li><strong>🎓 Certificate Notice:</strong> Official participation certificate dispatch announcement</li>
               </ul>
             </div>
