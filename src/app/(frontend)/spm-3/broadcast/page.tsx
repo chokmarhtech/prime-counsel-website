@@ -57,35 +57,21 @@ const VIRTUAL_DEFAULT_ID = '867 1059 8357'
 const VIRTUAL_DEFAULT_PASSCODE = '262947'
 
 // 2. Post-Event Follow-Up Defaults
-const POST_PHYSICAL_SUBJECT = 'Thank You for attending SPM 3'
+const POST_PHYSICAL_SUBJECT = 'Thank You for attending SPM 3.0'
 const POST_PHYSICAL_MESSAGE = `What an incredible experience SPM 3.0 was!
 
 On behalf of Prime Counsel and Coach Ayoola, I want to sincerely thank you for being part of the 3rd edition of the Strategic Positioning MasterClass.
 
 Your presence made this experience even more meaningful. We hope you left with valuable insights, new connections, fresh perspectives and, most importantly, a renewed understanding of what it takes to position yourself for opportunities and create measurable value.
 
-A Few Things We'd Love You to Do:`
+A Few Things to Note:`
 
 const POST_VIRTUAL_SUBJECT = 'Update & Exclusive Session with Coach Ayoola | SPM 3.0'
 const POST_VIRTUAL_MESSAGE = `We are excited to bring you the Virtual Strategic Positioning MasterClass 3.0!
 
 As promised, Coach Ayoola is committed to ensuring that our virtual attendees get the full SPM 3.0 experience and the value they signed up for. This special virtual session will be completely FREE of charge.
 
-However, before we finalize the arrangements, we would love to know which of these dates works best for you.
-
-Please find the two available options below:
-Option 1:
-Date: Saturday, 28th November 2026
-Time: 8:00 PM GMT
-
-Option 2:
-Date: Sunday, 29th November 2026
-Time: 9:00 PM GMT
-
-Kindly let us know your preferred date by clicking your choice below or replying to this email.
-Your response will help us choose a date that allows as many of you as possible to participate.
-
-We look forward to having you experience SPM 3.0!`
+However, before we finalize the arrangements, we would love to know which of these dates works best for you.`
 
 export default function SpmBroadcastPage() {
   const [passcode, setPasscode] = useState('')
