@@ -559,6 +559,11 @@ export interface SpmRegistration {
   checkedIn?: boolean | null;
   checkedInAt?: string | null;
   checkedInBy?: string | null;
+  /**
+   * Selected preferred date for the Coach Ayoola makeup session.
+   */
+  rescheduleVote?: ('saturday_8pm' | 'sunday_9pm') | null;
+  rescheduleVotedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1342,6 +1347,8 @@ export interface SpmRegistrationsSelect<T extends boolean = true> {
   checkedIn?: T;
   checkedInAt?: T;
   checkedInBy?: T;
+  rescheduleVote?: T;
+  rescheduleVotedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
